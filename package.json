@@ -1,0 +1,52 @@
+{
+  "name": "mindball",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:vinegreet/mindball.git",
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "ios_saf > 8"
+  ],
+  "scripts": {
+    "start": "nodemon --watch webpack.config.js --exec \"webpack-dev-server --env development\""
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "autoprefixer": "^8.0.0",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-react-css-modules": "^3.3.3",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "css-loader": "^0.28.9",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "nodemon": "^1.15.0",
+    "postcss": "^6.0.19",
+    "postcss-loader": "^2.1.0",
+    "postcss-preset-env": "^3.2.0",
+    "style-loader": "^0.20.2",
+    "webpack": "^3.10.0",
+    "webpack-dev-server": "^2.9.7"
+  },
+  "dependencies": {
+    "axios": "^0.17.1",
+    "babel-preset-stage-1": "^6.24.1",
+    "lodash": "^4.17.5",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-redux": "^5.0.6",
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
+    "redux": "^3.7.2",
+    "redux-promise": "^0.5.3"
+  },
+  "babel": {
+    "plugins": [
+      "react-css-modules"
+    ]
+  }
+}
