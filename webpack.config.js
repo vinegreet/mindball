@@ -10,7 +10,7 @@ const babelEnvPreset = ['env', {
 }];
 
 module.exports = {
-  entry: path.resolve(__dirname, 'src/index.js'),
+  entry: path.resolve(__dirname, 'src/index.jsx'),
   output: {
     filename: 'bundle.js',
     path: path.join(__dirname, 'dist')
@@ -20,6 +20,7 @@ module.exports = {
     publicPath: '/',
   },
   resolve: {
+    extensions: ['.js', '.jsx', '.css'],
     alias: {
       constants: path.resolve(__dirname, 'src/constants'),
       utils: path.resolve(__dirname, 'src/utils'),
@@ -31,11 +32,19 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.jsx$/,
         exclude: [/node_modules/],
         use: [{
           loader: 'babel-loader',
           options: { presets: [babelEnvPreset, 'react'], plugins: ['transform-object-rest-spread', 'transform-class-properties'] },
+        }]
+      },
+      {
+        test: /\.js$/,
+        exclude: [/node_modules/],
+        use: [{
+          loader: 'babel-loader',
+          options: { presets: [babelEnvPreset], plugins: ['transform-object-rest-spread', 'transform-class-properties'] },
         }]
       },
       {
