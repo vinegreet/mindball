@@ -2,12 +2,12 @@ const path = require('path');
 
 const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
-const browsers = require('./package.json').browserslist;
+/*const browsers = require('./package.json').browserslist;
 const babelEnvPreset = ['env', {
   'targets': {
     'browsers': browsers
   }
-}];
+}];*/
 
 module.exports = {
   entry: path.resolve(__dirname, 'src/index.jsx'),
@@ -36,7 +36,7 @@ module.exports = {
         exclude: [/node_modules/],
         use: [{
           loader: 'babel-loader',
-          options: { presets: [babelEnvPreset, 'react'], plugins: ['transform-object-rest-spread', 'transform-class-properties'] },
+          options: { presets: ['env', 'react'], plugins: ['transform-object-rest-spread', 'transform-class-properties'] },
         }]
       },
       {
@@ -44,7 +44,7 @@ module.exports = {
         exclude: [/node_modules/],
         use: [{
           loader: 'babel-loader',
-          options: { presets: [babelEnvPreset], plugins: ['transform-object-rest-spread', 'transform-class-properties'] },
+          options: { presets: ['env'], plugins: ['transform-object-rest-spread', 'transform-class-properties'] },
         }]
       },
       {
@@ -64,7 +64,7 @@ module.exports = {
             loader: 'postcss-loader',
             options: {
               plugins: function () {
-                  return [autoprefixer(browsers)]
+                  return [autoprefixer]
               }
             }
           }

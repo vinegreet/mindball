@@ -1,17 +1,20 @@
 .wrapper {
-  font-size: 5px;
+  font-size: .5px;
+  height: 100%;
+  display: flex;
+  align-items: center;
 }
 
 .InitialMindball {
   position: relative;
-  height: 69%;
-  width: 3.3%;
-  margin: 10% auto;
-  padding: 0.4%;
+  height: 1139em;
+  width: 104em;
+  margin: 0 auto;
+  padding: 12em;
   background-color: #303030;
-  border: 2px solid #E25244;
-  border-radius: 50%/5%;
-  display: flex;
+  border: 4em solid #E25244;
+  border-radius: 50%/50em;
+  display: inherit;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
@@ -21,17 +24,35 @@
   position: absolute;
   z-index: 0;
   height: 97%;
-  width: 3%;
+  width: 2em;
   background-color: #E25244;
 }
 
 .bigRound {
-  width: 10em;
-  height: 10em;
+  width: 80em;
+  height: 80em;
   background-color: #303030;
-  border: 2px solid #E25244;
+  border: 4em solid #E25244;
   border-radius: 100%;
   z-index: 1;
 }
 
-.smallRound {}
+.smallRound {
+  width: 46em;
+  height: 46em;
+  background-color: #303030;
+  border: 4em solid #E25244;
+  border-radius: 100%;
+  z-index: 1;
+}
+
+.ball {
+  position: absolute;
+  z-index: 2;
+  top: 29em;
+  left: 24em;
+  width: 46em;
+  height: 46em;
+  background-color: #fff;
+  border-radius: 100%;
+}

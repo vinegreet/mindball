@@ -7,7 +7,7 @@ export default class InitialMindball extends Component {
   static propTypes = {
     position: PropTypes.number, 
     isVertical: PropTypes.bool, 
-    size: PropTypes.number
+    size: PropTypes.string
   };
 
   static defaultProps = {
@@ -19,10 +19,11 @@ export default class InitialMindball extends Component {
   // const $ball = document.getElementsByClassName(styles.ball)[0];
 
   render() {
+    // const initialBallPos = 29;
     return (
     <div className={styles.wrapper}>
       <div className={styles.InitialMindball}>
-        <div className={styles.ball} style={{}}></div>
+        <div className={styles.ball} style={{top: `${this.props.position}em`}}></div>
         <div className={styles.line}></div>
         <div className={styles.bigRound}></div>
         <div className={styles.smallRound}></div>

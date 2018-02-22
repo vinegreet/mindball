@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { fetchEvents } from 'actions/events';
 import styles from './styles.css';
 
-class PostsIndex extends Component {
+class Inside extends Component {
   componentWillMount() {
     this.props.fetchEvents();
   }
@@ -43,4 +43,4 @@ class PostsIndex extends Component {
 function mapStateToProps(state) {
   return { events: state.posts.all, images: state.posts.img };
 }
-export default connect(mapStateToProps, { fetchEvents })(PostsIndex);
+export default connect(mapStateToProps, { fetchEvents })(Inside);

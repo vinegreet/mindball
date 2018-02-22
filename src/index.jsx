@@ -10,6 +10,8 @@ import reducers from './reducers';
 import promise from 'redux-promise';
 const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
 
+console.log(new Date().toLocaleTimeString());
+
 ReactDOM.render(
   <Provider store={createStoreWithMiddleware(reducers)}>
     <BrowserRouter>
