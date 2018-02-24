@@ -1,20 +1,53 @@
-body {
-  /*background-color: gray;*/
-  background-color: #ccc;
-}
-
-.wrapper {
-  width: 30%;
-  margin: 0 auto;
-}
-
-.images {
-  display: flex;
+header {
+  height: 11.5%;
+  display: inherit;
   justify-content: space-between;
-  align-items: center;
 }
 
-img {
+.logo {
+  width: 49%;
+  height: 100%;
+  background: url('http://localhost:8080/assets/img/Logo.png') center no-repeat / 70% 49%;
+  /*background-image: url('../../../assets/img/Logo.png');*/
+}
+
+.sandwich {
+  width: 22.7%;
+  height: 87%;
   display: flex;
-  /*height: initial;*/
+  align-items: center;
+  cursor: pointer;
+  background: url('http://localhost:8080/assets/img/Menu.svg') center no-repeat / 26%;
+  transition: all 0.3s linear;
+}
+
+.sandwich.menu {
+  background: url('http://localhost:8080/assets/img/Close.svg') center no-repeat / 26%;
+  transition: all 0.3s linear;
+}
+
+@media screen and (min-width: 988px) {
+
+  header {
+    height: 10%;
+    margin-top: 1%;
+  }
+
+  .logo {
+    width: 17.5%;
+    background-size: 70% 73%;
+  }
+
+  .title {
+    margin-right: 10.4%;
+    color: #E25244;
+    font: 600 1.54rem/1 'Prompt', sans-serif;
+    letter-spacing: 0.2rem;
+  }
+
+  .sandwich {
+    width: 7%;
+    background-size: 22%;
+  }
+  
 }

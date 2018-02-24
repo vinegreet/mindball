@@ -1,0 +1,66 @@
+@media screen and (min-width: 988px) {
+  .wrapper {
+    /*composes: _desk from global;*/
+    font-size: .5px;
+    height: 85%;
+    /*display: flex; (declared in @media) */
+    align-items: center;
+  }
+
+  .wrapper:global(._desk) {
+    display: inherit;
+  }
+
+  .Mindball {
+    position: relative;
+    height: 1139em;
+    width: 104em;
+    margin: 0 auto;
+    padding: 12em;
+    background-color: #303030;
+    border: 4em solid #E25244;
+    border-radius: 50%/52em;
+    display: inherit;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .line {
+    position: absolute;
+    z-index: 0;
+    height: 97%;
+    width: 1px;
+    background-color: #E25244;
+  }
+
+  .bigRound {
+    width: 80em;
+    height: 80em;
+    background-color: #303030;
+    border: 4em solid #E25244;
+    border-radius: 100%;
+    z-index: 1;
+  }
+
+  .smallRound {
+    width: 46em;
+    height: 46em;
+    background-color: #303030;
+    border: 4em solid #E25244;
+    border-radius: 100%;
+    z-index: 1;
+  }
+
+  .ball {
+    position: absolute;
+    z-index: 2;
+    top: 29em;
+    left: 24em;
+    width: 46em;
+    height: 46em;
+    background-color: #fff;
+    border-radius: 100%;
+  }
+
+}

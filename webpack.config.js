@@ -56,7 +56,7 @@ module.exports = {
             options: {
               importLoaders: 1,
               modules: true, // This prop enables CSS modules.
-              localIdentName: '[local]_[hash:base64:5]', // Add naming scheme
+              localIdentName: '[local]-[hash:base64:5]', // Add naming scheme
               //plugins: ['react-css-modules']
             },
           },
