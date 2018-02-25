@@ -21,8 +21,8 @@ export default class Mindball extends Component {
   render() {
     // const initialBallPos = 29;
     return (
-      <div className={`${styles.wrapper} _desk`} style={{fontSize: `${this.props.size}px`}}>
-        <div className={styles.Mindball}>
+      <div className={styles.Mindball} style={{fontSize: `${this.props.size}px`}}>
+        <div className={styles.inner}>
           <div className={styles.ball} style={{top: `${this.props.position}em`}}></div>
           <div className={styles.line}></div>
           <div className={styles.bigRound}></div>

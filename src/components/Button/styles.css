@@ -1,0 +1,22 @@
+.Button {
+  margin: 0 auto 2.5%;
+  width: 12.2%;
+  height: 6.7%;
+  border: 2px solid #E25244;
+  border-radius: 14% 0 14% 14% / 50% 0 50% 50%;
+  color: #fff;
+  font: 500 1.27rem/1 'Prompt', sans-serif;
+  letter-spacing: 0.12rem;
+  display: inherit;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  transition: all 0.2s linear;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.Button:hover {
+  background-color: #E25244;
+  transition: all 0.2s linear;
+}
