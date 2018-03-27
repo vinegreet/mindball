@@ -9,7 +9,8 @@
     "ios_saf > 8"
   ],
   "scripts": {
-    "start": "nodemon --watch webpack.config.js --exec \"webpack-dev-server --env development\""
+    "start": "webpack-dev-server",
+    "build": "webpack"
   },
   "author": "",
   "license": "ISC",
@@ -24,7 +25,7 @@
     "babel-preset-react": "^6.24.1",
     "css-loader": "^0.28.9",
     "extract-text-webpack-plugin": "^3.0.2",
-    "nodemon": "^1.15.0",
+    "file-loader": "^1.1.11",
     "postcss": "^6.0.19",
     "postcss-loader": "^2.1.0",
     "postcss-preset-env": "^3.2.0",

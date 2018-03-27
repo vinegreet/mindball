@@ -1,0 +1,11 @@
+{ 
+  "browser": true,
+  "devel": true,
+  "esversion": 6,
+  "expr": true,
+  "globalstrict": true,
+  //"lastsemic": true,
+  "strict": false,
+  "node": true,
+  "globals": {}
+}

@@ -23,6 +23,17 @@ class Inside extends Component {
         });
       });
 
+      /*let pics;
+
+      event.fields.photos.forEach((attributedImage) => {
+        pics = this.props.images.map((asset) => {
+          if (asset.sys.id === attributedImage.sys.id) {
+            const title = asset.fields.title;
+            return <div key={asset.sys.id}><img src={`https:${asset.fields.file.url}?w=100`} alt={title} title={title} /></div>;
+          }
+        });
+      });*/
+
       return (
         <article key={event.sys.id}>
           <h3>{event.fields.title}</h3>

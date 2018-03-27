@@ -1,0 +1,19 @@
+.BgText {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: center no-repeat url('http://190793-vhost-vinegreet.gm-host.pp.ua/assets/img/Layer 3.png');
+  background-size: 90%;
+}
+
+.inner {}
+
+@media screen and (min-width: 988px) {
+
+  .BgText {}
+
+  .inner {}
+  
+}

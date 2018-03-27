@@ -2,12 +2,6 @@ const path = require('path');
 
 const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
-/*const browsers = require('./package.json').browserslist;
-const babelEnvPreset = ['env', {
-  'targets': {
-    'browsers': browsers
-  }
-}];*/
 
 module.exports = {
   entry: path.resolve(__dirname, 'src/index.jsx'),
@@ -26,7 +20,8 @@ module.exports = {
       utils: path.resolve(__dirname, 'src/utils'),
       components: path.resolve(__dirname, 'src/components'),
       state: path.resolve(__dirname, 'src/state'),
-      actions: path.resolve(__dirname, 'src/actions')
+      actions: path.resolve(__dirname, 'src/actions'),
+      img: path.resolve(__dirname, 'src/img')
     }
   },
   module: {
@@ -69,6 +64,17 @@ module.exports = {
             }
           }
         ],
+      },
+      {
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: 'assets/img/[name].[ext]'
+            }
+          }
+        ]
       },
     ]
   },

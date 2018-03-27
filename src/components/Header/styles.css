@@ -2,13 +2,13 @@ header {
   height: 11.5%;
   display: inherit;
   justify-content: space-between;
-  z-index: 1;
+  z-index: 7;
 }
 
 .logo {
   width: 49%;
   height: 100%;
-  background: url('http://localhost:8080/assets/img/Logo.png') center no-repeat / 70% 49%;
+  background: center / 70% 49% no-repeat url('img/Logo.png');
   /*background-image: url('../../../assets/img/Logo.png');*/
 }
 
@@ -18,13 +18,13 @@ header {
   display: flex;
   align-items: center;
   cursor: pointer;
-  background: url('http://localhost:8080/assets/img/Menu.svg') center no-repeat / 26%;
+  background: center / 26% no-repeat url('img/Menu.svg');
   transition: all 0.3s linear;
 }
 
-.sandwich.menu {
-  background: url('http://localhost:8080/assets/img/Close.svg') center no-repeat / 26%;
-  transition: all 0.3s linear;
+.menu {
+  composes: sandwich;
+  background-image: url('img/Close.svg');
 }
 
 @media screen and (min-width: 988px) {
@@ -44,6 +44,8 @@ header {
     color: #E25244;
     font: 600 1.54rem/1 'Prompt', sans-serif;
     letter-spacing: 0.2rem;
+    opacity: 0;
+    transition: opacity 0.8s linear;
   }
 
   .sandwich {

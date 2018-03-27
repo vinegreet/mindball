@@ -10,14 +10,11 @@ export default class Header extends Component {
       isSandwich: true,
       // bg: 'http://localhost:8080/assets/img/Menu.svg'
     };
-    this.onClick = this.onClick.bind(this);
   }
 
-  onClick() {
-    console.log(this.state.isSandwich);
+  onClick = () => {
     this.setState(prevState => ({isSandwich: !prevState.isSandwich}));
-
-    console.log(this.state.isSandwich);
+    this.props.onMenuClick();
     /*if (this.state.isSandwich) {
       this.setState({bg: 'http://localhost:8080/assets/img/Menu.svg'});
     } else {
@@ -29,17 +26,14 @@ export default class Header extends Component {
       [styles.menu]: !this.state.isSandwich
       [styles.dummyClass]: !!this.props.dummyClass,
     });*/
-  }
+  };
 
   render() {
     return (
       <header>
         <div className={styles.logo}></div>
-        {this.props.events && <p className={styles.title}>Events</p>}
-        <div onClick={this.onClick}
-          className={this.state.isSandwich
-            ? [styles.sandwich]
-            : [styles.sandwich, styles.menu].join(' ')}></div>
+        <p className={styles.title} style={{opacity: (this.props.events) ? 1 : 0}}>Events</p>
+        <div onClick={this.onClick} className={this.state.isSandwich ? styles.sandwich : styles.menu}></div>
       </header>
     );
   }
