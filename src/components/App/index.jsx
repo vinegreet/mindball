@@ -14,11 +14,13 @@ export default class App extends Component {
     super();
     this.state = {
       bgText: '',
+      currentYear: '',
       isEvents: false,
       isInitial: true,
       // isStory: false,
       isMenuOpen: false,
       isMobile: null,
+      isStory: false,
       scroll: 0,
       years: [2015, 2014, 2013]
     };
@@ -28,17 +30,22 @@ export default class App extends Component {
     this.setState({isMobile: window.outerWidth < 988});
   }
 
-  scrollDown() {
-    this.setState({scroll: '-100%'});
+  scrollDown = () => {
+    // this.setState({scroll: '-100%'});
+    this.setState(prevState => ({
+      isInitial: false,
+      isStory: !prevState.isStory,
+      scroll: '-100%'
+    }));
   }
 
-  handleBallFinish = () => {
+  /*handleBallFinish = () => {
     this.scrollDown();
-  };
+  }
 
   handleButtonClick = () => {
     this.scrollDown();
-  };
+  }*/
 
   handleKeyDown = e => {
     switch (e.key) {
@@ -54,26 +61,45 @@ export default class App extends Component {
   }
 
   handleMenuClick = () => {
-    this.setState(prevState => ({isMenuOpen: !prevState.isMenuOpen}));
+    this.setState(prevState => ({
+      isMenuOpen: !prevState.isMenuOpen
+    }));
   }
 
   handleStoryClick = () => {
     // this.setState(prevState => ({isEvents: !prevState.isEvents}));
-    this.setState({scroll: '-200%'});
+    // this.setState({scroll: '-200%'});
+    this.setState(prevState => ({
+      isEvents: !prevState.isEvents,
+      isStory: !prevState.isStory,
+      scroll: '-200%'
+    }));
+  }
+
+  handleYearChange = year => {
+    this.setState({currentYear: year});
   }
 
   render() {
+    let bgText = '';
+    if (this.state.isMenuOpen) {
+      bgText = 'Menu';
+    } else if (this.state.isStory) {
+      bgText = 'Story';
+    } else if (this.state.isEvents) {
+      bgText = this.state.currentYear;
+    }
     return <div className={styles.App} onKeyDown={this.handleKeyDown} tabIndex='0'>
       <div className={styles.wrapper}>
         <div className={styles.bubbles} style={{opacity: (!this.state.isMenuOpen) ? 0.5 : 0}}></div>
-        <BgText isInitial={this.state.isInitial} text={this.state.bgText} />
+        <BgText isInitial={this.state.isInitial} text={bgText} />
         <Header onMenuClick={this.handleMenuClick} events={this.state.isEvents} />
         <Menu years={this.state.years} opacity={(this.state.isMenuOpen) ? 1 : 0} zIndex={(this.state.isMenuOpen) ? 6 : 0} />
         {/*this.state.isMenuOpen && <Menu years={this.state.years} />*/}
         <div className={styles.innerContainer} style={{top: this.state.scroll, opacity: (!this.state.isMenuOpen) ? 1 : 0}}>
-          <Initial onBallFinished={this.handleBallFinish} onButtonClick={this.handleButtonClick} />
+          <Initial onBallFinished={this.scrollDown} onButtonClick={this.scrollDown} />
           <Story onButtonClick={this.handleStoryClick} />
-          <Events years={this.state.years} />
+          <Events years={this.state.years} onYearChange={this.handleYearChange} />
         </div>
       </div>
     </div>;

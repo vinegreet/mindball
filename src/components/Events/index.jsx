@@ -3,21 +3,34 @@ import styles from './styles.css';
 import Mindball from 'components/Mindball';
 
 export default class Events extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       arrowPos: 0,
+      currentYear: this.props.years[0],
       listPos: 0,
       scroll: 0
     };
     this.eventsList = ['Ericsson Ukraine', 'Yoga Studio Yoga23', 'SEMPRO', 'Mindball IDCEE', 'Art-Picnic', 'Microsoft Dev Day', 'Festival of Science', 'Active Day in Gulliver', 'Tea Cup Champ', 'Mindball in Bibliotech', 'Mindball in Atmasfera360', 'VedaLife']
   }
 
+  componentDidMount() {
+    this.props.onYearChange(this.props.years[0]);
+  }
   
   onScroll = e => {
-  };
+  }
 
   handleKeyDown = e => {
+    let currentYear = this.props.years[0];
+    const secondYearThreshold = 2;
+    if (this.state.listPos > 2 && this.state.listPos < 9) {
+      this.props.onYearChange(this.props.years[1]);
+    } else if (this.state.listPos >= 9) {
+      this.props.onYearChange(this.props.years[2]);
+    } else {
+      this.props.onYearChange(this.props.years[0]);
+    }
     switch (e.key) {
       case 'ArrowDown':
         if (this.state.listPos === (this.eventsList.length - 1)) break;

@@ -4,11 +4,34 @@
   position: absolute;
   top: 0;
   left: 0;
-  background: center no-repeat url('http://190793-vhost-vinegreet.gm-host.pp.ua/assets/img/Layer 3.png');
-  background-size: 90%;
+  display: inherit;
+  justify-content: center;
 }
 
-.inner {}
+.mindball {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: transparent url('img/bgMindball.png') center / contain no-repeat;
+  background-size: 90%;
+  transition: all 0.4s;
+  /*z-index: 0;*/
+}
+
+.inner {
+  width: auto;
+  height: auto;
+  /*font: 800 26.5em/1 'Prompt', sans-serif;*/
+  font: 800 25.1vw/1 'Prompt', sans-serif;
+  letter-spacing: 0.02em;
+  color: #333;
+  display: inherit;
+  align-self: center;
+  transition: all 0.4s;
+  z-index: 2;
+}
 
 @media screen and (min-width: 988px) {
 
