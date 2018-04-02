@@ -16,7 +16,6 @@ export default class App extends Component {
       bgText: '',
       currentYear: '',
       isEvents: false,
-      isInitial: true,
       // isStory: false,
       isMenuOpen: false,
       isMobile: null,
@@ -33,7 +32,6 @@ export default class App extends Component {
   scrollDown = () => {
     // this.setState({scroll: '-100%'});
     this.setState(prevState => ({
-      isInitial: false,
       isStory: !prevState.isStory,
       scroll: '-100%'
     }));
@@ -92,7 +90,7 @@ export default class App extends Component {
     return <div className={styles.App} onKeyDown={this.handleKeyDown} tabIndex='0'>
       <div className={styles.wrapper}>
         <div className={styles.bubbles} style={{opacity: (!this.state.isMenuOpen) ? 0.5 : 0}}></div>
-        <BgText isInitial={this.state.isInitial} text={bgText} />
+        <BgText text={bgText} />
         <Header onMenuClick={this.handleMenuClick} events={this.state.isEvents} />
         <Menu years={this.state.years} opacity={(this.state.isMenuOpen) ? 1 : 0} zIndex={(this.state.isMenuOpen) ? 6 : 0} />
         {/*this.state.isMenuOpen && <Menu years={this.state.years} />*/}
@@ -105,8 +103,5 @@ export default class App extends Component {
     </div>;
   }
 }
-// opacity={(this.state.isEvents) ? 0 : 1} zIndex={(this.state.isEvents) ? 0 : 6}
-// opacity={(!this.state.isEvents) ? 1 : 0} zIndex={(!this.state.isEvents) ? 6 : 0}
-// isMobile={this.state.isMobile}
-// <Route exact path="/" component={Inside} />
 // <h1 style={{color: '#fff', margin: '0px'}}>{this.state.scroll}</h1>
+// <Route exact path="/" component={Inside} />

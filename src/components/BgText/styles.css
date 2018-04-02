@@ -6,6 +6,7 @@
   left: 0;
   display: inherit;
   justify-content: center;
+  transition: all 0.5s linear;
 }
 
 .mindball {
@@ -16,7 +17,7 @@
   left: 0;
   background: transparent url('img/bgMindball.png') center / contain no-repeat;
   background-size: 90%;
-  transition: all 0.4s;
+  /*transition: all 0.4s;*/
   /*z-index: 0;*/
 }
 
@@ -29,7 +30,7 @@
   color: #333;
   display: inherit;
   align-self: center;
-  transition: all 0.4s;
+  /*transition: all 0.4s;*/
   z-index: 2;
 }
 
