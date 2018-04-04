@@ -9,8 +9,12 @@ export default class Events extends Component {
       arrowPos: 0,
       currentYear: this.props.years[0],
       listPos: 0,
-      scroll: 0
+      scroll: 0,
+      wheel: 0
     };
+    this.isFirefox = typeof InstallTrigger !== 'undefined';
+    this.wheel = 0;
+    this.ticking = false;
     this.eventsList = ['Ericsson Ukraine', 'Yoga Studio Yoga23', 'SEMPRO', 'Mindball IDCEE', 'Art-Picnic', 'Microsoft Dev Day', 'Festival of Science', 'Active Day in Gulliver', 'Tea Cup Champ', 'Mindball in Bibliotech', 'Mindball in Atmasfera360', 'VedaLife']
   }
 
@@ -18,10 +22,75 @@ export default class Events extends Component {
     this.props.onYearChange(this.props.years[0]);
   }
   
-  onScroll = e => {
+  handleScroll = delta => {
+    // console.log(`%c${this.state.wheel}`, 'color: orange');
+    // if (true) {
+    if (this.state.wheel > 0 || this.state.wheel === 0 && delta > 0) {
+      // this.setState(prev => ({ wheel: prev.wheel + delta }));
+      const newDelta = (this.isFirefox) ? delta * 34 : delta;
+      this.wheel = this.wheel + newDelta;
+      this.setState({ wheel: this.wheel });
+      console.log(this.wheel);
+      // let sum = this.wheel;
+      if (this.wheel >= 100) {
+        if (this.state.listPos === (this.eventsList.length - 1)) return this.ticking = false;
+        if (this.state.listPos < 3 || this.state.listPos > (this.eventsList.length - 5)) {
+          this.setState(prev => ({ listPos: prev.listPos + 1, arrowPos: prev.arrowPos + 60 }));
+        } else {
+          this.setState(prev => ({ listPos: prev.listPos + 1, scroll: prev.scroll - 60 }));
+        }
+        this.wheel = 0;
+      } else if (this.wheel <= -100) {
+        if (this.state.listPos === 0) return this.ticking = false;
+        if (this.state.listPos < 4 || this.state.listPos > (this.eventsList.length - 4)) {
+          this.setState(prev => ({ listPos: prev.listPos - 1, arrowPos: prev.arrowPos - 60 }));
+        } else {
+          this.setState(prev => ({ listPos: prev.listPos - 1, scroll: prev.scroll + 60 }));
+        }
+        this.wheel = 0;
+      }
+    } else if (this.state.wheel < 0) {
+      this.setState({ wheel: 0 });
+      // return;
+    }
+    this.ticking = false;
   }
 
-  handleKeyDown = e => {
+  onWheel = e => {
+    // console.log(`%c${this.ticking}`, 'color: green');
+    if (!this.ticking) {
+      console.log(`%c${this.state.wheel}`, 'color: orange');
+      const delta = e.deltaY;
+      requestAnimationFrame(() => this.handleScroll(delta));
+      this.ticking = true;
+    }
+  }
+
+  render() {
+    const events = this.eventsList.map((item, idx) => 
+      <p key={item} className={(this.state.listPos === idx) ? styles.list_item__selected : styles.list_item}>{item}</p>
+    );
+    
+    return (
+      <section className={styles.Events} onKeyDown={this.handleKeyDown} tabIndex='0' onWheel={this.onWheel}>
+        <h1 style={{color: '#fff', position: 'fixed', left: '30%', zIndex: 10}}>{this.state.wheel}<br />{this.wheel}</h1>
+        <div className={styles.list}>
+          <div className={styles.list_wrapper} style={{top: this.state.scroll}}>
+            {events}
+          </div>
+          <div className={styles.arrow} style={{top: this.state.arrowPos}}></div>
+        </div>
+        {/*<Mindball position={this.state.ballPosition || this.defaultBallPosition} />*/}
+      </section>
+    );
+  }
+}
+    /*this.setState(prevState => {
+      console.log(prevState.wheel, delta);
+      return {wheel: prevState.wheel + delta};
+    });*/
+
+  /*handleKeyDown = e => {
     let currentYear = this.props.years[0];
     const secondYearThreshold = 2;
     if (this.state.listPos > 2 && this.state.listPos < 9) {
@@ -51,23 +120,4 @@ export default class Events extends Component {
       default:
         return;
     }
-  }
-
-  render() {
-    const events = this.eventsList.map((item, idx) => 
-      <p key={item} className={(this.state.listPos === idx) ? styles.list_item__selected : styles.list_item}>{item}</p>
-    );
-    
-    return (
-      <section className={styles.Events} onWheel={this.onScroll} onKeyDown={this.handleKeyDown} tabIndex='0'>
-        <div className={styles.list}>
-          <div className={styles.list_wrapper} style={{top: this.state.scroll}}>
-            {events}
-          </div>
-          <div className={styles.arrow} style={{top: this.state.arrowPos}}></div>
-        </div>
-        {/*<Mindball position={this.state.ballPosition || this.defaultBallPosition} />*/}
-      </section>
-    );
-  }
-}
+  }*/

@@ -3,12 +3,14 @@ import styles from './styles.css';
 import Mindball from 'components/Mindball';
 import Button from 'components/Button';
 
-export default class App extends Component {
+export default class Initial extends Component {
   constructor() {
     super();
     this.state = {
-      ballPosition: 0
+      ballPosition: 0, 
+      scroll: 0
     };
+    this.isFirefox = typeof InstallTrigger !== 'undefined';
     this.defaultBallPosition = 28;
   }
 
@@ -16,15 +18,15 @@ export default class App extends Component {
   onScroll = e => {
     const statePos = this.state.ballPosition;
     const stateDef = this.defaultBallPosition;
-    const finish = 1055;
-    const sensitivity = 4;
+    const finish = (this.isFirefox) ? 1058 : 1055;
+    const sensitivity = (this.isFirefox) ? 0.12 : 4;
     if (statePos === finish) return;
     if (statePos < stateDef) this.setState({ballPosition: stateDef});
     let ballPos = statePos + e.deltaY / sensitivity;
     if (ballPos < stateDef) return;
     ballPos = (ballPos < finish) ? ballPos : finish;
     if (ballPos === finish) this.props.onBallFinished();
-    this.setState({ballPosition: ballPos});
+    this.setState({ballPosition: ballPos, scroll: e.deltaY});
   };
 
   render() {

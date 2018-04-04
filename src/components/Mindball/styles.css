@@ -63,7 +63,8 @@
     position: absolute;
     z-index: 2;
     top: 29em;
-    left: 25em;
+    /*left: 25em;*/
+    left: 27em;
     width: 46em;
     height: 46em;
     background-color: #fff;

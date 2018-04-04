@@ -20,7 +20,7 @@ export default class Story extends Component {
           <div className={styles.wrapper}>
             <h1>Story</h1>
             <p className={styles.text}>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita molestias, explicabo maxime assumenda possimus inventore enim quis. Amet sunt nesciunt voluptates eius sed placeat vitae perspiciatis saepe quis natus, quasi, consectetur at quaerat quibusdam quidem blanditiis quia ipsam rem? Neque?
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita molestias, explicabo maxime assumenda possimus inventore enim quis. Amet sunt nesciunt voluptates eius sed placeat vitae perspiciatis saepe quis natus, quasi, consectetur at quaerat quibusdam quidem blanditiis quia ipsam rem.
             </p>
           </div>
           <Button caption='Events' onButtonClick={this.props.onButtonClick} />

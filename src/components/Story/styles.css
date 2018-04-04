@@ -33,11 +33,14 @@
 }
 
 h1 {
-  font: 600 3.5rem/1 'Prompt', sans-serif;
+  font: 700 3.5rem/1 'Prompt', sans-serif;
+  letter-spacing: 0.06em;
+  font-kerning: none;
 }
 
 .text {
-  font: italic 300 1.54rem/1 'Prompt', sans-serif;
+  font: italic 400 1.5rem/1.2 'Prompt', sans-serif;
+  letter-spacing: 0.02em;
   text-align: center;
 }
 
