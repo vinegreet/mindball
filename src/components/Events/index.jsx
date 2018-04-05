@@ -7,7 +7,6 @@ export default class Events extends Component {
     super(props);
     this.state = {
       arrowPos: 0,
-      currentYear: this.props.years[0],
       listPos: 0,
       scroll: 0,
       wheel: 0
@@ -18,30 +17,37 @@ export default class Events extends Component {
     this.eventsList = ['Ericsson Ukraine', 'Yoga Studio Yoga23', 'SEMPRO', 'Mindball IDCEE', 'Art-Picnic', 'Microsoft Dev Day', 'Festival of Science', 'Active Day in Gulliver', 'Tea Cup Champ', 'Mindball in Bibliotech', 'Mindball in Atmasfera360', 'VedaLife']
   }
 
+  changeYear(idx = 0) {
+    this.props.onYearChange(this.props.years[idx]);
+  }
+
   componentDidMount() {
-    this.props.onYearChange(this.props.years[0]);
+    this.changeYear();
   }
   
   handleScroll = delta => {
-    // console.log(`%c${this.state.wheel}`, 'color: orange');
-    // if (true) {
-    if (this.state.wheel > 0 || this.state.wheel === 0 && delta > 0) {
-      // this.setState(prev => ({ wheel: prev.wheel + delta }));
-      const newDelta = (this.isFirefox) ? delta * 34 : delta;
-      this.wheel = this.wheel + newDelta;
-      this.setState({ wheel: this.wheel });
-      console.log(this.wheel);
-      // let sum = this.wheel;
+    if (this.state.listPos === 0 && delta < 0) return this.ticking = false;
+    if (this.state.listPos === (this.eventsList.length - 1) && delta > 0) return this.ticking = false;
+    if (this.state.listPos > 2 && this.state.listPos < 9) {
+      this.changeYear(1);
+    } else if (this.state.listPos >= 9) {
+      this.changeYear(2);
+    } else {
+      this.changeYear();
+    }
+    const newDelta = (this.isFirefox) ? delta * 34 : delta;
+    this.wheel = this.wheel + newDelta;
+    if (newDelta > 0) {
       if (this.wheel >= 100) {
-        if (this.state.listPos === (this.eventsList.length - 1)) return this.ticking = false;
         if (this.state.listPos < 3 || this.state.listPos > (this.eventsList.length - 5)) {
           this.setState(prev => ({ listPos: prev.listPos + 1, arrowPos: prev.arrowPos + 60 }));
         } else {
           this.setState(prev => ({ listPos: prev.listPos + 1, scroll: prev.scroll - 60 }));
         }
         this.wheel = 0;
-      } else if (this.wheel <= -100) {
-        if (this.state.listPos === 0) return this.ticking = false;
+      }
+    } else {
+      if (this.wheel <= -100) {
         if (this.state.listPos < 4 || this.state.listPos > (this.eventsList.length - 4)) {
           this.setState(prev => ({ listPos: prev.listPos - 1, arrowPos: prev.arrowPos - 60 }));
         } else {
@@ -49,17 +55,12 @@ export default class Events extends Component {
         }
         this.wheel = 0;
       }
-    } else if (this.state.wheel < 0) {
-      this.setState({ wheel: 0 });
-      // return;
     }
     this.ticking = false;
   }
 
   onWheel = e => {
-    // console.log(`%c${this.ticking}`, 'color: green');
     if (!this.ticking) {
-      console.log(`%c${this.state.wheel}`, 'color: orange');
       const delta = e.deltaY;
       requestAnimationFrame(() => this.handleScroll(delta));
       this.ticking = true;
@@ -73,7 +74,6 @@ export default class Events extends Component {
     
     return (
       <section className={styles.Events} onKeyDown={this.handleKeyDown} tabIndex='0' onWheel={this.onWheel}>
-        <h1 style={{color: '#fff', position: 'fixed', left: '30%', zIndex: 10}}>{this.state.wheel}<br />{this.wheel}</h1>
         <div className={styles.list}>
           <div className={styles.list_wrapper} style={{top: this.state.scroll}}>
             {events}
@@ -85,39 +85,3 @@ export default class Events extends Component {
     );
   }
 }
-    /*this.setState(prevState => {
-      console.log(prevState.wheel, delta);
-      return {wheel: prevState.wheel + delta};
-    });*/
-
-  /*handleKeyDown = e => {
-    let currentYear = this.props.years[0];
-    const secondYearThreshold = 2;
-    if (this.state.listPos > 2 && this.state.listPos < 9) {
-      this.props.onYearChange(this.props.years[1]);
-    } else if (this.state.listPos >= 9) {
-      this.props.onYearChange(this.props.years[2]);
-    } else {
-      this.props.onYearChange(this.props.years[0]);
-    }
-    switch (e.key) {
-      case 'ArrowDown':
-        if (this.state.listPos === (this.eventsList.length - 1)) break;
-        if (this.state.listPos < 3 || this.state.listPos > (this.eventsList.length - 5)) {
-          this.setState(prevState => ({listPos: prevState.listPos + 1, arrowPos: prevState.arrowPos + 60}));
-        } else {
-          this.setState(prevState => ({scroll: prevState.scroll - 60, listPos: prevState.listPos + 1}));
-        }
-        break;
-      case 'ArrowUp':
-        if (this.state.listPos === 0) break;
-        if (this.state.listPos < 4 || this.state.listPos > (this.eventsList.length - 4)) {
-          this.setState(prevState => ({listPos: prevState.listPos - 1, arrowPos: prevState.arrowPos - 60}));
-        } else {
-          this.setState(prevState => ({scroll: prevState.scroll + 60, listPos: prevState.listPos - 1}));
-        }
-        break;
-      default:
-        return;
-    }
-  }*/
