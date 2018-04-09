@@ -69,13 +69,13 @@ export default class Events extends Component {
 
   render() {
     const events = this.eventsList.map((item, idx) => 
-      <p key={item} className={(this.state.listPos === idx) ? styles.list_item__selected : styles.list_item}>{item}</p>
+      <p key={item} className={(this.state.listPos === idx) ? styles.listItem_selected : styles.listItem}>{item}</p>
     );
     
     return (
-      <section className={styles.Events} onKeyDown={this.handleKeyDown} tabIndex='0' onWheel={this.onWheel}>
+      <section className={styles.Events} onWheel={this.onWheel}>
         <div className={styles.list}>
-          <div className={styles.list_wrapper} style={{top: this.state.scroll}}>
+          <div className={styles.listWrapper} style={{top: this.state.scroll}}>
             {events}
           </div>
           <div className={styles.arrow} style={{top: this.state.arrowPos}}></div>

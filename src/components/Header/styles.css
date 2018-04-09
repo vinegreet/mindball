@@ -8,16 +8,28 @@ header {
 .logo {
   width: 49%;
   height: 100%;
-  background: center / 70% 49% no-repeat url('img/Logo.png');
+  display: inherit;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo img {
+  width: 70%;
+}
+
+.sandwichWrapper {
+  width: 22.7%;
+  height: 87%;
+  display: inherit;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
 
 .sandwich {
-  width: 22.7%;
-  height: 87%;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  background: center / 26% no-repeat url('img/Menu.svg');
+  width: 26%;
+  height: 40%;
+  background: center no-repeat url('img/Menu.svg');
   transition: all 0.3s linear;
 }
 
@@ -35,7 +47,7 @@ header {
 
   .logo {
     width: 17.5%;
-    background-size: 70% 73%;
+    /*background-size: 70% 73%;*/
   }
 
   .title {
@@ -47,9 +59,12 @@ header {
     transition: opacity 0.8s linear;
   }
 
-  .sandwich {
+  .sandwichWrapper {
     width: 7%;
-    background-size: 22%;
+  }
+
+  .sandwich {
+    width: 22%;
   }
   
 }

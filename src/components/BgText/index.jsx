@@ -3,7 +3,7 @@ import styles from './styles.css';
 import img from 'img/bgMindball.png';
 
 export default function BgText(props) {
-  console.log(!!props.text, props.text);
+  // console.log(!!props.text, props.text);
   return (
     <div className={styles.BgText}
       style={{

@@ -16,7 +16,6 @@ export default class App extends Component {
       bgText: '',
       currentYear: '',
       isEvents: false,
-      // isStory: false,
       isMenuOpen: false,
       isMobile: null,
       isStory: false,
@@ -26,13 +25,14 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    this.setState({isMobile: window.outerWidth < 988});
+    this.setState({ isMobile: window.outerWidth < 988 });
+    if (window.location.href.search('localhost') >= 0) this.handleStoryClick(true);
   }
 
   scrollDown = () => {
     // this.setState({scroll: '-100%'});
-    this.setState(prevState => ({
-      isStory: !prevState.isStory,
+    this.setState(state => ({
+      isStory: !state.isStory,
       scroll: '-100%'
     }));
   }
@@ -48,10 +48,10 @@ export default class App extends Component {
   handleKeyDown = e => {
     switch (e.key) {
       case 'ArrowDown':
-        // this.scrollDown();
+        this.scrollDown();
         break;
       case 'ArrowUp':
-        // this.setState({scroll: 0});
+        this.setState({ scroll: 0 });
         break;
       default:
         return;
@@ -59,23 +59,28 @@ export default class App extends Component {
   }
 
   handleMenuClick = () => {
-    this.setState(prevState => ({
-      isMenuOpen: !prevState.isMenuOpen
+    this.setState(state => ({
+      isMenuOpen: !state.isMenuOpen
     }));
   }
 
-  handleStoryClick = () => {
-    // this.setState(prevState => ({isEvents: !prevState.isEvents}));
-    // this.setState({scroll: '-200%'});
-    this.setState(prevState => ({
-      isEvents: !prevState.isEvents,
-      isStory: !prevState.isStory,
+  handleStoryClick = (dev) => {
+    if (dev) {
+      this.setState(state => ({
+        isEvents: !state.isEvents,
+        scroll: '-200%'
+      }));
+      return;
+    }
+    this.setState(state => ({
+      isEvents: !state.isEvents,
+      isStory: !state.isStory,
       scroll: '-200%'
     }));
   }
 
   handleYearChange = year => {
-    this.setState({currentYear: year});
+    this.setState({ currentYear: year });
   }
 
   render() {
@@ -89,12 +94,12 @@ export default class App extends Component {
     }
     return <div className={styles.App} onKeyDown={this.handleKeyDown} tabIndex='0'>
       <div className={styles.wrapper}>
-        <div className={styles.bubbles} style={{opacity: (!this.state.isMenuOpen) ? 0.5 : 0}}></div>
+        <div className={styles.bubbles} style={{ opacity: (!this.state.isMenuOpen) ? 0.5 : 0 }}></div>
         <BgText text={bgText} />
         <Header onMenuClick={this.handleMenuClick} events={this.state.isEvents} />
         <Menu years={this.state.years} opacity={(this.state.isMenuOpen) ? 1 : 0} zIndex={(this.state.isMenuOpen) ? 6 : 0} />
         {/*this.state.isMenuOpen && <Menu years={this.state.years} />*/}
-        <div className={styles.innerContainer} style={{top: this.state.scroll, opacity: (!this.state.isMenuOpen) ? 1 : 0}}>
+        <div className={styles.innerContainer} style={{ top: this.state.scroll, opacity: (!this.state.isMenuOpen) ? 1 : 0 }}>
           <Initial onBallFinished={this.scrollDown} onButtonClick={this.scrollDown} />
           <Story onButtonClick={this.handleStoryClick} />
           <Events years={this.state.years} onYearChange={this.handleYearChange} />
