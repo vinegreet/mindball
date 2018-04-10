@@ -15,7 +15,7 @@ export default class Story extends Component {
   render() {
     
     return (
-      <section className={styles.Story} onWheel={this.onScroll}>
+      <section className={styles.Story} onWheel={this.onScroll} style={{opacity: this.props.opacity}} >
         <div className={styles.outerWrapper}>
           <div className={styles.wrapper}>
             <h1>Story</h1>

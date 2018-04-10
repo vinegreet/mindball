@@ -5,7 +5,6 @@ import BgText from 'components/BgText';
 import Header from 'components/Header';
 import Menu from 'components/Menu';
 import Initial from 'components/Initial';
-import Story from 'components/Story';
 import Events from 'components/Events';
 // import Inside from 'components/Inside';
 
@@ -26,7 +25,7 @@ export default class App extends Component {
 
   componentDidMount() {
     this.setState({ isMobile: window.outerWidth < 988 });
-    if (window.location.href.search('localhost') >= 0) this.handleStoryClick(true);
+    // if (window.location.href.search('localhost') >= 0) this.handleStoryClick(true);
   }
 
   scrollDown = () => {
@@ -65,17 +64,16 @@ export default class App extends Component {
   }
 
   handleStoryClick = (dev) => {
-    if (dev) {
+    if (dev === true) {
       this.setState(state => ({
-        isEvents: !state.isEvents,
-        scroll: '-200%'
+        isEvents: !state.isEvents
       }));
       return;
     }
+    console.log(`isStory: ${this.state.isStory}\nisEvents: ${this.state.isEvents}`);
     this.setState(state => ({
       isEvents: !state.isEvents,
-      isStory: !state.isStory,
-      scroll: '-200%'
+      isStory: !state.isStory
     }));
   }
 
@@ -101,8 +99,9 @@ export default class App extends Component {
         {/*this.state.isMenuOpen && <Menu years={this.state.years} />*/}
         <div className={styles.innerContainer} style={{ top: this.state.scroll, opacity: (!this.state.isMenuOpen) ? 1 : 0 }}>
           <Initial onBallFinished={this.scrollDown} onButtonClick={this.scrollDown} />
-          <Story onButtonClick={this.handleStoryClick} />
-          <Events years={this.state.years} onYearChange={this.handleYearChange} />
+          {/*<Story onButtonClick={this.handleStoryClick} />*/}
+          <Events years={this.state.years} onYearChange={this.handleYearChange} currentYear={this.state.currentYear} 
+            onButtonClick={this.handleStoryClick} isEvents={this.state.isEvents} isStory={this.state.isStory} />
         </div>
       </div>
     </div>;

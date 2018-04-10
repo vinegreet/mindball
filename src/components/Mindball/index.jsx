@@ -20,14 +20,15 @@ export default class Mindball extends Component {
 
   render() {
     const years = this.props.years.map((item, idx) => 
-      <p key={item} className={styles.year}>item</p>
+      <p key={item} className={styles.year} style={{color: (this.props.currentYear === item) ? '#fff' : 'rgba(169,169,169,0.3)'}}>{item}</p>
     );
     const betweenRounds = new Array(this.props.years.length || 1).fill(null).map((item, idx) => 
-      <div key={`roundInBetween${!this.props.years && idx}`} className={styles.roundInBetween}></div>
+      <div key={`roundInBetween${!!this.props.years.length && idx}`} className={styles.roundInBetween}></div>
     );
     return (
-      <div className={styles.Mindball} style={{fontSize: `${this.props.size}px`}}>
-        <div className={styles.years}>
+      <div className={(this.props.years.length) ? styles.Mindball_events : styles.Mindball} style={{fontSize: `${this.props.size}px`}}>
+        <div className={styles.yearsWrapper}>
+          <p className={styles.year} style={{color: 'rgba(169,169,169,0.3)'}}>Story</p>
           {years}
         </div>
         <div className={styles.inner}>

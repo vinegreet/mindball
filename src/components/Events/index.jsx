@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styles from './styles.css';
+import Story from 'components/Story';
 import Mindball from 'components/Mindball';
 
 export default class Events extends Component {
@@ -15,6 +16,7 @@ export default class Events extends Component {
     this.wheel = 0;
     this.ticking = false;
     this.eventsList = ['Ericsson Ukraine', 'Yoga Studio Yoga23', 'SEMPRO', 'Mindball IDCEE', 'Art-Picnic', 'Microsoft Dev Day', 'Festival of Science', 'Active Day in Gulliver', 'Tea Cup Champ', 'Mindball in Bibliotech', 'Mindball in Atmasfera360', 'VedaLife']
+    this.defaultBallPosition = 22;
   }
 
   changeYear(idx = 0) {
@@ -40,7 +42,7 @@ export default class Events extends Component {
     if (newDelta > 0) {
       if (this.wheel >= 100) {
         if (this.state.listPos < 3 || this.state.listPos > (this.eventsList.length - 5)) {
-          this.setState(prev => ({ listPos: prev.listPos + 1, arrowPos: prev.arrowPos + 60 }));
+          this.setState(prev => ({ listPos: prev.listPos + 1 }));
         } else {
           this.setState(prev => ({ listPos: prev.listPos + 1, scroll: prev.scroll - 60 }));
         }
@@ -49,7 +51,7 @@ export default class Events extends Component {
     } else {
       if (this.wheel <= -100) {
         if (this.state.listPos < 4 || this.state.listPos > (this.eventsList.length - 4)) {
-          this.setState(prev => ({ listPos: prev.listPos - 1, arrowPos: prev.arrowPos - 60 }));
+          this.setState(prev => ({ listPos: prev.listPos - 1 }));
         } else {
           this.setState(prev => ({ listPos: prev.listPos - 1, scroll: prev.scroll + 60 }));
         }
@@ -69,18 +71,22 @@ export default class Events extends Component {
 
   render() {
     const events = this.eventsList.map((item, idx) => 
-      <p key={item} className={(this.state.listPos === idx) ? styles.listItem_selected : styles.listItem}>{item}</p>
+      <div key={item} className={(this.state.listPos === idx) ? styles.listItem_selected : styles.listItem}>
+        <p className={styles.text}>{item}</p>
+        <div className={styles.line}></div>
+        <div className={styles.arrow}></div>
+      </div>
     );
     
     return (
       <section className={styles.Events} onWheel={this.onWheel}>
-        <div className={styles.list}>
+        <Story onButtonClick={this.props.onButtonClick} opacity={(this.props.isStory) ? 1 : 0}/>
+        <div className={styles.list} style={{opacity: (this.props.isEvents) ? 1 : 0}} >
           <div className={styles.listWrapper} style={{top: this.state.scroll}}>
             {events}
           </div>
-          <div className={styles.arrow} style={{top: this.state.arrowPos}}></div>
         </div>
-        {/*<Mindball position={this.state.ballPosition || this.defaultBallPosition} />*/}
+        <Mindball position={this.defaultBallPosition} years={this.props.years} currentYear={this.props.currentYear} size={0.3} />
       </section>
     );
   }

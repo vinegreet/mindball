@@ -51,7 +51,8 @@ body {
   display: inherit;
   flex-direction: inherit;
   align-content: inherit;
-  height: 300%;
+  /*height: 300%;*/
+  height: 200%;
   width: 100%;
   position: absolute;
   top: 0;

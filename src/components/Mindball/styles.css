@@ -9,28 +9,55 @@
     z-index: 1;
   }
 
-  .Mindball:global(._desk) {
-    /*display: inherit;*/
+  .Mindball_events {
+    composes: Mindball;
+    /*align-self: flex-end;*/
+    position: absolute;
+    right: 2.7rem;
   }
 
-  .inner, .years {
+  .inner,
+  .yearsWrapper {
     height: 1139em;
-    background-color: #303030;
-    display: inherit;
+    /*background-color: #303030;*/
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
   }
 
-  .years {}
+  .yearsWrapper {
+    display: none;
+    padding: 12em 0;
+  }
+
+  .Mindball_events .yearsWrapper {
+    display: inherit;
+  }
+
+  .year {
+    font: 600 1rem/1 'Prompt', sans-serif;
+    /*margin-right: 1rem;*/
+    margin: 0 2.4rem 0;
+  }
 
   .inner {
+    display: inherit;
     position: relative;
     width: 104em;
     margin: 0 auto;
     padding: 12em;
     border: 4em solid #E25244;
     border-radius: 50%/52em;
+  }
+
+  .Mindball_events .inner,
+  .yearsWrapper {
+    height: 1900em;
+  }
+
+  .Mindball_events .inner {
+    width: 80em;
+    border-radius: 50%/40em;
   }
 
   .line {
@@ -41,6 +68,12 @@
     background-color: #E25244;
   }
 
+  .Mindball_events .roundInBetween,
+  .Mindball_events .roundUtmost {
+    width: 60em;
+    height: 60em;
+  }
+
   .roundUtmost {
     width: 80em;
     height: 80em;
@@ -48,6 +81,12 @@
     border: 4em solid #E25244;
     border-radius: 100%;
     z-index: 1;
+  }
+
+  .Mindball_events .roundUtmost:first-child {}
+
+  .Mindball_events .roundUtmost:last-child {
+    display: none;
   }
 
   .roundInBetween {
@@ -69,6 +108,12 @@
     height: 46em;
     background-color: #fff;
     border-radius: 100%;
+  }
+
+  .Mindball_events  .ball {
+    left: 18em;
+    width: 38em;
+    height: 38em;
   }
 
 }
