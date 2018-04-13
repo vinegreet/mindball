@@ -29,7 +29,11 @@ export default class Events extends Component {
   
   handleScroll = delta => {
     // if (this.state.listPos === 0 && delta < 0) return this.ticking = false;
-    if (this.state.listPos === 0 && delta < 0) return this.props.toggleStoryAndEvents();
+    if (this.state.listPos === 0 && delta < 0) {
+      this.props.toggleStoryAndEvents();
+      this.ticking = false;
+      return;
+    }
     if (this.state.listPos === (this.eventsList.length - 1) && delta > 0) return this.ticking = false;
     if (this.state.listPos > 2 && this.state.listPos < 9) {
       this.changeYear(1);
@@ -63,6 +67,7 @@ export default class Events extends Component {
   }
 
   onWheel = e => {
+    console.log(e.target.innerHTML, !this.ticking);
     if (!this.ticking) {
       const delta = e.deltaY;
       requestAnimationFrame(() => this.handleScroll(delta));
@@ -80,9 +85,9 @@ export default class Events extends Component {
     );
     
     return (
-      <section className={styles.Events} onWheel={this.onWheel}>
+      <section className={styles.Events} onWheel={this.props.isEvents && this.onWheel || undefined}>
         <Story onButtonClick={this.props.toggleStoryAndEvents} opacity={(this.props.isStory) ? 1 : 0} zIndex={(this.props.isStory) ? 10 : -1}
-          onWheelDown={() => {this.props.toggleStoryAndEvents; console.log('Events, roger')}} />
+          onWheelDown={this.props.toggleStoryAndEvents} isStory={this.props.isStory} />
         <div className={styles.list} style={{opacity: (this.props.isEvents) ? 1 : 0, zIndex: (this.props.isEvents) ? 10 : -1}}>
           <div className={styles.listWrapper} style={{top: this.state.scroll}}>
             {events}

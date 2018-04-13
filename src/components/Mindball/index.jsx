@@ -20,7 +20,7 @@ export default class Mindball extends Component {
 
   render() {
     const years = this.props.years.map((item, idx) => 
-      <p key={item} className={styles.year} style={{color: (this.props.currentYear === item) ? '#fff' : 'rgba(169,169,169,0.3)'}}>{new Date().toLocaleTimeString()}</p>
+      <p key={item} className={styles.year} style={{color: (this.props.currentYear === item) ? '#fff' : 'rgba(169,169,169,0.3)'}}>{item}</p>
     );
     const betweenRounds = new Array(this.props.years.length || 1).fill(null).map((item, idx) => 
       <div key={`roundInBetween${!!this.props.years.length && idx}`} className={styles.roundInBetween}></div>

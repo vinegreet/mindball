@@ -7,9 +7,11 @@ let isScrolled;
 export default function Story(props) {
   return (
     <section className={styles.Story} onWheel={e => {
-      if (e.deltaY > 0 && !isScrolled) props.onWheelDown;
-      console.log(e.deltaY > 0 && !isScrolled);
-      isScrolled = true;
+      if (props.isStory && !isScrolled && e.deltaY > 0) {
+        props.onWheelDown();
+        isScrolled = true;
+        setTimeout(() => {isScrolled = false;}, 500);
+      }
     }} style={{opacity: props.opacity, zIndex: props.zIndex}} >
       <div className={styles.outerWrapper}>
         <div className={styles.wrapper}>

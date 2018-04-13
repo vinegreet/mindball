@@ -96,7 +96,7 @@ export default class App extends Component {
           <Initial onBallFinished={this.scrollDown} onButtonClick={this.scrollDown} />
           {/*<Story onButtonClick={this.handleStoryClick} />*/}
           <Events years={this.state.years} onYearChange={this.handleYearChange} currentYear={this.state.currentYear} 
-            toggleStoryAndEvents={this.toggleSections} isEvents={this.state.isEvents} isStory={this.state.isStory} />
+            toggleStoryAndEvents={() => {this.toggleSections(); console.log('App, roger')}} isEvents={this.state.isEvents} isStory={this.state.isStory} />
         </div>
       </div>
     </div>;
