@@ -1,32 +1,26 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styles from './styles.css';
 import Button from 'components/Button';
 
-export default class Story extends Component {
-  constructor() {
-    super();
-    this.state = {};
-  }
+let isScrolled;
 
-  
-  onScroll = e => {
-  };
-
-  render() {
-    
-    return (
-      <section className={styles.Story} onWheel={this.onScroll} style={{opacity: this.props.opacity}} >
-        <div className={styles.outerWrapper}>
-          <div className={styles.wrapper}>
-            <h1>Story</h1>
-            <p className={styles.text}>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita molestias, explicabo maxime assumenda possimus inventore enim quis. Amet sunt nesciunt voluptates eius sed placeat vitae perspiciatis saepe quis natus, quasi, consectetur at quaerat quibusdam quidem blanditiis quia ipsam rem.
-            </p>
-          </div>
-          <Button caption='Events' onButtonClick={this.props.onButtonClick} />
+export default function Story(props) {
+  return (
+    <section className={styles.Story} onWheel={e => {
+      if (e.deltaY > 0 && !isScrolled) props.onWheelDown;
+      console.log(e.deltaY > 0 && !isScrolled);
+      isScrolled = true;
+    }} style={{opacity: props.opacity, zIndex: props.zIndex}} >
+      <div className={styles.outerWrapper}>
+        <div className={styles.wrapper}>
+          <h1>Story</h1>
+          <p className={styles.text}>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita molestias, explicabo maxime assumenda possimus inventore enim quis. Amet sunt nesciunt voluptates eius sed placeat vitae perspiciatis saepe quis natus, quasi, consectetur at quaerat quibusdam quidem blanditiis quia ipsam rem.
+          </p>
         </div>
-        {/*<Mindball position={this.state.ballPosition || this.defaultBallPosition} />*/}
-      </section>
-    );
-  }
+        <Button caption='Events' onButtonClick={props.onButtonClick} />
+      </div>
+      {/*<Mindball position={this.state.ballPosition || this.defaultBallPosition} />*/}
+    </section>
+  );
 }

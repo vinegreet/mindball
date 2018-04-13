@@ -25,7 +25,7 @@ export default class App extends Component {
 
   componentDidMount() {
     this.setState({ isMobile: window.outerWidth < 988 });
-    // if (window.location.href.search('localhost') >= 0) this.handleStoryClick(true);
+    // if (window.location.href.search('localhost') >= 0) this.toggleSections(true);
   }
 
   scrollDown = () => {
@@ -35,14 +35,6 @@ export default class App extends Component {
       scroll: '-100%'
     }));
   }
-
-  /*handleBallFinish = () => {
-    this.scrollDown();
-  }
-
-  handleButtonClick = () => {
-    this.scrollDown();
-  }*/
 
   handleKeyDown = e => {
     switch (e.key) {
@@ -63,14 +55,17 @@ export default class App extends Component {
     }));
   }
 
-  handleStoryClick = (dev) => {
+  toggleSections = (dev) => {
+    console.log('toggleSections (?)');
     if (dev === true) {
       this.setState(state => ({
-        isEvents: !state.isEvents
+        isStory: !state.isStory,
+        // isEvents: !state.isEvents,
+        scroll: '-100%'
       }));
       return;
     }
-    console.log(`isStory: ${this.state.isStory}\nisEvents: ${this.state.isEvents}`);
+    // console.log(`isStory: ${this.state.isStory}\nisEvents: ${this.state.isEvents}`);
     this.setState(state => ({
       isEvents: !state.isEvents,
       isStory: !state.isStory
@@ -101,11 +96,19 @@ export default class App extends Component {
           <Initial onBallFinished={this.scrollDown} onButtonClick={this.scrollDown} />
           {/*<Story onButtonClick={this.handleStoryClick} />*/}
           <Events years={this.state.years} onYearChange={this.handleYearChange} currentYear={this.state.currentYear} 
-            onButtonClick={this.handleStoryClick} isEvents={this.state.isEvents} isStory={this.state.isStory} />
+            toggleStoryAndEvents={this.toggleSections} isEvents={this.state.isEvents} isStory={this.state.isStory} />
         </div>
       </div>
     </div>;
   }
 }
+
+  /*handleBallFinish = () => {
+    this.scrollDown();
+  }
+
+  handleButtonClick = () => {
+    this.scrollDown();
+  }*/
 // <h1 style={{color: '#fff', margin: '0px'}}>{this.state.scroll}</h1>
 // <Route exact path="/" component={Inside} />

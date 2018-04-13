@@ -28,7 +28,8 @@ export default class Events extends Component {
   }
   
   handleScroll = delta => {
-    if (this.state.listPos === 0 && delta < 0) return this.ticking = false;
+    // if (this.state.listPos === 0 && delta < 0) return this.ticking = false;
+    if (this.state.listPos === 0 && delta < 0) return this.props.toggleStoryAndEvents();
     if (this.state.listPos === (this.eventsList.length - 1) && delta > 0) return this.ticking = false;
     if (this.state.listPos > 2 && this.state.listPos < 9) {
       this.changeYear(1);
@@ -38,7 +39,7 @@ export default class Events extends Component {
       this.changeYear();
     }
     const newDelta = (this.isFirefox) ? delta * 34 : delta;
-    this.wheel = this.wheel + newDelta;
+    this.wheel += newDelta;
     if (newDelta > 0) {
       if (this.wheel >= 100) {
         if (this.state.listPos < 3 || this.state.listPos > (this.eventsList.length - 5)) {
@@ -80,13 +81,15 @@ export default class Events extends Component {
     
     return (
       <section className={styles.Events} onWheel={this.onWheel}>
-        <Story onButtonClick={this.props.onButtonClick} opacity={(this.props.isStory) ? 1 : 0}/>
-        <div className={styles.list} style={{opacity: (this.props.isEvents) ? 1 : 0}} >
+        <Story onButtonClick={this.props.toggleStoryAndEvents} opacity={(this.props.isStory) ? 1 : 0} zIndex={(this.props.isStory) ? 10 : -1}
+          onWheelDown={() => {this.props.toggleStoryAndEvents; console.log('Events, roger')}} />
+        <div className={styles.list} style={{opacity: (this.props.isEvents) ? 1 : 0, zIndex: (this.props.isEvents) ? 10 : -1}}>
           <div className={styles.listWrapper} style={{top: this.state.scroll}}>
             {events}
           </div>
         </div>
-        <Mindball position={this.defaultBallPosition} years={this.props.years} currentYear={this.props.currentYear} size={0.3} />
+        <Mindball position={this.defaultBallPosition} years={this.props.years}
+          currentYear={this.props.isEvents && this.props.currentYear} size={0.3} />
       </section>
     );
   }
