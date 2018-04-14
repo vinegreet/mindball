@@ -1,9 +1,13 @@
 @media screen and (min-width: 988px) {
   .Mindball {
     /*composes: _desk from global;*/
-    font-size: .5px;
+    /*font-size: .5px;*/
+    /*font-size: .05rem;*/
+    font-size: .03125rem;
     /*height: 85%;*/
-    height: 1139em;
+    /*height: 1139em;*/
+    height: 35.6rem;
+    /*h34.2rem*/
     display: inherit;
     align-items: center;
     z-index: 1;
@@ -103,7 +107,7 @@
     z-index: 2;
     top: 29em;
     /*left: 25em;*/
-    left: 27em;
+    /*left: 27em;*/
     width: 46em;
     height: 46em;
     background-color: #fff;
@@ -114,6 +118,7 @@
     left: 18em;
     width: 38em;
     height: 38em;
+    transition: top 0.5s cubic-bezier(.78, .03, .18, .99);
   }
 
 }

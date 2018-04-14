@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import styles from './styles.css';
 
+// const $years = {};
+
 export default class Mindball extends Component {
 
   static propTypes = {
@@ -23,7 +25,8 @@ export default class Mindball extends Component {
       <p key={item} className={styles.year} style={{color: (this.props.currentYear === item) ? '#fff' : 'rgba(169,169,169,0.3)'}}>{item}</p>
     );
     const betweenRounds = new Array(this.props.years.length || 1).fill(null).map((item, idx) => 
-      <div key={`roundInBetween${!!this.props.years.length && idx}`} className={styles.roundInBetween}></div>
+      <div key={`roundInBetween${(this.props.years.length) ? idx : ''}`} className={styles.roundInBetween}
+        ref={$el => !this.props.isInitial && this.props.getBetweenElems($el, idx)}></div>
     );
     return (
       <div className={(this.props.years.length) ? styles.Mindball_events : styles.Mindball} style={{fontSize: `${this.props.size}px`}}>

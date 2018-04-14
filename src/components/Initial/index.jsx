@@ -7,8 +7,7 @@ export default class Initial extends Component {
   constructor() {
     super();
     this.state = {
-      ballPosition: 0, 
-      scroll: 0
+      ballPosition: 0
     };
     this.isFirefox = typeof InstallTrigger !== 'undefined';
     this.defaultBallPosition = 28;
@@ -26,14 +25,14 @@ export default class Initial extends Component {
     if (ballPos < defPos) return;
     ballPos = (ballPos < finish) ? ballPos : finish;
     if (ballPos === finish) this.props.onBallFinished();
-    this.setState({ballPosition: ballPos, scroll: e.deltaY});
+    this.setState({ballPosition: ballPos});
   };
 
   render() {
     // console.log(this.state.ballPosition);
     return (
       <section className={`${styles.Initial} _desk`} onWheel={this.onScroll}>
-        <Mindball position={this.state.ballPosition || this.defaultBallPosition} />
+        <Mindball position={this.state.ballPosition || this.defaultBallPosition} isInitial={true} />
         <Button caption='Scroll down' onButtonClick={this.props.onButtonClick} />
       </section>
     );
