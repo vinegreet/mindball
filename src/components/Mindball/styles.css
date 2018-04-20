@@ -31,7 +31,7 @@
 
   .yearsWrapper {
     display: none;
-    padding: 12em 0;
+    padding: 8em 0;
   }
 
   .Mindball_events .yearsWrapper {
@@ -49,7 +49,8 @@
     position: relative;
     width: 104em;
     margin: 0 auto;
-    padding: 12em;
+    padding: 8em;
+    /*padding: 12em;*/
     border: 4em solid #E25244;
     border-radius: 50%/52em;
   }

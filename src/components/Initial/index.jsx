@@ -10,7 +10,8 @@ export default class Initial extends Component {
       ballPosition: 0
     };
     this.isFirefox = typeof InstallTrigger !== 'undefined';
-    this.defaultBallPosition = 28;
+    this.defaultBallPosition = 24;
+    // this.defaultBallPosition = 28;
   }
 
   

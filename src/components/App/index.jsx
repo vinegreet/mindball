@@ -18,8 +18,7 @@ export default class App extends Component {
       isMenuOpen: false,
       isMobile: null,
       isStory: false,
-      scroll: 0,
-      years: [2015, 2014, 2013]
+      scroll: 0
     };
   }
 
@@ -29,7 +28,6 @@ export default class App extends Component {
   }
 
   scrollDown = () => {
-    // this.setState({scroll: '-100%'});
     this.setState(state => ({
       isStory: !state.isStory,
       scroll: '-100%'
@@ -42,7 +40,7 @@ export default class App extends Component {
         this.scrollDown();
         break;
       case 'ArrowUp':
-        this.setState({ scroll: 0 });
+        this.setState(state => ({ scroll: 0, isStory: !state.isStory }));
         break;
       default:
         return;
@@ -50,13 +48,10 @@ export default class App extends Component {
   }
 
   handleMenuClick = () => {
-    this.setState(state => ({
-      isMenuOpen: !state.isMenuOpen
-    }));
+    this.setState(state => ({ isMenuOpen: !state.isMenuOpen }));
   }
 
   toggleSections = (dev) => {
-    console.log('toggleSections (?)');
     if (dev === true) {
       this.setState(state => ({
         isStory: !state.isStory,
@@ -66,10 +61,7 @@ export default class App extends Component {
       return;
     }
     // console.log(`isStory: ${this.state.isStory}\nisEvents: ${this.state.isEvents}`);
-    this.setState(state => ({
-      isEvents: !state.isEvents,
-      isStory: !state.isStory
-    }));
+    this.setState(state => ({ isEvents: !state.isEvents, isStory: !state.isStory }));
   }
 
   handleYearChange = year => {
@@ -90,12 +82,12 @@ export default class App extends Component {
         <div className={styles.bubbles} style={{ opacity: (!this.state.isMenuOpen) ? 0.5 : 0 }}></div>
         <BgText text={bgText} />
         <Header onMenuClick={this.handleMenuClick} events={this.state.isEvents} />
-        <Menu years={this.state.years} opacity={(this.state.isMenuOpen) ? 1 : 0} zIndex={(this.state.isMenuOpen) ? 6 : 0} />
+        <Menu opacity={(this.state.isMenuOpen) ? 1 : 0} zIndex={(this.state.isMenuOpen) ? 6 : 0} />
         {/*this.state.isMenuOpen && <Menu years={this.state.years} />*/}
         <div className={styles.innerContainer} style={{ top: this.state.scroll, opacity: (!this.state.isMenuOpen) ? 1 : 0 }}>
           <Initial onBallFinished={this.scrollDown} onButtonClick={this.scrollDown} />
           {/*<Story onButtonClick={this.handleStoryClick} />*/}
-          <Events years={this.state.years} onYearChange={this.handleYearChange} currentYear={this.state.currentYear} 
+          <Events onYearChange={this.handleYearChange} currentYear={this.state.currentYear} 
             toggleStoryAndEvents={() => {this.toggleSections(); console.log('App, roger')}} isEvents={this.state.isEvents} isStory={this.state.isStory} />
         </div>
       </div>

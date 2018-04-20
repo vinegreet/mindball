@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styles from './styles.css';
 import Story from 'components/Story';
 import Mindball from 'components/Mindball';
+import { allYears, years, eventsTitles } from 'components/items.js';
 
 export default class Events extends Component {
   constructor(props) {
@@ -16,17 +17,20 @@ export default class Events extends Component {
     this.isFirefox = typeof InstallTrigger !== 'undefined';
     this.wheel = 0;
     this.ticking = false;
-    this.eventsList = ['Ericsson Ukraine', 'Yoga Studio Yoga23', 'SEMPRO', 'Mindball IDCEE', 'Art-Picnic', 'Microsoft Dev Day', 'Festival of Science', 'Active Day in Gulliver', 'Tea Cup Champ', 'Mindball in Bibliotech', 'Mindball in Atmasfera360', 'VedaLife']
     this.mindballSize = 0.3;
-    this.defaultBallPosition = 22;
+    this.defaultBallPosition = 18;
+    // this.defaultBallPosition = 22;
     this.betweenElems = {};
+    this.prevYear = '';
   }
 
   changeYear(idx = 0) {
-    this.props.onYearChange(this.props.years[idx]);
-    if (this.props.isEvents) {
-      this.setState({ballPos: this.betweenElems['$' + idx].offsetTop / this.mindballSize + 10});
+    this.props.onYearChange(allYears[idx]);
+    if (this.props.isEvents && this.prevYear !== this.props.currentYear) { // or maybe use here "allYears[idx].year" ?
+      const currentYearIdx = years.indexOf(this.props.currentYear);
+      this.setState({ballPos: this.betweenElems['$' + currentYearIdx].offsetTop / this.mindballSize + 10});
     }
+    this.prevYear = this.props.currentYear;
   }
 
   componentDidMount() {
@@ -40,19 +44,17 @@ export default class Events extends Component {
       this.ticking = false;
       return;
     }
-    if (this.state.listPos === (this.eventsList.length - 1) && delta > 0) return this.ticking = false;
-    if (this.state.listPos > 2 && this.state.listPos < 9) {
-      this.changeYear(1);
-    } else if (this.state.listPos >= 9) {
-      this.changeYear(2);
+    if (this.state.listPos === (eventsTitles.length - 1) && delta > 0) return this.ticking = false;
+    if (delta > 0) {
+      this.changeYear(this.state.listPos + 1);
     } else {
-      this.changeYear();
+      this.changeYear(this.state.listPos - 1);
     }
     const newDelta = (this.isFirefox) ? delta * 34 : delta;
     this.wheel += newDelta;
     if (newDelta > 0) {
       if (this.wheel >= 100) {
-        if (this.state.listPos < 3 || this.state.listPos > (this.eventsList.length - 5)) {
+        if (this.state.listPos < 3 || this.state.listPos > (eventsTitles.length - 5)) {
           this.setState(prev => ({ listPos: prev.listPos + 1 }));
         } else {
           this.setState(prev => ({ listPos: prev.listPos + 1, scroll: prev.scroll - 60 }));
@@ -61,7 +63,7 @@ export default class Events extends Component {
       }
     } else {
       if (this.wheel <= -100) {
-        if (this.state.listPos < 4 || this.state.listPos > (this.eventsList.length - 4)) {
+        if (this.state.listPos < 4 || this.state.listPos > (eventsTitles.length - 4)) {
           this.setState(prev => ({ listPos: prev.listPos - 1 }));
         } else {
           this.setState(prev => ({ listPos: prev.listPos - 1, scroll: prev.scroll + 60 }));
@@ -81,7 +83,7 @@ export default class Events extends Component {
   }
 
   render() {
-    const events = this.eventsList.map((item, idx) => 
+    const events = eventsTitles.map((item, idx) => 
       <div key={item} className={(this.state.listPos === idx) ? styles.listItem_selected : styles.listItem}>
         <p className={styles.text}>{item}</p>
         <div className={styles.line}></div>
@@ -98,7 +100,7 @@ export default class Events extends Component {
             {events}
           </div>
         </div>
-        <Mindball position={(this.props.isStory) ? this.defaultBallPosition : this.state.ballPos} years={this.props.years}
+        <Mindball position={(this.props.isStory) ? this.defaultBallPosition : this.state.ballPos} isEvents={true}
           currentYear={this.props.isEvents && this.props.currentYear} size={this.mindballSize}
           getBetweenElems={($el, idx) => {this.betweenElems['$' + idx] = $el;}} />
       </section>
