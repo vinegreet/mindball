@@ -18,7 +18,7 @@ export default class Initial extends Component {
   onScroll = e => {
     const statePos = this.state.ballPosition;
     const defPos = this.defaultBallPosition;
-    const finish = (this.isFirefox) ? 1058 : 1055;
+    const finish = (this.isFirefox) ? 1062 : 1060;
     const sensitivity = (this.isFirefox) ? 0.12 : 4;
     if (statePos === finish) return;
     if (statePos < defPos) this.setState({ballPosition: defPos});

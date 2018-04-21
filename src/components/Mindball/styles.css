@@ -86,6 +86,7 @@
     border: 4em solid #E25244;
     border-radius: 100%;
     z-index: 1;
+    box-shadow: inset 0px 0px 2px 0px #303030;
   }
 
   .Mindball_events .roundUtmost:first-child {}
@@ -109,10 +110,11 @@
     top: 29em;
     /*left: 25em;*/
     /*left: 27em;*/
-    width: 46em;
-    height: 46em;
+    width: 47em;
+    height: 47em;
     background-color: #fff;
     border-radius: 100%;
+    box-shadow: inset 0px 0px 2px 0px #303030;
   }
 
   .Mindball_events  .ball {
