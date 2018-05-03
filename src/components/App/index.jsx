@@ -96,7 +96,6 @@ export default class App extends Component {
           <Events onYearChange={this.handleYearChange} currentYear={this.state.currentYear}
             currentEventsListPos={this.state.currentEventsListPos} toggleStoryAndEvents={this.toggleSections}
             isEvents={this.state.isEvents} isStory={this.state.isStory} />
-          }
         </div>
       </div>
     </div>;

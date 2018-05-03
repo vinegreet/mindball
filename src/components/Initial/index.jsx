@@ -15,7 +15,7 @@ export default class Initial extends Component {
   }
 
   
-  onScroll = e => {
+  handleWheel = e => {
     const statePos = this.state.ballPosition;
     const defPos = this.defaultBallPosition;
     const finish = (this.isFirefox) ? 1062 : 1060;
@@ -32,7 +32,7 @@ export default class Initial extends Component {
   render() {
     // console.log(this.state.ballPosition);
     return (
-      <section className={`${styles.Initial} _desk`} onWheel={this.onScroll}>
+      <section className={`${styles.Initial} _desk`} onWheel={this.handleWheel}>
         <Mindball position={this.state.ballPosition || this.defaultBallPosition} isInitial={true} />
         <Button caption='Scroll down' onButtonClick={this.props.onButtonClick} />
       </section>

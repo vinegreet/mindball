@@ -14,12 +14,12 @@ export default function Story(props) {
       }
     }} style={{opacity: props.opacity, zIndex: props.zIndex}} >
       <div className={styles.outerWrapper}>
-        <div className={styles.wrapper}>
+        <article className={styles.wrapper}>
           <h1>Story</h1>
           <p className={styles.text}>
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita molestias, explicabo maxime assumenda possimus inventore enim quis. Amet sunt nesciunt voluptates eius sed placeat vitae perspiciatis saepe quis natus, quasi, consectetur at quaerat quibusdam quidem blanditiis quia ipsam rem.
           </p>
-        </div>
+        </article>
         <Button caption='Events' onButtonClick={props.onButtonClick} />
       </div>
       {/*<Mindball position={this.state.ballPosition || this.defaultBallPosition} />*/}

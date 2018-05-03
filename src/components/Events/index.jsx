@@ -3,6 +3,7 @@ import styles from './styles.css';
 import Story from 'components/Story';
 import Mindball from 'components/Mindball';
 import { years, uniqYears, titles } from 'components/items.js';
+import OpenEvent from 'components/OpenEvent';
 
 export default class Events extends Component {
   constructor(props) {
@@ -10,6 +11,7 @@ export default class Events extends Component {
     this.state = {
       arrowPos: 0,
       ballPos: 0,
+      isOpenEvent: false,
       listPos: 0,
       scroll: 0,
       wheel: 0
@@ -17,7 +19,6 @@ export default class Events extends Component {
     this.isFirefox = typeof InstallTrigger !== 'undefined';
     this.wheel = 0;
     this.ticking = false;
-    // this.mindballSize = 0.297;
     this.defaultBallPosition = 18;
     this.betweenElems = {};
     this.mbFontSize = 0.0181;
@@ -25,9 +26,8 @@ export default class Events extends Component {
 
   changeYear(idx = 0) {
     this.props.onYearChange(years[idx]);
-    if (this.props.isEvents && this.prevYear !== this.props.currentYear) { // or maybe use here "years[idx].year" ?
+    if (this.props.isEvents && this.prevYear !== this.props.currentYear) {
       const currentYearIdx = uniqYears.indexOf(this.props.currentYear);
-      // this.setState({ ballPos: this.betweenElems['$' + currentYearIdx].offsetTop / this.mindballSize + 10 });
       this.setState({ ballPos: this.betweenElems['$' + currentYearIdx].offsetTop / this.emSize + 10 });
     }
     this.prevYear = this.props.currentYear;
@@ -36,7 +36,6 @@ export default class Events extends Component {
   componentDidMount() {
     this.htmlFontSize = parseFloat(window.getComputedStyle(document.getElementsByTagName('html')[0]).fontSize);
     this.emSize = this.mbFontSize * this.htmlFontSize;
-    console.log(this.emSize);
     this.changeYear();
     this.setState({ ballPos: this.betweenElems.$0.offsetTop / this.mindballSize + 10 });
   }
@@ -76,7 +75,7 @@ export default class Events extends Component {
     this.ticking = false;
   }
 
-  onWheel = e => {
+  handleWheel = e => {
     if (!this.ticking) {
       const delta = e.deltaY;
       requestAnimationFrame(() => this.handleScroll(delta));
@@ -84,9 +83,14 @@ export default class Events extends Component {
     }
   }
 
+  toggleOpenEvent = () => {
+    this.setState(prev => ({ isOpenEvent: !prev.isOpenEvent}));
+  }
+
   render() {
     const events = titles.map((item, idx) => 
-      <div key={item} className={(this.state.listPos === idx) ? styles.listItem_selected : styles.listItem}>
+      <div key={item} className={(this.state.listPos === idx) ? styles.listItem_selected : styles.listItem}
+        onClick={this.toggleOpenEvent}>
         <p className={styles.text}>{item}</p>
         <div className={styles.line}></div>
         <div className={styles.arrow}></div>
@@ -94,10 +98,12 @@ export default class Events extends Component {
     );
     
     return (
-      <section className={styles.Events} onWheel={this.props.isEvents && this.onWheel || undefined}>
-        <Story onButtonClick={this.props.toggleStoryAndEvents} opacity={(this.props.isStory) ? 1 : 0} zIndex={(this.props.isStory) ? 10 : -1}
-          onWheelDown={this.props.toggleStoryAndEvents} isStory={this.props.isStory} />
-        <div className={styles.list} style={{ opacity: (this.props.isEvents) ? 1 : 0, zIndex: (this.props.isEvents) ? 10 : -1 }}>
+      <section className={styles.Events} onWheel={this.props.isEvents && !this.state.isOpenEvent && this.handleWheel || undefined}>
+        <Story onButtonClick={this.props.toggleStoryAndEvents} onWheelDown={this.props.toggleStoryAndEvents}
+          opacity={(this.props.isStory && !this.state.isOpenEvent) ? 1 : 0} zIndex={(this.props.isStory) ? 10 : -1}
+          isStory={this.props.isStory} />
+        <div className={styles.list} 
+          style={{ opacity: (this.props.isEvents && !this.state.isOpenEvent) ? 1 : 0, zIndex: (this.props.isEvents) ? 10 : -1 }}>
           <div className={styles.listWrapper} style={{ top: this.state.scroll + 'rem' }}>
             {events}
           </div>
@@ -105,6 +111,7 @@ export default class Events extends Component {
         <Mindball position={(this.props.isStory) ? this.defaultBallPosition : this.state.ballPos} isEvents={true}
           currentYear={this.props.isEvents && this.props.currentYear} size={this.mbFontSize}
           getBetweenElems={($el, idx) => {this.betweenElems['$' + idx] = $el;}} />
+        <OpenEvent opacity={(this.state.isOpenEvent) ? 1 : 0} closeEvent={this.toggleOpenEvent} />
       </section>
     );
   }
