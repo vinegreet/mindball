@@ -5,7 +5,7 @@
   top: 0;
   left: 0;
   display: inherit;
-  justify-content: center;
+  /*justify-content: center;*/
   transition: all 0.5s linear;
 }
 
@@ -22,14 +22,16 @@
 }
 
 .inner {
-  width: auto;
-  height: auto;
-  /*font: 800 26.5em/1 'Prompt', sans-serif;*/
-  font: 700 25.1vw/1 'Prompt', sans-serif;
-  letter-spacing: 0.02em;
+  /*width: auto;
+  height: auto;*/
+  margin: auto;
+  /*font: 700 25.1vw/1 'Prompt', sans-serif;*/
+  font: 700 25.8rem/1 'Prompt', sans-serif;
+  /*letter-spacing: 0.02em;*/
+  letter-spacing: .5rem;
   color: #333;
-  display: inherit;
-  align-self: center;
+  /* display: inherit;
+   align-self: center; */ 
   /*transition: all 0.4s;*/
   z-index: 2;
 }

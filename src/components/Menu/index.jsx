@@ -1,16 +1,16 @@
 import React from 'react';
 import styles from './styles.css';
-import { years } from 'components/items.js';
+import { uniqYears } from 'components/items.js';
 
 export default function Menu(props) {
 
-  const yearsElems = years.map((item, idx) => 
-    <p key={`menu_${item}`} className={styles.list_item}>{item}</p>
+  const yearsElems = uniqYears.map((item, idx) => 
+    <p key={`menu_${item}`} className={styles.listItem} onClick={() => props.onMenuClick(idx)} >{item}</p>
   );
   return (
     <section className={styles.Menu} style={{opacity: props.opacity, zIndex: props.zIndex}}>
-      <div className={styles.list} onClick={() => alert('click')}>
-        <p className={styles.list_item}>Story</p>
+      <div className={styles.list}>
+        <p className={styles.listItem} onClick={() => props.onMenuClick(-1)}>Story</p>
         {yearsElems}
       </div>
     </section>

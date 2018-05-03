@@ -51,7 +51,7 @@ const items = [
 
 export default items;
 
-const allYears = items.map(item => item.year);
-const years = [...new Set(allYears)];
-const eventsTitles = items.map(item => item.title);
-export { allYears, years, eventsTitles };
+const titles = items.map(item => item.title);
+const years = items.map(item => item.year);
+const uniqYears = [...new Set(years)];
+export { titles, years, uniqYears };

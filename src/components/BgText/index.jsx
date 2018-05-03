@@ -3,7 +3,6 @@ import styles from './styles.css';
 import img from 'img/bgMindball.png';
 
 export default function BgText(props) {
-  // console.log(!!props.text, props.text);
   return (
     <div className={styles.BgText}
       style={{
@@ -12,7 +11,10 @@ export default function BgText(props) {
         // opacity: props.isInitial ? 1 : 0
       }}>
         <div className={styles.mindball} style={{opacity: !props.text ? 1 : 0}}></div>
-        <p className={styles.inner} style={{opacity: props.text ? 1 : 0}}>{props.text}</p>
+        <p className={styles.inner} style={{
+          opacity: props.text ? 1 : 0,
+          marginLeft: (!isNaN(parseInt(props.text))) ? '19%' : ''
+        }}>{props.text}</p>
     </div>
   );
 }

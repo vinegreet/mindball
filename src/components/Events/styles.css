@@ -14,8 +14,10 @@
 }
 
 .list {
-  height: 50%;
-  width: 41%;
+  /* height: 50%;
+  width: 41%; */
+  height: 26.25rem;
+  width: 41rem;
   overflow: hidden;
   position: absolute;
   transition: opacity 0.25s linear;
@@ -31,7 +33,8 @@
 
 .listItem {
   width: 100%;
-  height: 60px;
+  /*height: 60px;*/
+  height: 3.75rem;  
   margin: 0;
   display: flex;
   align-items: center;
@@ -63,14 +66,17 @@
 }
 
 .line {
-  height: 2px;
+  /*height: 2px;*/
+  height: .125rem;
   background-color: rgba(169,169,169,0.3);
   flex-grow: 1;
 }
 
 .arrow {
-  height: 35px;
-  width: 35px;
+  /* height: 35px;
+  width: 35px; */
+  height: 2.19rem;
+  width: 2.19rem; 
   background: url('img/Fullinfo_White.svg') center no-repeat;
   margin-left: 1.5rem;
 }

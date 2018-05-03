@@ -13,6 +13,7 @@ export default class App extends Component {
     super();
     this.state = {
       bgText: '',
+      currentEventsListPos: 0,
       currentYear: '',
       isEvents: false,
       isMenuOpen: false,
@@ -47,8 +48,13 @@ export default class App extends Component {
     }
   }
 
-  handleMenuClick = () => {
+  handleSandwichClick = () => {
     this.setState(state => ({ isMenuOpen: !state.isMenuOpen }));
+  }
+
+  handleMenuClick = idx => {
+    console.log(idx);
+    this.setState({ currentEventsListPos: idx });
   }
 
   toggleSections = (dev) => {
@@ -81,14 +87,16 @@ export default class App extends Component {
       <div className={styles.wrapper}>
         <div className={styles.bubbles} style={{ opacity: (!this.state.isMenuOpen) ? 0.5 : 0 }}></div>
         <BgText text={bgText} />
-        <Header onMenuClick={this.handleMenuClick} events={this.state.isEvents} />
-        <Menu opacity={(this.state.isMenuOpen) ? 1 : 0} zIndex={(this.state.isMenuOpen) ? 6 : 0} />
+        <Header onSandwichClick={this.handleSandwichClick} events={this.state.isEvents} />
+        <Menu opacity={(this.state.isMenuOpen) ? 1 : 0} zIndex={(this.state.isMenuOpen) ? 6 : 0} onMenuClick={this.handleMenuClick} />
         {/*this.state.isMenuOpen && <Menu years={this.state.years} />*/}
         <div className={styles.innerContainer} style={{ top: this.state.scroll, opacity: (!this.state.isMenuOpen) ? 1 : 0 }}>
           <Initial onBallFinished={this.scrollDown} onButtonClick={this.scrollDown} />
           {/*<Story onButtonClick={this.handleStoryClick} />*/}
-          <Events onYearChange={this.handleYearChange} currentYear={this.state.currentYear} 
-            toggleStoryAndEvents={() => {this.toggleSections(); console.log('App, roger')}} isEvents={this.state.isEvents} isStory={this.state.isStory} />
+          <Events onYearChange={this.handleYearChange} currentYear={this.state.currentYear}
+            currentEventsListPos={this.state.currentEventsListPos} toggleStoryAndEvents={this.toggleSections}
+            isEvents={this.state.isEvents} isStory={this.state.isStory} />
+          }
         </div>
       </div>
     </div>;

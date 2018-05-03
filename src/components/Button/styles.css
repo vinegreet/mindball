@@ -1,15 +1,20 @@
 .Button {
   /*margin: 0 auto 2.5%;*/
   position: absolute;
-  bottom: 5.5%;
-  left: calc(50% - (12.2% / 2));
-  width: 12.2%;
-  height: 6.7%;
-  border: 2px solid #E25244;
-  border-radius: 14% 0 14% 14% / 50% 0 50% 50%;
+  /*bottom: 5.5%;*/
+  bottom: 2.8rem;
+/*  left: calc(50% - (12.2% / 2));*/
+  left: calc(50% - (12rem / 2));
+  /*width: 12.2%;*/
+  width: 12rem;
+  /*height: 6.7%;*/
+  height: 3.4rem;
+/*  border: 2px solid #E25244;*/
+  border: .125rem solid #E25244;
+  border-radius: 1.7rem 0 1.7rem 1.7rem / 50% 0 50% 50%;
   color: #fff;
-  font: 500 1.27rem/1 'Prompt', sans-serif;
-  letter-spacing: 0.12rem;
+  font: 500 1.25rem/1 'Prompt', sans-serif;
+  letter-spacing: 0.11rem;
   display: inherit;
   justify-content: center;
   align-items: center;

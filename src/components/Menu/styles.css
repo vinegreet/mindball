@@ -17,14 +17,14 @@
   text-align: center;
 }
 
-.list_item {
+.listItem {
   color:  #fff;
   margin: 1.6rem 0;
   font: 700 4rem/1 'Prompt', sans-serif;
   cursor: pointer;
 }
 
-.list_item:hover {
+.listItem:hover {
   color: #E25244;
 }
 

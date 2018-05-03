@@ -14,7 +14,7 @@ export default class Header extends Component {
 
   onClick = () => {
     this.setState(prevState => ({isSandwich: !prevState.isSandwich}));
-    this.props.onMenuClick();
+    this.props.onSandwichClick();
     /*let className = cx(styles.sandwich, {
       [styles.menu]: !this.state.isSandwich
       [styles.dummyClass]: !!this.props.dummyClass,

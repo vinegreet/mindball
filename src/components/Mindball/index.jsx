@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import styles from './styles.css';
-import { years } from 'components/items.js';
-// const $years = {};
+import { uniqYears } from 'components/items.js';
 
 export default class Mindball extends Component {
 
@@ -17,20 +16,21 @@ export default class Mindball extends Component {
     isEvents: false,
     position: 0,
     // size: 0.3,
-    size: 0.48,
+    // size: 0.48,
+    size: .03,
     // years: []
   };
 
   render() {
-    const yearsElems = years.map((item, idx) => 
+    const yearsElems = uniqYears.map((item, idx) => 
       <p key={item} className={styles.year} style={{color: (this.props.currentYear === item) ? '#fff' : 'rgba(169,169,169,0.3)'}}>{item}</p>
     );
-    const betweenRounds = new Array((this.props.isEvents) ? years.length : 1).fill(null).map((item, idx) => 
-      <div key={`roundInBetween${(years.length) ? idx : ''}`} className={styles.roundInBetween}
+    const betweenRounds = new Array((this.props.isEvents) ? uniqYears.length : 1).fill(null).map((item, idx) => 
+      <div key={`roundInBetween${(uniqYears.length) ? idx : ''}`} className={styles.roundInBetween}
         ref={$el => !this.props.isInitial && this.props.getBetweenElems($el, idx)}></div>
     );
     return (
-      <div className={(this.props.isEvents) ? styles.Mindball_events : styles.Mindball} style={{fontSize: `${this.props.size}px`}}>
+      <div className={(this.props.isEvents) ? styles.Mindball_events : styles.Mindball} style={{fontSize: `${this.props.size}rem`}}>
         <div className={styles.yearsWrapper}>
           <p className={styles.year} style={{color: (this.props.currentYear) ? 'rgba(169,169,169,0.3)' : '#fff'}}>Story</p>
           {this.props.isEvents && yearsElems}
@@ -46,3 +46,5 @@ export default class Mindball extends Component {
     );
   }
 }
+
+// style={{fontSize: `${this.props.size}px`}}

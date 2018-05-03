@@ -3,7 +3,7 @@
     /*composes: _desk from global;*/
     /*font-size: .5px;*/
     /*font-size: .05rem;*/
-    font-size: .03125rem;
+    font-size: .03rem;
     /*height: 85%;*/
     /*height: 1139em;*/
     height: 35.6rem;
@@ -18,6 +18,8 @@
     /*align-self: flex-end;*/
     position: absolute;
     right: 2.7rem;
+/*    font-size: 0.01875rem;*/
+    font-size: 0.0181rem;
   }
 
   .inner,
@@ -69,7 +71,8 @@
     position: absolute;
     z-index: 0;
     height: 97%;
-    width: 1px;
+    min-width: 1px;
+    width: 2em;
     background-color: #E25244;
   }
 
