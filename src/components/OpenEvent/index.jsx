@@ -15,10 +15,12 @@ export default class OpenEvent extends Component {
   };
 
   render() {
-    // console.log(this.state.ballPosition);
     return (
-      <div className={styles.OpenEvent} style={{ opacity: this.props.opacity }} >
-        <div className={styles.gallery}>
+      <div className={styles.OpenEvent} style={{ opacity: this.props.opacity, zIndex: this.props.zIndex }} >
+        <div className={styles.gallery} 
+          style={{ 
+            backgroundImage: `url(http://zotsmebel.com.ua/i/${this.props.currentEvent}/${photos[this.props.currentEvent][0]})`
+          }}>
           <div className={styles.pager}>
             <div className={styles.dot_active}></div>
             <div className={styles.dot}></div>
@@ -27,9 +29,9 @@ export default class OpenEvent extends Component {
           </div>
         </div>
         <div className={styles.article}>
-          <h2 className={styles.title}>Ericsson Ukraine New Year</h2>
-          <p className={styles.text}>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita molestias, explicabo maxime assumenda possimus inventore enim quis. Amet sunt nesciunt voluptates eius sed placeat vitae perspiciatis saepe quis natus, quasi, consectetur at quaerat quibusdam quidem blanditiis quia ipsam rem.</p>
-          <Button caption='Back' onButtonClick={this.props.closeEvent} />
+          <h2 className={styles.title}>{titles[this.props.currentEvent]}</h2>
+          <p className={styles.text}>{texts[this.props.currentEvent]}</p>
+          <Button caption='Back' onButtonClick={this.props.closeEvent} isEvent={true} />
         </div>
       </div>
     );

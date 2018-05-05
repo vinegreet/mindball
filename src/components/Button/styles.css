@@ -5,9 +5,7 @@
   bottom: 2.8rem;
 /*  left: calc(50% - (12.2% / 2));*/
   left: calc(50% - (12rem / 2));
-  /*width: 12.2%;*/
   width: 12rem;
-  /*height: 6.7%;*/
   height: 3.4rem;
 /*  border: 2px solid #E25244;*/
   border: .125rem solid #E25244;
@@ -23,6 +21,15 @@
   cursor: pointer;
   z-index: 1;
   text-align: center;
+}
+
+.Button_Events {
+  composes: Button;
+  position: relative;
+  bottom: 0;
+  left: 0; 
+  margin-top: 1.6rem;
+  min-height: 3.4rem;
 }
 
 .Button:hover {

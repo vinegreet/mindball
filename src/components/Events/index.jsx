@@ -26,6 +26,7 @@ export default class Events extends Component {
 
   changeYear(idx = 0) {
     this.props.onYearChange(years[idx]);
+    console.log(this.prevYear, this.props.currentYear);
     if (this.props.isEvents && this.prevYear !== this.props.currentYear) {
       const currentYearIdx = uniqYears.indexOf(this.props.currentYear);
       this.setState({ ballPos: this.betweenElems['$' + currentYearIdx].offsetTop / this.emSize + 10 });
@@ -33,14 +34,19 @@ export default class Events extends Component {
     this.prevYear = this.props.currentYear;
   }
 
-  componentDidMount() {
+  measureFontSize = () => {
     this.htmlFontSize = parseFloat(window.getComputedStyle(document.getElementsByTagName('html')[0]).fontSize);
     this.emSize = this.mbFontSize * this.htmlFontSize;
+  }
+
+  componentDidMount() {
+    this.measureFontSize();
     this.changeYear();
     this.setState({ ballPos: this.betweenElems.$0.offsetTop / this.mindballSize + 10 });
+    window.addEventListener('resize', this.measureFontSize);
   }
   
-  handleScroll = delta => {
+  selectEvent = (delta, keyDown) => {
     if (this.state.listPos === 0 && delta < 0) {
       this.props.toggleStoryAndEvents();
       return this.ticking = false;
@@ -51,7 +57,7 @@ export default class Events extends Component {
     } else {
       this.changeYear(this.state.listPos - 1);
     }
-    const newDelta = (this.isFirefox) ? delta * 34 : delta;
+    const newDelta = (this.isFirefox && !keyDown) ? delta * 34 : delta;
     this.wheel += newDelta;
     if (newDelta > 0) {
       if (this.wheel >= 100) {
@@ -78,19 +84,55 @@ export default class Events extends Component {
   handleWheel = e => {
     if (!this.ticking) {
       const delta = e.deltaY;
-      requestAnimationFrame(() => this.handleScroll(delta));
+      requestAnimationFrame(() => this.selectEvent(delta));
       this.ticking = true;
     }
   }
 
   toggleOpenEvent = () => {
-    this.setState(prev => ({ isOpenEvent: !prev.isOpenEvent}));
+    this.setState(prev => ({ isOpenEvent: !prev.isOpenEvent }));
+  }
+
+  handleKeyDown = e => {
+    switch (e.key) {
+      case 'ArrowDown':
+        /*if (this.props.isStory) {
+          this.props.toggleStoryAndEvents();
+          // this.setState({ isOpenEvent: false });
+        } else {
+          // this.props.isEvents && this.selectEvent(100, true);
+          this.selectEvent(100, true);
+        }*/
+        this.props.isEvents && this.selectEvent(100, true);
+        break;
+      case 'ArrowUp':
+        if (this.state.listPos === 0) {
+          this.props.toggleStoryAndEvents();
+          this.setState({ isOpenEvent: false });
+        } else {
+          this.selectEvent(-100, true);
+        }
+        // this.props.isEvents && this.selectEvent(-100, true);
+        break;
+      case 'Enter':
+        // !this.state.isOpenEvent && this.toggleOpenEvent();
+        this.props.isEvents && this.toggleOpenEvent();
+        break;
+      case 'Backspace':
+        this.state.isOpenEvent && this.toggleOpenEvent();
+        break;
+      case 'Escape':
+        this.state.isOpenEvent && this.toggleOpenEvent();
+        break;
+      default:
+        return;
+    }
   }
 
   render() {
     const events = titles.map((item, idx) => 
       <div key={item} className={(this.state.listPos === idx) ? styles.listItem_selected : styles.listItem}
-        onClick={this.toggleOpenEvent}>
+        onClick={this.state.listPos === idx && this.toggleOpenEvent || undefined}>
         <p className={styles.text}>{item}</p>
         <div className={styles.line}></div>
         <div className={styles.arrow}></div>
@@ -98,7 +140,8 @@ export default class Events extends Component {
     );
     
     return (
-      <section className={styles.Events} onWheel={this.props.isEvents && !this.state.isOpenEvent && this.handleWheel || undefined}>
+      <section className={styles.Events} onWheel={this.props.isEvents && !this.state.isOpenEvent && this.handleWheel || undefined}
+        onKeyDown={this.handleKeyDown} tabIndex='0'>
         <Story onButtonClick={this.props.toggleStoryAndEvents} onWheelDown={this.props.toggleStoryAndEvents}
           opacity={(this.props.isStory && !this.state.isOpenEvent) ? 1 : 0} zIndex={(this.props.isStory) ? 10 : -1}
           isStory={this.props.isStory} />
@@ -111,7 +154,8 @@ export default class Events extends Component {
         <Mindball position={(this.props.isStory) ? this.defaultBallPosition : this.state.ballPos} isEvents={true}
           currentYear={this.props.isEvents && this.props.currentYear} size={this.mbFontSize}
           getBetweenElems={($el, idx) => {this.betweenElems['$' + idx] = $el;}} />
-        <OpenEvent opacity={(this.state.isOpenEvent) ? 1 : 0} closeEvent={this.toggleOpenEvent} />
+        <OpenEvent opacity={(this.state.isOpenEvent) ? 1 : 0} zIndex={(this.state.isOpenEvent) ? 10 : -1}
+          currentEvent={this.state.listPos} closeEvent={this.toggleOpenEvent} />
       </section>
     );
   }

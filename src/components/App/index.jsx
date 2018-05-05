@@ -60,8 +60,8 @@ export default class App extends Component {
   toggleSections = (dev) => {
     if (dev === true) {
       this.setState(state => ({
-        isStory: !state.isStory,
-        // isEvents: !state.isEvents,
+        // isStory: !state.isStory,
+        isEvents: !state.isEvents,
         scroll: '-100%'
       }));
       return;
@@ -83,7 +83,7 @@ export default class App extends Component {
     } else if (this.state.isEvents) {
       bgText = this.state.currentYear;
     }
-    return <div className={styles.App} onKeyDown={this.handleKeyDown} tabIndex='0'>
+    return <div className={styles.App} tabIndex='0'>
       <div className={styles.wrapper}>
         <div className={styles.bubbles} style={{ opacity: (!this.state.isMenuOpen) ? 0.5 : 0 }}></div>
         <BgText text={bgText} />
@@ -101,6 +101,7 @@ export default class App extends Component {
     </div>;
   }
 }
+// onKeyDown={this.handleKeyDown}
 
   /*handleBallFinish = () => {
     this.scrollDown();
