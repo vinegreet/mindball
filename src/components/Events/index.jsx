@@ -24,9 +24,16 @@ export default class Events extends Component {
     this.mbFontSize = 0.0181;
   }
 
+  componentWillReceiveProps({ currentYear }) {
+    console.log(currentYear)
+  }
+
   changeYear(idx = 0) {
+    console.log(this.prevYear, years[idx], this.props.currentYear);
     this.props.onYearChange(years[idx]);
+
     console.log(this.prevYear, this.props.currentYear);
+
     if (this.props.isEvents && this.prevYear !== this.props.currentYear) {
       const currentYearIdx = uniqYears.indexOf(this.props.currentYear);
       this.setState({ ballPos: this.betweenElems['$' + currentYearIdx].offsetTop / this.emSize + 10 });
