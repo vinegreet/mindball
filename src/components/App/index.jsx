@@ -35,19 +35,6 @@ export default class App extends Component {
     }));
   }
 
-  handleKeyDown = e => {
-    switch (e.key) {
-      case 'ArrowDown':
-        this.scrollDown();
-        break;
-      case 'ArrowUp':
-        this.setState(state => ({ scroll: 0, isStory: !state.isStory }));
-        break;
-      default:
-        return;
-    }
-  }
-
   handleSandwichClick = () => {
     this.setState(state => ({ isMenuOpen: !state.isMenuOpen }));
   }
@@ -101,6 +88,19 @@ export default class App extends Component {
     </div>;
   }
 }
+
+/*  handleKeyDown = e => {
+    switch (e.key) {
+      case 'ArrowDown':
+        this.scrollDown();
+        break;
+      case 'ArrowUp':
+        this.setState(state => ({ scroll: 0, isStory: !state.isStory }));
+        break;
+      default:
+        return;
+    }
+  }*/
 // onKeyDown={this.handleKeyDown}
 
   /*handleBallFinish = () => {

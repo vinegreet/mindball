@@ -4,6 +4,7 @@ import Story from 'components/Story';
 import Mindball from 'components/Mindball';
 import { years, uniqYears, titles } from 'components/items.js';
 import OpenEvent from 'components/OpenEvent';
+import ReactDOM from 'react-dom';
 
 export default class Events extends Component {
   constructor(props) {
@@ -24,21 +25,14 @@ export default class Events extends Component {
     this.mbFontSize = 0.0181;
   }
 
-  componentWillReceiveProps({ currentYear }) {
-    console.log(currentYear)
-  }
-
-  changeYear(idx = 0) {
-    console.log(this.prevYear, years[idx], this.props.currentYear);
+  changeYear(idx, isFirstCall) {
     this.props.onYearChange(years[idx]);
-
-    console.log(this.prevYear, this.props.currentYear);
-
-    if (this.props.isEvents && this.prevYear !== this.props.currentYear) {
-      const currentYearIdx = uniqYears.indexOf(this.props.currentYear);
+    if (this.prevYear !== years[idx]) {
+      const currentYearIdx = uniqYears.indexOf(years[idx]);
       this.setState({ ballPos: this.betweenElems['$' + currentYearIdx].offsetTop / this.emSize + 10 });
     }
-    this.prevYear = this.props.currentYear;
+    console.log(!isFirstCall);
+    !isFirstCall && (this.prevYear = years[idx]);
   }
 
   measureFontSize = () => {
@@ -47,8 +41,11 @@ export default class Events extends Component {
   }
 
   componentDidMount() {
+    /*console.log(document.getElementsByClassName(styles.Events)[0].style);
+    console.log(document.styleSheets);
+    console.log(this.listItemH);*/
     this.measureFontSize();
-    this.changeYear();
+    this.changeYear(0, true);
     this.setState({ ballPos: this.betweenElems.$0.offsetTop / this.mindballSize + 10 });
     window.addEventListener('resize', this.measureFontSize);
   }
@@ -114,7 +111,7 @@ export default class Events extends Component {
         break;
       case 'ArrowUp':
         if (this.state.listPos === 0) {
-          this.props.toggleStoryAndEvents();
+          this.props.isEvents && this.props.toggleStoryAndEvents();
           this.setState({ isOpenEvent: false });
         } else {
           this.selectEvent(-100, true);
@@ -136,9 +133,15 @@ export default class Events extends Component {
     }
   }
 
+  handleSelectFromStoryToEvents = () => {
+    this.changeYear(0);
+    this.props.toggleStoryAndEvents();
+  }
+
   render() {
     const events = titles.map((item, idx) => 
       <div key={item} className={(this.state.listPos === idx) ? styles.listItem_selected : styles.listItem}
+        ref={'listItem' + idx}
         onClick={this.state.listPos === idx && this.toggleOpenEvent || undefined}>
         <p className={styles.text}>{item}</p>
         <div className={styles.line}></div>
@@ -148,11 +151,11 @@ export default class Events extends Component {
     
     return (
       <section className={styles.Events} onWheel={this.props.isEvents && !this.state.isOpenEvent && this.handleWheel || undefined}
-        onKeyDown={this.handleKeyDown} tabIndex='0'>
-        <Story onButtonClick={this.props.toggleStoryAndEvents} onWheelDown={this.props.toggleStoryAndEvents}
+        onKeyDown={this.handleKeyDown} tabIndex='0' ref={$el => this.$el = $el}>
+        <Story selectFromStoryToEvents={this.handleSelectFromStoryToEvents}
           opacity={(this.props.isStory && !this.state.isOpenEvent) ? 1 : 0} zIndex={(this.props.isStory) ? 10 : -1}
           isStory={this.props.isStory} />
-        <div className={styles.list} 
+        <div className={styles.list}
           style={{ opacity: (this.props.isEvents && !this.state.isOpenEvent) ? 1 : 0, zIndex: (this.props.isEvents) ? 10 : -1 }}>
           <div className={styles.listWrapper} style={{ top: this.state.scroll + 'rem' }}>
             {events}
@@ -167,6 +170,7 @@ export default class Events extends Component {
     );
   }
 }
+// onButtonClick={this.handleSelectFromStoryToEvents} onWheelDown={this.handleSelectFromStoryToEvents}
     // this.mindballSize = 0.308;
     // this.mindballSize = 0.01875;
     // this.defaultBallPosition = 22;
