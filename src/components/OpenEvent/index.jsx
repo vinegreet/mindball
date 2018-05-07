@@ -15,11 +15,12 @@ export default class OpenEvent extends Component {
   };
 
   render() {
+    const currentEvent = (this.props.currentEvent >= 0) ? this.props.currentEvent : 0;
     return (
       <div className={styles.OpenEvent} style={{ opacity: this.props.opacity, zIndex: this.props.zIndex }} >
         <div className={styles.gallery} 
           style={{ 
-            backgroundImage: `url(http://zotsmebel.com.ua/i/${this.props.currentEvent}/${photos[this.props.currentEvent][0]})`
+            backgroundImage: `url(http://zotsmebel.com.ua/i/${currentEvent}/${photos[currentEvent][0]})`
           }}>
           <div className={styles.pager}>
             <div className={styles.dot_active}></div>

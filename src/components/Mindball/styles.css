@@ -19,7 +19,7 @@
     position: absolute;
     right: 2.7rem;
 /*    font-size: 0.01875rem;*/
-    font-size: 0.0181rem;
+    /*font-size: 0.0181rem; Defined in the App component*/
   }
 
   .inner,

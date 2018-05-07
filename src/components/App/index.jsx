@@ -6,6 +6,7 @@ import Header from 'components/Header';
 import Menu from 'components/Menu';
 import Initial from 'components/Initial';
 import Events from 'components/Events';
+import items, { years, uniqYears } from 'components/items.js';
 // import Inside from 'components/Inside';
 
 export default class App extends Component {
@@ -19,13 +20,30 @@ export default class App extends Component {
       isMenuOpen: false,
       isMobile: null,
       isStory: false,
-      scroll: 0
+      scroll: 0,
+      // isOpenEvent: false,
+      ballPos: 0,
+      listPos: 0,
+      scrollEventsList: 0,
+      wheel: 0
     };
+    this.isFirefox = typeof InstallTrigger !== 'undefined';
+    this.wheel = 0;
+    this.mbBetweenElems = {};
+    this.eventsMbFontSize = 0.0181;
   }
 
   componentDidMount() {
     this.setState({ isMobile: window.outerWidth < 988 });
     // if (window.location.href.search('localhost') >= 0) this.toggleSections(true);
+
+    /*console.log(document.getElementsByClassName(styles.listItem)[0].style);
+    console.log(document.styleSheets);
+    console.log(this.listItemH);*/
+    this.measureFontSize();
+    this.changeYear(0, true);
+    this.setState({ ballPos: this.mbBetweenElems.$0.offsetTop / this.mindballSize + 10 });
+    window.addEventListener('resize', this.measureFontSize);
   }
 
   scrollDown = () => {
@@ -40,8 +58,26 @@ export default class App extends Component {
   }
 
   handleMenuClick = idx => {
-    console.log(idx);
-    this.setState({ currentEventsListPos: idx });
+    if (idx < 0) {
+      this.setState({ isStory: true, isEvents: false, isMenuOpen: false, scroll: '-100%', listPos: 0, scrollEventsList: 0 });
+      return;
+    }
+    if (!this.state.isStory && !this.state.isEvents) {
+      this.toggleSections(true);
+    } else if (this.state.isStory) {
+      this.toggleSections();
+    }
+    // if (OpenEvent) {!OpenEvent}
+    const newIdx = years.indexOf(uniqYears[idx]);
+    this.changeYear(newIdx);
+    this.setState({ listPos: newIdx, isMenuOpen: false });
+    if (newIdx < 3) {
+      this.setState({ scrollEventsList: 0 });
+    } else if (newIdx > (items.length - 4)) {
+      this.setState({ scrollEventsList: (items.length - 7) * -3.75 });
+    } else {
+      this.setState({ scrollEventsList: (newIdx - 3) * -3.75 }); // = 0
+    }
   }
 
   toggleSections = (dev) => {
@@ -53,12 +89,50 @@ export default class App extends Component {
       }));
       return;
     }
-    // console.log(`isStory: ${this.state.isStory}\nisEvents: ${this.state.isEvents}`);
     this.setState(state => ({ isEvents: !state.isEvents, isStory: !state.isStory }));
   }
 
-  handleYearChange = year => {
-    this.setState({ currentYear: year });
+  changeYear = (idx, isFirstCall) => {
+    this.setState({ currentYear: years[idx] });
+    if (this.prevYear !== years[idx]) {
+      const currentYearIdx = uniqYears.indexOf(years[idx]);
+      this.setState({ ballPos: this.mbBetweenElems['$' + currentYearIdx].offsetTop / this.emSize + 10 });
+    }
+    isFirstCall === undefined && (this.prevYear = years[idx]);
+  }
+
+  measureFontSize = () => {
+    const htmlFontSize = parseFloat(window.getComputedStyle(document.getElementsByTagName('html')[0]).fontSize);
+    this.emSize = this.eventsMbFontSize * htmlFontSize;
+  }
+  
+  selectEvent = (delta, keyDown) => {
+    const newDelta = (this.isFirefox && !keyDown) ? delta * 34 : delta;
+    this.wheel += newDelta;
+    if (newDelta > 0) {
+      if (this.wheel >= 100) {
+        if (this.state.listPos < 3 || this.state.listPos > (items.length - 5)) {
+          this.setState(prev => ({ listPos: prev.listPos + 1 }));
+        } else {
+          this.setState(prev => ({ listPos: prev.listPos + 1, scrollEventsList: prev.scrollEventsList - 3.75 }));
+        }
+        this.wheel = 0;
+      }
+    } else {
+      if (this.wheel <= -100) {
+        if (this.state.listPos < 4 || this.state.listPos > (items.length - 4)) {
+          this.setState(prev => ({ listPos: prev.listPos - 1 }));
+        } else {
+          this.setState(prev => ({ listPos: prev.listPos - 1, scrollEventsList: prev.scrollEventsList + 3.75 }));
+        }
+        this.wheel = 0;
+      }
+    }
+  }
+
+  handleSelectFromStoryToEvents = () => {
+    this.changeYear(0);
+    this.toggleSections();
   }
 
   render() {
@@ -82,7 +156,10 @@ export default class App extends Component {
           {/*<Story onButtonClick={this.handleStoryClick} />*/}
           <Events onYearChange={this.handleYearChange} currentYear={this.state.currentYear}
             currentEventsListPos={this.state.currentEventsListPos} toggleStoryAndEvents={this.toggleSections}
-            isEvents={this.state.isEvents} isStory={this.state.isStory} />
+            isEvents={this.state.isEvents} isStory={this.state.isStory}
+            listPos={this.state.listPos} scroll={this.state.scrollEventsList} ballPos={this.state.ballPos} mbFontSize={this.eventsMbFontSize}
+            changeYear={this.changeYear} selectEvent={this.selectEvent} selectFromStoryToEvents={this.handleSelectFromStoryToEvents}
+            getMbBetweenElems={($el, idx) => {this.mbBetweenElems['$' + idx] = $el;}} />
         </div>
       </div>
     </div>;

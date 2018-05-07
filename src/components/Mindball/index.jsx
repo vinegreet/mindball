@@ -23,10 +23,10 @@ export default class Mindball extends Component {
 
   render() {
     const yearsElems = uniqYears.map((item, idx) => 
-      <p key={item} className={styles.year} style={{color: (this.props.currentYear === item) ? '#fff' : 'rgba(169,169,169,0.3)'}}>{item}</p>
+      <p key={`mindball_${item}`} className={styles.year} style={{color: (this.props.currentYear === item) ? '#fff' : 'rgba(169,169,169,0.3)'}}>{item}</p>
     );
     const betweenRounds = new Array((this.props.isEvents) ? uniqYears.length : 1).fill(null).map((item, idx) => 
-      <div key={`roundInBetween${(uniqYears.length) ? idx : ''}`} className={styles.roundInBetween}
+      <div key={`mindballRoundInBetween_${(uniqYears.length) ? idx : ''}`} className={styles.roundInBetween}
         ref={$el => !this.props.isInitial && this.props.getBetweenElems($el, idx)}></div>
     );
     return (
