@@ -41,7 +41,7 @@ const items = [
     title: 'Festival of Science',
     year: '2014',
     text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita molestias, explicabo maxime assumenda possimus inventore enim quis. Amet sunt nesciunt voluptates eius sed placeat vitae perspiciatis saepe quis natus, quasi, consectetur at quaerat quibusdam quidem blanditiis quia ipsam rem.',
-    photos: ['1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg']
+    photos: ['1.jpg', '2.jpg', '3.jpg']
   },
   {
     title: 'Active Day in Gulliver',
@@ -53,25 +53,25 @@ const items = [
     title: 'Tea Cup Champ',
     year: '2014',
     text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita molestias, explicabo maxime assumenda possimus inventore enim quis. Amet sunt nesciunt voluptates eius sed placeat vitae perspiciatis saepe quis natus, quasi, consectetur at quaerat quibusdam quidem blanditiis quia ipsam rem.',
-    photos: ['1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg', '6.jpg']
+    photos: ['1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg']
   },
   {
     title: 'Mindball in Bibliotech',
     year: '2013',
     text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita molestias, explicabo maxime assumenda possimus inventore enim quis. Amet sunt nesciunt voluptates eius sed placeat vitae perspiciatis saepe quis natus, quasi, consectetur at quaerat quibusdam quidem blanditiis quia ipsam rem.',
-    photos: ['1.jpg', '2.jpg', '3.jpg', '4.jpg']
+    photos: ['1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg', '6.jpg']
   },
   {
     title: 'Mindball in Atmasfera360',
     year: '2013',
     text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita molestias, explicabo maxime assumenda possimus inventore enim quis. Amet sunt nesciunt voluptates eius sed placeat vitae perspiciatis saepe quis natus, quasi, consectetur at quaerat quibusdam quidem blanditiis quia ipsam rem.',
-    photos: ['1.jpg', '2.jpg']
+    photos: ['1.jpg', '2.jpg', '3.jpg', '4.jpg']
   },
   {
     title: 'VedaLife',
     year: '2013',
     text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita molestias, explicabo maxime assumenda possimus inventore enim quis. Amet sunt nesciunt voluptates eius sed placeat vitae perspiciatis saepe quis natus, quasi, consectetur at quaerat quibusdam quidem blanditiis quia ipsam rem.',
-    photos: ['1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg']
+    photos: ['1.jpg', '2.jpg']
   }
 ];
 

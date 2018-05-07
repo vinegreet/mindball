@@ -33,8 +33,9 @@ export default class Initial extends Component {
     // console.log(this.state.ballPosition);
     return (
       <section className={`${styles.Initial} _desk`} onWheel={this.handleWheel}>
-        <Mindball position={this.state.ballPosition || this.defaultBallPosition} isInitial={true} />
-        <Button caption='Scroll down' onButtonClick={this.props.onButtonClick} />
+        <div className={styles.invisibleButton}></div>
+        <Mindball position={this.state.ballPosition || this.defaultBallPosition} isInitial={true} size={0.028} />
+        <Button caption='Scroll down' onButtonClick={this.props.onButtonClick} isInitial={true} />
       </section>
     );
   }

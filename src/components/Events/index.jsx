@@ -26,7 +26,7 @@ export default class Events extends Component {
     } else {
       this.props.changeYear(this.props.listPos - 1);
     }
-    this.props.selectEvent(delta, keyDown);
+    this.props.selectEventOnScroll(delta, keyDown);
     this.ticking = false;
   }
 
@@ -39,6 +39,7 @@ export default class Events extends Component {
   }
 
   toggleOpenEvent = () => {
+    this.$slider.slickGoTo(0, true);
     this.setState(prev => ({ isOpenEvent: !prev.isOpenEvent }));
   }
 
@@ -78,11 +79,18 @@ export default class Events extends Component {
     }
   }
 
+  handleListItemClick = idx => {
+    // this.props.listPos === idx && this.toggleOpenEvent
+    // setTimeout(() => this.props.onInactiveListItemClick(idx), 250);
+    this.props.onInactiveListItemClick(idx);
+    setTimeout(this.toggleOpenEvent, 250);
+  }
+
   render() {
     const events = titles.map((item, idx) => 
       <div key={item} className={(this.props.listPos === idx) ? styles.listItem_selected : styles.listItem}
         ref={'listItem' + idx}
-        onClick={this.props.listPos === idx && this.toggleOpenEvent || undefined}>
+        onClick={() => {console.log(idx); this.handleListItemClick(idx)}}>
         <p className={styles.text}>{item}</p>
         <div className={styles.line}></div>
         <div className={styles.arrow}></div>
@@ -95,9 +103,9 @@ export default class Events extends Component {
         <Story selectFromStoryToEvents={this.props.selectFromStoryToEvents}
           opacity={(this.props.isStory && !this.state.isOpenEvent) ? 1 : 0} zIndex={(this.props.isStory) ? 10 : -1}
           isStory={this.props.isStory} />
-        <div className={styles.list}
+        <div className={styles.listWrapper}
           style={{ opacity: (this.props.isEvents && !this.state.isOpenEvent) ? 1 : 0, zIndex: (this.props.isEvents) ? 10 : -1 }}>
-          <div className={styles.listWrapper} style={{ top: this.props.scroll + 'rem' }}>
+          <div className={styles.list} style={{ top: this.props.scroll + 'rem' }}>
             {events}
           </div>
         </div>
@@ -105,7 +113,7 @@ export default class Events extends Component {
           currentYear={this.props.isEvents && this.props.currentYear} size={this.props.mbFontSize}
           getBetweenElems={this.props.getMbBetweenElems} />
         <OpenEvent opacity={(this.state.isOpenEvent) ? 1 : 0} zIndex={(this.state.isOpenEvent) ? 10 : -1}
-          currentEvent={this.props.listPos} closeEvent={this.toggleOpenEvent} />
+          currentEvent={this.props.listPos} closeEvent={this.toggleOpenEvent} getSlider={($slider) => this.$slider = $slider} />
       </section>
     );
   }

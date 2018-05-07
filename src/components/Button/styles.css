@@ -1,10 +1,10 @@
 .Button {
-  /*margin: 0 auto 2.5%;*/
-  position: absolute;
+  margin: 0 auto;
   /*bottom: 5.5%;*/
-  bottom: 2.8rem;
 /*  left: calc(50% - (12.2% / 2));*/
-  left: calc(50% - (12rem / 2));
+  /* position: absolute;
+  bottom: 2.8rem;
+  left: calc(50% - (12rem / 2)); */
   width: 12rem;
   height: 3.4rem;
 /*  border: 2px solid #E25244;*/
@@ -20,19 +20,29 @@
   transition: all 0.2s linear;
   cursor: pointer;
   z-index: 1;
-  text-align: center;
+  /*text-align: center;*/
+}
+
+.Button_Story {
+  composes: Button;
+  margin-top: 1.6rem;
+  min-height: 3.4rem;
 }
 
 .Button_Events {
-  composes: Button;
-  position: relative;
-  bottom: 0;
-  left: 0; 
-  margin-top: 1.6rem;
-  min-height: 3.4rem;
+  composes: Button_Story;
+  margin-left: 0;
 }
 
 .Button:hover {
   background-color: #E25244;
   transition: all 0.2s linear;
+}
+
+@media screen and (min-width: 1981px) {
+
+  .Button {
+    margin-top: 1.3rem;
+  }
+  
 }

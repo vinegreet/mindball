@@ -3,7 +3,6 @@
   height: 100%;
   z-index: 6;
   display: inherit;
-  flex-direction: row;
   align-items: center;
   justify-content: center; 
   opacity: 1;
@@ -11,17 +10,42 @@
   z-index: 0;
 }
 
+/* * {
+  min-height: 0;
+  min-width: 0;
+} */
+
 .gallery {
   position: relative;
   width: 32.4rem;
-  height: 32.4rem;
-  display: inherit;
-  justify-content: center;
+  height: 32.4rem; 
+  /* width: 444px;
+  height: 444px; */
+  /* display: inherit;
+  justify-content: center; */
   background: center / cover no-repeat;
   border-radius: 7%;
+  overflow: hidden;
 }
 
-.pager {
+/* :global(.slick-slider),
+:global(.slick-list),
+:global(.slick-track),
+:global(.slick-slide),
+:global(.slick-slide div), */
+.sliderImg {
+  height: 32.4rem;
+}
+
+.sliderImg {
+  /* width: 32.4rem;
+  max-width: 32.4rem;
+  height: 32.4rem; */
+}
+
+/*:global(.slick-slide) { max-width: 100% }*/
+
+/* .pager {
   position: absolute;
   bottom: 3rem;
   display: inherit;
@@ -42,7 +66,7 @@
 .dot_active {
   composes: dot;
   background-color: #E25244;
-}
+} */
 
 .article {
   position: relative;

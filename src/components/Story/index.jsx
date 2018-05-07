@@ -25,8 +25,8 @@ export default function Story(props) {
           <p className={styles.text}>
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita molestias, explicabo maxime assumenda possimus inventore enim quis. Amet sunt nesciunt voluptates eius sed placeat vitae perspiciatis saepe quis natus, quasi, consectetur at quaerat quibusdam quidem blanditiis quia ipsam rem.
           </p>
+          <Button caption='Events' onButtonClick={props.selectFromStoryToEvents} />
         </article>
-        <Button caption='Events' onButtonClick={props.selectFromStoryToEvents} />
       </div>
       {/*<Mindball position={this.state.ballPosition || this.defaultBallPosition} />*/}
     </section>

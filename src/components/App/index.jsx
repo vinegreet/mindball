@@ -35,7 +35,7 @@ export default class App extends Component {
 
   componentDidMount() {
     this.setState({ isMobile: window.outerWidth < 988 });
-    // if (window.location.href.search('localhost') >= 0) this.toggleSections(true);
+    if (window.location.href.search('localhost') >= 0) this.selectEventOnClick(0);
 
     /*console.log(document.getElementsByClassName(styles.listItem)[0].style);
     console.log(document.styleSheets);
@@ -57,7 +57,7 @@ export default class App extends Component {
     this.setState(state => ({ isMenuOpen: !state.isMenuOpen }));
   }
 
-  handleMenuClick = idx => {
+  selectEventOnClick = (idx, isMenuClick) => {
     if (idx < 0) {
       this.setState({ isStory: true, isEvents: false, isMenuOpen: false, scroll: '-100%', listPos: 0, scrollEventsList: 0 });
       return;
@@ -68,7 +68,7 @@ export default class App extends Component {
       this.toggleSections();
     }
     // if (OpenEvent) {!OpenEvent}
-    const newIdx = years.indexOf(uniqYears[idx]);
+    const newIdx = (isMenuClick) ? years.indexOf(uniqYears[idx]) : idx;
     this.changeYear(newIdx);
     this.setState({ listPos: newIdx, isMenuOpen: false });
     if (newIdx < 3) {
@@ -106,7 +106,7 @@ export default class App extends Component {
     this.emSize = this.eventsMbFontSize * htmlFontSize;
   }
   
-  selectEvent = (delta, keyDown) => {
+  selectEventOnScroll = (delta, keyDown) => {
     const newDelta = (this.isFirefox && !keyDown) ? delta * 34 : delta;
     this.wheel += newDelta;
     if (newDelta > 0) {
@@ -149,7 +149,7 @@ export default class App extends Component {
         <div className={styles.bubbles} style={{ opacity: (!this.state.isMenuOpen) ? 0.5 : 0 }}></div>
         <BgText text={bgText} />
         <Header onSandwichClick={this.handleSandwichClick} events={this.state.isEvents} />
-        <Menu opacity={(this.state.isMenuOpen) ? 1 : 0} zIndex={(this.state.isMenuOpen) ? 6 : 0} onMenuClick={this.handleMenuClick} />
+        <Menu opacity={(this.state.isMenuOpen) ? 1 : 0} zIndex={(this.state.isMenuOpen) ? 6 : 0} onMenuClick={this.selectEventOnClick} />
         {/*this.state.isMenuOpen && <Menu years={this.state.years} />*/}
         <div className={styles.innerContainer} style={{ top: this.state.scroll, opacity: (!this.state.isMenuOpen) ? 1 : 0 }}>
           <Initial onBallFinished={this.scrollDown} onButtonClick={this.scrollDown} />
@@ -158,8 +158,8 @@ export default class App extends Component {
             currentEventsListPos={this.state.currentEventsListPos} toggleStoryAndEvents={this.toggleSections}
             isEvents={this.state.isEvents} isStory={this.state.isStory}
             listPos={this.state.listPos} scroll={this.state.scrollEventsList} ballPos={this.state.ballPos} mbFontSize={this.eventsMbFontSize}
-            changeYear={this.changeYear} selectEvent={this.selectEvent} selectFromStoryToEvents={this.handleSelectFromStoryToEvents}
-            getMbBetweenElems={($el, idx) => {this.mbBetweenElems['$' + idx] = $el;}} />
+            changeYear={this.changeYear} selectEventOnScroll={this.selectEventOnScroll} selectFromStoryToEvents={this.handleSelectFromStoryToEvents}
+            getMbBetweenElems={($el, idx) => {this.mbBetweenElems['$' + idx] = $el;}} onInactiveListItemClick={this.selectEventOnClick} />
         </div>
       </div>
     </div>;
