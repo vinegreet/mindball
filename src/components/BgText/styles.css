@@ -2,11 +2,12 @@
   height: 100%;
   width: 100%;
   position: absolute;
-  top: 0;
+  top: 3.7rem;
   left: 0;
   display: inherit;
   /*justify-content: center;*/
   transition: all 0.5s linear;
+  transform: rotate(-90deg);
 }
 
 .mindball {
@@ -26,7 +27,7 @@
   height: auto;*/
   margin: auto;
   /*font: 700 25.1vw/1 'Prompt', sans-serif;*/
-  font: 700 25.8rem/1 'Prompt', sans-serif;
+  font: 700 12.4rem/1 'Prompt', sans-serif;
   /*letter-spacing: 0.02em;*/
   letter-spacing: .5rem;
   color: #333;
@@ -38,8 +39,13 @@
 
 @media screen and (min-width: 988px) {
 
-  .BgText {}
+  .BgText {
+    transform: unset;
+    top: 0;
+  }
 
-  .inner {}
+  .inner {
+    font-size: 25.8rem;
+  }
   
 }

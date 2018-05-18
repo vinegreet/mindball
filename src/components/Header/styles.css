@@ -17,6 +17,10 @@ header {
   width: 70%;
 }
 
+.title {
+  display: none;
+}
+
 .sandwichWrapper {
   width: 22.7%;
   height: 87%;
@@ -51,6 +55,7 @@ header {
   }
 
   .title {
+    display: block;
     margin-right: 10.4%;
     color: #E25244;
     font: 600 1.54rem/1 'Prompt', sans-serif;

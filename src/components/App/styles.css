@@ -39,8 +39,9 @@ body {
 .wrapper {
   height: 100%;
   background-color: #303030;
-  border: 3px solid #E25244;
-  border-radius: 52px;
+  border: 2px solid #E25244;
+  /*border-radius: 52px;*/
+  border-radius: 1.6rem;
   display: flex;
   flex-direction: column;
   align-content: center;
@@ -52,8 +53,7 @@ body {
   display: inherit;
   flex-direction: inherit;
   align-content: inherit;
-  /*height: 300%;*/
-  height: 200%;
+  height: 100%;
   width: 100%;
   position: absolute;
   top: 0;
@@ -90,7 +90,12 @@ body {
   }
 
   .wrapper {
+    border-width: 3px;
     border-radius: 29px;
+  }
+
+  .innerContainer {
+    height: 200%;
   }
 
   .bubbles {

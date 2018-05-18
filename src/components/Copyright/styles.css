@@ -1,0 +1,50 @@
+.Copyright {
+  height: 12%;
+  width: 100%;
+  position: absolute;
+  bottom: .5rem;
+  left: 0;
+  display: inherit;
+  justify-content: space-between;
+  transition: all 0.5s linear;
+}
+
+.text {
+  height: 100%;
+  width: 30%;
+  display: inherit;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
+  margin-left: 2.6rem;
+}
+
+.text p {
+  font: 400 1rem/1 'Prompt', sans-serif;
+  color: #fff;
+  margin: .5rem 0;
+}
+
+.idea {
+  height: 100%;
+  margin-right: 2.6rem;
+  display: inherit; /* Why this makes any difference? */
+}
+
+.idea a {
+  height: 3.6rem;
+  margin: auto 0;
+}
+
+.idea img {
+  height: 100%;
+  float: right;
+}
+
+@media screen and (min-width: 988px) {
+
+  .BgText {}
+
+  .inner {}
+  
+}
