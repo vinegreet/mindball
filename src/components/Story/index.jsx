@@ -24,6 +24,7 @@ export default function Story(props) {
           <h1>Story</h1>
           <p className={styles.text}>
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita molestias, explicabo maxime assumenda possimus inventore enim quis. Amet sunt nesciunt voluptates eius sed placeat vitae perspiciatis saepe quis natus, quasi, consectetur at quaerat quibusdam quidem blanditiis quia ipsam rem.
+
           </p>
           {/*Do it with CSS*/!props.isMobile && <Button caption='Events' onButtonClick={props.selectFromStoryToEvents} />}
           {/*props.isMobile && <p className={styles.swipeRight}>To see the <span className={styles.swipeRightOrangeText}>Events</span> – <span className={styles.swipeRightOrangeText}>scroll right</span>.</p>*/}

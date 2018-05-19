@@ -2,7 +2,7 @@
   height: 100%;
   width: 100%;
   position: absolute;
-  top: 3.7rem;
+  top: 6rem;
   left: 0;
   display: inherit;
   /*justify-content: center;*/
@@ -27,9 +27,8 @@
   height: auto;*/
   margin: auto;
   /*font: 700 25.1vw/1 'Prompt', sans-serif;*/
-  font: 700 12.4rem/1 'Prompt', sans-serif;
-  /*letter-spacing: 0.02em;*/
-  letter-spacing: .5rem;
+  font: 700 19.7rem/1 'Prompt', sans-serif;
+  letter-spacing: 0.03em;
   color: #333;
   /* display: inherit;
    align-self: center; */ 

@@ -14,6 +14,7 @@ export default class Events extends Component {
     };
     this.ticking = false;
     this.defaultBallPosition = 18;
+    this.fontSizes = {}
   }
 
   selectEvent = (delta, keyDown) => {
