@@ -34,7 +34,11 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    // if (window.location.href.search('localhost') >= 0) this.selectEventOnClick(0);
+    this.setState({ isMobile: window.outerWidth < 988 });
+    // this.isMobile = window.outerWidth < 988;
+    this.isMobile = window.innerWidth < 988;
+    // console.log(this.isMobile, this.state.isMobile);
+    if (window.location.href.search('localhost') >= 0) this.selectEventOnClick(0);
 
     /*console.log(document.getElementsByClassName(styles.listItem)[0].style);
     console.log(document.styleSheets);
@@ -44,11 +48,9 @@ export default class App extends Component {
     this.setState({ ballPos: this.mbBetweenElems.$0.offsetTop / this.mindballSize + 10 });
     window.addEventListener('resize', this.measureFontSize);
 
-    this.setState({ isMobile: window.outerWidth < 988 });
-    // this.isMobile = window.outerWidth < 988;
-    this.isMobile = window.innerWidth < 988;
-    // console.log(this.isMobile, this.state.isMobile);
-    this.isMobile && this.scrollDown();
+    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    // this.isMobile && this.scrollDown();
+    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
   }
 
   scrollDown = () => {
@@ -61,7 +63,10 @@ export default class App extends Component {
 
   selectEventOnClick = (idx, isMenuClick) => {
     if (idx < 0) {
-      this.setState({ isStory: true, isEvents: false, isMenuOpen: false, scroll: '-100%', listPos: 0, scrollEventsList: 0 });
+      this.setState({ isStory: true, isEvents: false, isMenuOpen: false, listPos: 0, scrollEventsList: 0 });
+      if (!this.isMobile) {
+        this.setState({ scroll: '-100%' });
+      }
       return;
     }
     if (!this.state.isStory && !this.state.isEvents) {
@@ -87,7 +92,7 @@ export default class App extends Component {
       this.setState(prev => ({
         // isStory: !state.isStory,
         isEvents: !prev.isEvents,
-        scroll: '-100%'
+        scroll: (this.isMobile) ? 0 : '-100%'
       }));
       return;
     }
@@ -149,7 +154,7 @@ export default class App extends Component {
     return <div className={styles.App} tabIndex='0'>
       <div className={styles.wrapper}>
         <div className={styles.bubbles} style={{ opacity: (!this.state.isMenuOpen) ? 0.5 : 0 }}></div>
-        <BgText text={bgText} />
+        <BgText text={bgText} isMobile={this.isMobile} />
         <Header onSandwichClick={this.handleSandwichClick} events={this.state.isEvents} />
         <Menu opacity={(this.state.isMenuOpen) ? 1 : 0} zIndex={(this.state.isMenuOpen) ? 6 : 0} onMenuClick={this.selectEventOnClick} />
         {/*this.state.isMenuOpen && <Menu years={this.state.years} />*/}

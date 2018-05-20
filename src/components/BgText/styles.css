@@ -2,12 +2,11 @@
   height: 100%;
   width: 100%;
   position: absolute;
-  top: 6rem;
+  /*top: 6rem;*/
   left: 0;
   display: inherit;
   /*justify-content: center;*/
   transition: all 0.5s linear;
-  transform: rotate(-90deg);
 }
 
 .mindball {
@@ -25,7 +24,6 @@
 .inner {
   /*width: auto;
   height: auto;*/
-  margin: auto;
   /*font: 700 25.1vw/1 'Prompt', sans-serif;*/
   font: 700 19.7rem/1 'Prompt', sans-serif;
   letter-spacing: 0.03em;
@@ -34,17 +32,20 @@
    align-self: center; */ 
   /*transition: all 0.4s;*/
   z-index: 2;
+  transform: rotate(-90deg);
+  margin-left: 10%;
 }
 
 @media screen and (min-width: 988px) {
 
   .BgText {
-    transform: unset;
     top: 0;
   }
 
   .inner {
+    margin: auto;
     font-size: 25.8rem;
+    transform: unset;
   }
   
 }

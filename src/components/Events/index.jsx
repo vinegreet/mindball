@@ -14,7 +14,6 @@ export default class Events extends Component {
     };
     this.ticking = false;
     this.defaultBallPosition = 18;
-    this.fontSizes = {}
   }
 
   selectEvent = (delta, keyDown) => {
@@ -105,6 +104,7 @@ export default class Events extends Component {
         <Story selectFromStoryToEvents={this.props.selectFromStoryToEvents}
           opacity={(this.props.isStory && !this.state.isOpenEvent) ? 1 : 0} zIndex={(this.props.isStory) ? 10 : -1}
           isStory={this.props.isStory} isMobile={this.props.isMobile} />
+        {this.props.isMobile && <p className={styles.titleMobile}>Events {this.props.currentYear}</p>}
         <div className={styles.listWrapper}
           style={{ opacity: (this.props.isEvents && !this.state.isOpenEvent) ? 1 : 0, zIndex: (this.props.isEvents) ? 10 : -1 }}>
           <div className={styles.list} style={{ top: this.props.scroll + 'rem' }}>
