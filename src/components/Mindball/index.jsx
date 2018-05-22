@@ -23,11 +23,19 @@ export default class Mindball extends Component {
 
   render() {
     const yearsElems = uniqYears.map((item, idx) => 
-      <p key={`mindball_${item}`} className={styles.year} style={{color: (this.props.currentYear === item) ? '#fff' : 'rgba(169,169,169,0.3)'}}>{item}</p>
+      <p key={`mindball_${item}`} className={styles.year} 
+        style={{
+          color: (this.props.currentYear === item) ? '#fff' : 'rgba(169,169,169,0.3)',
+          position: (this.props.mbBetweenElemsPos) ? 'absolute' : '',
+          top: (this.props.mbBetweenElemsPos) ? `${this.props.mbBetweenElemsPos[idx] * this.props.size + 1 - ((8 + 4) * this.props.size)}em` : '',
+          left: (this.props.mbBetweenElemsPos) ? 0 : ''
+        }}>
+        {item}
+      </p>
     );
     const betweenRounds = new Array((this.props.isEvents) ? uniqYears.length : 1).fill(null).map((item, idx) => 
       <div key={`mindballRoundInBetween_${(uniqYears.length) ? idx : ''}`} className={styles.roundInBetween}
-        ref={$el => !this.props.isInitial && this.props.getBetweenElems($el, idx)}></div>
+        style={this.props.mbBetweenElemsPos && { position: 'absolute', top: `${this.props.mbBetweenElemsPos[idx]}em` }} ></div>
     );
     return (
       <div className={(this.props.isEvents) ? styles.Mindball_events : styles.Mindball} style={{fontSize: `${this.props.size}rem`}}>
@@ -46,5 +54,3 @@ export default class Mindball extends Component {
     );
   }
 }
-
-// style={{fontSize: `${this.props.size}px`}}

@@ -7,7 +7,6 @@ import Menu from 'components/Menu';
 import Initial from 'components/Initial';
 import Events from 'components/Events';
 import items, { years, uniqYears } from 'components/items.js';
-// import Inside from 'components/Inside';
 
 export default class App extends Component {
   constructor() {
@@ -39,18 +38,12 @@ export default class App extends Component {
     this.isMobile = window.innerWidth < 988;
     // console.log(this.isMobile, this.state.isMobile);
     if (window.location.href.search('localhost') >= 0) this.selectEventOnClick(0);
-
-    /*console.log(document.getElementsByClassName(styles.listItem)[0].style);
-    console.log(document.styleSheets);
-    console.log(this.listItemH);*/
-    this.measureFontSize();
-    this.changeYear(0, true);
-    this.setState({ ballPos: this.mbBetweenElems.$0.offsetTop / this.mindballSize + 10 });
-    window.addEventListener('resize', this.measureFontSize);
-
-    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    if (window.location.href.search('localhost') < 0 && this.isMobile) this.scrollDown();
     // this.isMobile && this.scrollDown();
-    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+    this.changeYear(0, true);
+    this.setState({ ballPos: this.mbYearsCellsPos[0] + 10 });
+    // window.addEventListener('resize', this.measureFontSize);
   }
 
   scrollDown = () => {
@@ -103,14 +96,9 @@ export default class App extends Component {
     this.setState({ currentYear: years[idx] });
     if (this.prevYear !== years[idx]) {
       const currentYearIdx = uniqYears.indexOf(years[idx]);
-      this.setState({ ballPos: this.mbBetweenElems['$' + currentYearIdx].offsetTop / this.emSize + 10 });
+      this.setState({ ballPos: this.mbYearsCellsPos[currentYearIdx] + 10 });
     }
     isFirstCall === undefined && (this.prevYear = years[idx]);
-  }
-
-  measureFontSize = () => {
-    const htmlFontSize = parseFloat(window.getComputedStyle(document.getElementsByTagName('html')[0]).fontSize);
-    this.emSize = this.eventsMbFontSize * htmlFontSize;
   }
   
   selectEventOnScroll = (delta, keyDown) => {
@@ -151,47 +139,32 @@ export default class App extends Component {
     } else if (this.state.isEvents) {
       bgText = this.state.currentYear;
     }
+
+    this.mbYearsCellsLength = uniqYears.length;
+    this.mbInnerHeightWithPadding = 1900;
+    // this.mbInnerHeight = this.mbInnerHeightWithPaddingAndBorder - (8 * 2 + 4 * 2);
+    this.mbInnerHeight = this.mbInnerHeightWithPadding - (8 * 2);
+    // this.mbCellHeight = 60 + 4 * 2;
+    this.mbCellHeight = 60;
+    this.mbYearsCellsPos = uniqYears.map((year, idx) => 
+      ((this.mbInnerHeight / this.mbYearsCellsLength) * (idx + 1)) - ((this.mbCellHeight / 2) * ((idx + 1) / 2)) - (4 * 1.2 * (idx + 1))
+    ); // the 1.2 value is added just to make quick fix; badly positioned if new unique year added; see local file \Mindball\test\Calculating_cells_positions.txt
+
     return <div className={styles.App} tabIndex='0'>
       <div className={styles.wrapper}>
         <div className={styles.bubbles} style={{ opacity: (!this.state.isMenuOpen) ? 0.5 : 0 }}></div>
         <BgText text={bgText} isMobile={this.isMobile} />
         <Header onSandwichClick={this.handleSandwichClick} events={this.state.isEvents} />
         <Menu opacity={(this.state.isMenuOpen) ? 1 : 0} zIndex={(this.state.isMenuOpen) ? 6 : 0} onMenuClick={this.selectEventOnClick} />
-        {/*this.state.isMenuOpen && <Menu years={this.state.years} />*/}
         <div className={styles.innerContainer} style={{ top: this.state.scroll, opacity: (!this.state.isMenuOpen) ? 1 : 0 }}>
           <Initial onBallFinished={this.scrollDown} onButtonClick={this.scrollDown} />
-          {/*<Story onButtonClick={this.handleStoryClick} />*/}
           <Events isEvents={this.state.isEvents} isStory={this.state.isStory} isMobile={this.isMobile}
             currentYear={this.state.currentYear} listPos={this.state.listPos} scroll={this.state.scrollEventsList} ballPos={this.state.ballPos}
             mbFontSize={this.eventsMbFontSize} toggleStoryAndEvents={this.toggleSections} changeYear={this.changeYear}
             selectEventOnScroll={this.selectEventOnScroll} selectFromStoryToEvents={this.handleSelectFromStoryToEvents}
-            getMbBetweenElems={($el, idx) => {this.mbBetweenElems['$' + idx] = $el;}} onInactiveListItemClick={this.selectEventOnClick} />
+            onInactiveListItemClick={this.selectEventOnClick} mbBetweenElemsPos={this.mbYearsCellsPos} />
         </div>
       </div>
     </div>;
   }
 }
-
-/*  handleKeyDown = e => {
-    switch (e.key) {
-      case 'ArrowDown':
-        this.scrollDown();
-        break;
-      case 'ArrowUp':
-        this.setState(state => ({ scroll: 0, isStory: !state.isStory }));
-        break;
-      default:
-        return;
-    }
-  }*/
-// onKeyDown={this.handleKeyDown}
-
-  /*handleBallFinish = () => {
-    this.scrollDown();
-  }
-
-  handleButtonClick = () => {
-    this.scrollDown();
-  }*/
-// <h1 style={{color: '#fff', margin: '0px'}}>{this.state.scroll}</h1>
-// <Route exact path="/" component={Inside} />

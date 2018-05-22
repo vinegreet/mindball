@@ -1,4 +1,11 @@
 const items = [
+/*  {
+    title: 'Ericsson Ukraine',
+    year: '2018',
+    text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita molestias, explicabo maxime assumenda possimus inventore enim quis. Amet sunt nesciunt voluptates eius sed placeat vitae perspiciatis saepe quis natus, quasi, consectetur at quaerat quibusdam quidem blanditiis quia ipsam rem.',
+    photos: ['1.jpg', '2.jpg', '3.jpg'],
+    videos: ['https://www.youtube.com/watch?v=6LjtJsHoo-E']
+  },*/
   {
     title: 'Ericsson Ukraine',
     year: '2015',

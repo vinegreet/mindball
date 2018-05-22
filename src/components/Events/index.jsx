@@ -113,7 +113,7 @@ export default class Events extends Component {
         </div>
         <Mindball position={(this.props.isStory) ? this.defaultBallPosition : this.props.ballPos} isEvents={true}
           currentYear={this.props.isEvents && this.props.currentYear} size={this.props.mbFontSize}
-          getBetweenElems={this.props.getMbBetweenElems} />
+          mbBetweenElemsPos={this.props.mbBetweenElemsPos} />
         <Copyright opacity={(!this.state.isOpenEvent && this.props.listPos === (items.length - 1)) ? 1 : 0}
           zIndex={(!this.state.isOpenEvent && this.props.listPos === (items.length - 1)) ? 10 : -1} />
         <OpenEvent opacity={(this.state.isOpenEvent) ? 1 : 0} zIndex={(this.state.isOpenEvent) ? 10 : -1}
@@ -122,7 +122,3 @@ export default class Events extends Component {
     );
   }
 }
-// onButtonClick={this.handleSelectFromStoryToEvents} onWheelDown={this.handleSelectFromStoryToEvents}
-    // this.mindballSize = 0.308;
-    // this.mindballSize = 0.01875;
-    // this.defaultBallPosition = 22;

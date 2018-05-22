@@ -76,8 +76,16 @@
     background-color: #E25244;
   }
 
-  .Mindball_events .roundInBetween,
-  .Mindball_events .roundUtmost {
+  .roundUtmost,
+  .roundInBetween {
+    background-color: #303030;
+    border: 4em solid #E25244;
+    border-radius: 100%;
+    z-index: 1;
+  }
+
+  .Mindball_events .roundUtmost,
+  .Mindball_events .roundInBetween {
     width: 60em;
     height: 60em;
   }
@@ -85,14 +93,7 @@
   .roundUtmost {
     width: 80em;
     height: 80em;
-    background-color: #303030;
-    border: 4em solid #E25244;
-    border-radius: 100%;
-    z-index: 1;
-    box-shadow: inset 0px 0px 2px 0px #303030;
   }
-
-  .Mindball_events .roundUtmost:first-child {}
 
   .Mindball_events .roundUtmost:last-child {
     display: none;
@@ -101,10 +102,6 @@
   .roundInBetween {
     width: 46em;
     height: 46em;
-    background-color: #303030;
-    border: 4em solid #E25244;
-    border-radius: 100%;
-    z-index: 1;
   }
 
   .ball {
@@ -120,7 +117,7 @@
     box-shadow: inset 0px 0px 2px 0px #303030;
   }
 
-  .Mindball_events  .ball {
+  .Mindball_events .ball {
     left: 18em;
     width: 38em;
     height: 38em;
