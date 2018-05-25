@@ -162,7 +162,7 @@ export default class App extends Component {
             currentYear={this.state.currentYear} listPos={this.state.listPos} scroll={this.state.scrollEventsList} ballPos={this.state.ballPos}
             mbFontSize={this.eventsMbFontSize} toggleStoryAndEvents={this.toggleSections} changeYear={this.changeYear}
             selectEventOnScroll={this.selectEventOnScroll} selectFromStoryToEvents={this.handleSelectFromStoryToEvents}
-            onInactiveListItemClick={this.selectEventOnClick} mbBetweenElemsPos={this.mbYearsCellsPos} />
+            onInactiveListItemClick={this.selectEventOnClick} mbBetweenElemsPos={this.mbYearsCellsPos} onMbYearClick={this.selectEventOnClick} />
         </div>
       </div>
     </div>;

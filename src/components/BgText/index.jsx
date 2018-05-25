@@ -13,7 +13,9 @@ export default function BgText(props) {
         <div className={styles.mindball} style={{opacity: !props.text ? 1 : 0}}></div>
         <p className={styles.inner} style={{
           opacity: props.text ? 1 : 0,
-          marginLeft: (!isNaN(parseInt(props.text)) && !props.isMobile) ? '19%' : ''
+          marginLeft: (!isNaN(parseInt(props.text)))
+            ? (props.isMobile) ? '10%' : '19%'
+            : ''
         }}>{props.text}</p>
     </div>
   );

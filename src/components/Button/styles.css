@@ -29,11 +29,6 @@
   min-height: 3.4rem;
 }
 
-.Button_Events {
-  composes: Button_Story;
-  margin-left: 0;
-}
-
 .Button:hover {
   background-color: #E25244;
   transition: all 0.2s linear;
@@ -43,6 +38,11 @@
 
   .Button {
     margin-top: 1.3rem;
+  }
+
+  .Button_Events {
+    composes: Button_Story;
+    margin-left: 0;
   }
   
 }

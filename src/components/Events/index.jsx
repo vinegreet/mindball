@@ -91,7 +91,7 @@ export default class Events extends Component {
     const events = titles.map((item, idx) => 
       <div key={item} className={(this.props.listPos === idx) ? styles.listItem_selected : styles.listItem}
         ref={'listItem' + idx}
-        onClick={() => {console.log(idx); this.handleListItemClick(idx)}}>
+        onClick={() => {this.handleListItemClick(idx)}}>
         <p className={styles.text}>{item}</p>
         <div className={styles.line}></div>
         <div className={styles.arrow}></div>
@@ -113,9 +113,10 @@ export default class Events extends Component {
         </div>
         <Mindball position={(this.props.isStory) ? this.defaultBallPosition : this.props.ballPos} isEvents={true}
           currentYear={this.props.isEvents && this.props.currentYear} size={this.props.mbFontSize}
-          mbBetweenElemsPos={this.props.mbBetweenElemsPos} />
-        <Copyright opacity={(!this.state.isOpenEvent && this.props.listPos === (items.length - 1)) ? 1 : 0}
-          zIndex={(!this.state.isOpenEvent && this.props.listPos === (items.length - 1)) ? 10 : -1} />
+          mbBetweenElemsPos={this.props.mbBetweenElemsPos} isMobile={this.props.isMobile} onYearClick={this.props.onMbYearClick}
+          opacity={(this.state.isOpenEvent && this.props.isMobile) ? 0 : 1} zIndex={(this.state.isOpenEvent && this.props.isMobile) ? -1 : 11} />
+        {!this.props.isMobile && <Copyright opacity={(!this.state.isOpenEvent && this.props.listPos === (items.length - 1)) ? 1 : 0}
+          zIndex={(!this.state.isOpenEvent && this.props.listPos === (items.length - 1)) ? 10 : -1} />}
         <OpenEvent opacity={(this.state.isOpenEvent) ? 1 : 0} zIndex={(this.state.isOpenEvent) ? 10 : -1}
           currentEvent={this.props.listPos} closeEvent={this.toggleOpenEvent} getSlider={($slider) => this.$slider = $slider} />
       </section>

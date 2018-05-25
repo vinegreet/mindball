@@ -64,6 +64,10 @@
   width: 100%;
 }
 
+.listItem_selected .text {
+  color: #E25244; /*  Temporary  */
+}
+
 .line,
 .arrow {
   display: none;

@@ -1,4 +1,103 @@
+.Mindball {
+  /*height: 3rem;*/
+  width: 34.6rem;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+/*  z-index: 1;*/
+  z-index: 11;
+}
+
+.Mindball_events {
+  composes: Mindball;
+  position: absolute;
+  bottom: 3rem;
+  display: inherit;
+}
+
+.inner,
+.yearsWrapper {
+  display: inherit;
+  flex-direction: row;
+  justify-content: flex-start;
+  /*justify-content: space-between;*/
+  align-items: center;
+  width: 1900em;
+}
+
+.yearsWrapper {
+  padding: 0 8em;
+}
+
+.year {
+  font: 600 1rem/1 'Prompt', sans-serif;
+  margin: 0 0 1.2rem;
+  color: rgba(169,169,169,0.3);
+  cursor: pointer;
+}
+
+.year_active {
+  composes: year;
+  color: #E25244;
+}
+
+.inner {
+  display: inherit;
+  position: relative;
+  height: 104em;
+  margin: auto 0;
+  padding: 8em;
+  border: 4em solid #E25244;
+  border-radius: 52em/50%;
+  height: 80em;
+}
+
+.line {
+  position: absolute;
+  z-index: 0;
+  width: 97%;
+  min-width: 1px;
+  height: 4em;
+  background-color: #E25244;
+}
+
+.roundUtmost,
+.roundInBetween {
+  background-color: #303030;
+  border: 4em solid #E25244;
+  border-radius: 100%;
+  z-index: 1;
+  width: 60em;
+  height: 60em;
+  cursor: pointer;
+}
+
+.Mindball_events .roundUtmost:last-child {
+  display: none;
+}
+
+.ball {
+  position: absolute;
+  z-index: 2;
+  /*left: 29em;*/
+  width: 47em;
+  height: 47em;
+  background-color: #E25244;
+  border-radius: 100%;
+  box-shadow: inset 0px 0px 2px 0px #303030;
+  top: 18em;
+}
+
+.Mindball_events .ball {
+  width: 38em;
+  height: 38em;
+  transition: all 0.5s cubic-bezier(.78, .03, .18, .99);
+}
+
+
+
 @media screen and (min-width: 988px) {
+
   .Mindball {
     /*composes: _desk from global;*/
     /*font-size: .5px;*/
@@ -9,14 +108,13 @@
     height: 35.6rem;
     /*h34.2rem*/
     display: inherit;
-    align-items: center;
-    z-index: 1;
+    width: unset;
+    bottom: unset;
+    flex-direction: row;
   }
 
   .Mindball_events {
     composes: Mindball;
-    /*align-self: flex-end;*/
-    position: absolute;
     right: 2.7rem;
 /*    font-size: 0.01875rem;*/
     /*font-size: 0.0181rem; Defined in the App component*/
@@ -25,10 +123,9 @@
   .inner,
   .yearsWrapper {
     height: 1139em;
-    /*background-color: #303030;*/
+    width: unset;
     flex-direction: column;
     justify-content: space-between;
-    align-items: center;
   }
 
   .yearsWrapper {
@@ -41,19 +138,16 @@
   }
 
   .year {
-    font: 600 1rem/1 'Prompt', sans-serif;
-    /*margin-right: 1rem;*/
     margin: 0 2.4rem 0;
   }
 
+  .year_active {
+    color: #fff;
+  }
+
   .inner {
-    display: inherit;
-    position: relative;
     width: 104em;
     margin: 0 auto;
-    padding: 8em;
-    /*padding: 12em;*/
-    border: 4em solid #E25244;
     border-radius: 50%/52em;
   }
 
@@ -68,20 +162,8 @@
   }
 
   .line {
-    position: absolute;
-    z-index: 0;
+    width: unset;
     height: 97%;
-    min-width: 1px;
-    width: 2em;
-    background-color: #E25244;
-  }
-
-  .roundUtmost,
-  .roundInBetween {
-    background-color: #303030;
-    border: 4em solid #E25244;
-    border-radius: 100%;
-    z-index: 1;
   }
 
   .Mindball_events .roundUtmost,
@@ -95,33 +177,18 @@
     height: 80em;
   }
 
-  .Mindball_events .roundUtmost:last-child {
-    display: none;
-  }
-
   .roundInBetween {
     width: 46em;
     height: 46em;
   }
 
   .ball {
-    position: absolute;
-    z-index: 2;
     top: 29em;
-    /*left: 25em;*/
-    /*left: 27em;*/
-    width: 47em;
-    height: 47em;
     background-color: #fff;
-    border-radius: 100%;
-    box-shadow: inset 0px 0px 2px 0px #303030;
   }
 
   .Mindball_events .ball {
     left: 18em;
-    width: 38em;
-    height: 38em;
-    transition: top 0.5s cubic-bezier(.78, .03, .18, .99);
   }
 
 }
