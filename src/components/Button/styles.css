@@ -34,15 +34,19 @@
   transition: all 0.2s linear;
 }
 
-@media screen and (min-width: 1981px) {
-
-  .Button {
-    margin-top: 1.3rem;
-  }
+@media screen and (min-width: 988px) {
 
   .Button_Events {
     composes: Button_Story;
     margin-left: 0;
+  }
+  
+}
+
+@media screen and (min-width: 1981px) {
+
+  .Button {
+    margin-top: 1.3rem;
   }
   
 }

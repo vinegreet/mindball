@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import styles from './styles.css';
-import { uniqYears } from 'components/items.js';
 
 export default class Mindball extends Component {
 
@@ -9,7 +8,7 @@ export default class Mindball extends Component {
     isEvents: PropTypes.bool,
     position: PropTypes.number,
     size: PropTypes.number,
-    // years: PropTypes.array
+    uniqYears: PropTypes.array
   };
 
   static defaultProps = {
@@ -18,12 +17,13 @@ export default class Mindball extends Component {
     // size: 0.3,
     // size: 0.48,
     size: .03,
-    // years: []
+    uniqYears: []
   };
 
   render() {
     const pos = this.props.mbBetweenElemsPos;
     const size = this.props.size;
+    const uniqYears = this.props.uniqYears;
     const yearsElems = uniqYears.map((item, idx) => 
       <p key={`mindball_${item}`} className={(this.props.currentYear === item) ? styles.year_active : styles.year}
         onClick={() => this.props.onYearClick(idx, true)}

@@ -1,12 +1,12 @@
 import axios from 'axios';
-export const FETCH_POSTS = 'FETCH_POSTS';
+export const FETCH_CONTENT = 'FETCH_CONTENT';
 const API_BASE_URL = 'https://cdn.contentful.com';
-const API_SPACE_ID = 'azyp628dwkb3';
-const API_TOKEN = '0758b9c97e4c8ad32d7dcee77ae79bff2b6efcabf854a54daf3804b757ddc520';
-export function fetchPosts() {
-  const request = axios.get(`${API_BASE_URL}/spaces/${API_SPACE_ID}/entries?order=sys.createdAt&access_token=${API_TOKEN}&content_type=post`);
+const API_SPACE_ID = 'dg95qcu2wwxg';
+const API_TOKEN = 'fda19f419408d7646f4994e21db6c5fa9026bb9b38e8be102954091c692bb702';
+export function fetchContent() {
+  const request = axios.get(`${API_BASE_URL}/spaces/${API_SPACE_ID}/environments/master/entries?access_token=${API_TOKEN}`);
   return {
-    type: FETCH_POSTS,
+    type: FETCH_CONTENT,
     payload: request
   };
 }

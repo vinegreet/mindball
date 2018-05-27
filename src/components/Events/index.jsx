@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import styles from './styles.css';
 import Story from 'components/Story';
 import Mindball from 'components/Mindball';
-import items, { titles } from 'components/items.js';
 import OpenEvent from 'components/OpenEvent';
 import Copyright from 'components/Copyright';
 
@@ -21,7 +20,7 @@ export default class Events extends Component {
       this.props.toggleStoryAndEvents();
       return this.ticking = false;
     }
-    if (this.props.listPos === (items.length - 1) && delta > 0) return this.ticking = false;
+    if (this.props.listPos === (this.items.length - 1) && delta > 0) return this.ticking = false;
     if (delta > 0) {
       this.props.changeYear(this.props.listPos + 1);
     } else {
@@ -88,7 +87,9 @@ export default class Events extends Component {
   }
 
   render() {
-    const events = titles.map((item, idx) => 
+    this.items = this.props.content.events;
+    this.titles = this.items.map(item => item.fields.title);
+    const events = this.titles.map((item, idx) => 
       <div key={item} className={(this.props.listPos === idx) ? styles.listItem_selected : styles.listItem}
         ref={'listItem' + idx}
         onClick={() => {this.handleListItemClick(idx)}}>
@@ -101,7 +102,7 @@ export default class Events extends Component {
     return (
       <section className={styles.Events} onWheel={this.props.isEvents && !this.state.isOpenEvent && this.handleWheel || undefined}
         onKeyDown={this.handleKeyDown} tabIndex='0' ref={$el => this.$el = $el}>
-        <Story selectFromStoryToEvents={this.props.selectFromStoryToEvents}
+        <Story content={this.props.content.story} selectFromStoryToEvents={this.props.selectFromStoryToEvents}
           opacity={(this.props.isStory && !this.state.isOpenEvent) ? 1 : 0} zIndex={(this.props.isStory) ? 10 : -1}
           isStory={this.props.isStory} isMobile={this.props.isMobile} />
         {this.props.isMobile && <p className={styles.titleMobile}>Events {this.props.currentYear}</p>}
@@ -112,12 +113,12 @@ export default class Events extends Component {
           </div>
         </div>
         <Mindball position={(this.props.isStory) ? this.defaultBallPosition : this.props.ballPos} isEvents={true}
-          currentYear={this.props.isEvents && this.props.currentYear} size={this.props.mbFontSize}
+          currentYear={this.props.isEvents && this.props.currentYear} size={this.props.mbFontSize} uniqYears={this.props.uniqYears}
           mbBetweenElemsPos={this.props.mbBetweenElemsPos} isMobile={this.props.isMobile} onYearClick={this.props.onMbYearClick}
           opacity={(this.state.isOpenEvent && this.props.isMobile) ? 0 : 1} zIndex={(this.state.isOpenEvent && this.props.isMobile) ? -1 : 11} />
-        {!this.props.isMobile && <Copyright opacity={(!this.state.isOpenEvent && this.props.listPos === (items.length - 1)) ? 1 : 0}
-          zIndex={(!this.state.isOpenEvent && this.props.listPos === (items.length - 1)) ? 10 : -1} />}
-        <OpenEvent opacity={(this.state.isOpenEvent) ? 1 : 0} zIndex={(this.state.isOpenEvent) ? 10 : -1}
+        {!this.props.isMobile && <Copyright opacity={(!this.state.isOpenEvent && this.props.listPos === (this.items.length - 1)) ? 1 : 0}
+          zIndex={(!this.state.isOpenEvent && this.props.listPos === (this.items.length - 1)) ? 10 : -1} />}
+        <OpenEvent content={this.props.content} opacity={(this.state.isOpenEvent) ? 1 : 0} zIndex={(this.state.isOpenEvent) ? 10 : -1}
           currentEvent={this.props.listPos} closeEvent={this.toggleOpenEvent} getSlider={($slider) => this.$slider = $slider} />
       </section>
     );

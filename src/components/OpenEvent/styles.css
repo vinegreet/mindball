@@ -77,12 +77,13 @@
     height: 32.4rem;
     /*margin-left: 3.2rem;*/
     margin-left: 3.8rem;
+    margin-top: -0.7rem;
   }
 
   .title,
   .text {
     text-align: left;
-    margin: .5rem 0;
+    margin: 0 0 .5rem;
   }
 
   .title {

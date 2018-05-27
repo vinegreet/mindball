@@ -6,6 +6,8 @@ let isScrolled;
 
 export default function Story(props) {
 
+  const isReady = 'fields' in props.content;
+
   const handleKeyDown = e => {
     if (e.key === 'ArrowDown') { props.isStory && props.selectFromStoryToEvents(); }
   }
@@ -21,9 +23,9 @@ export default function Story(props) {
       onKeyDown={handleKeyDown} tabIndex='0'>
       <div className={styles.outerWrapper}>
         <article className={styles.wrapper}>
-          <h1>Story</h1>
+          <h1>{isReady && props.content.fields.title}</h1>
           <p className={styles.text}>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita molestias, explicabo maxime assumenda possimus inventore enim quis. Amet sunt nesciunt voluptates eius sed placeat vitae perspiciatis saepe quis natus, quasi, consectetur at quaerat quibusdam quidem blanditiis quia ipsam rem.
+            {isReady && props.content.fields.text}
           </p>
           {/*Do it with CSS*/!props.isMobile && <Button caption='Events' onButtonClick={props.selectFromStoryToEvents} />}
           {/*props.isMobile && <p className={styles.swipeRight}>To see the <span className={styles.swipeRightOrangeText}>Events</span> – <span className={styles.swipeRightOrangeText}>scroll right</span>.</p>*/}

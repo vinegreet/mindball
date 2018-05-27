@@ -1,10 +1,9 @@
 import React from 'react';
 import styles from './styles.css';
-import { uniqYears } from 'components/items.js';
 
 export default function Menu(props) {
 
-  const yearsElems = uniqYears.map((item, idx) => 
+  const yearsElems = props.uniqYears.map((item, idx) => 
     <p key={`menu_${item}`} className={styles.listItem} onClick={() => props.onMenuClick(idx, true)} >{item}</p>
   );
   return (

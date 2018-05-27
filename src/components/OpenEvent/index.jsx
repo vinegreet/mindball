@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import styles from './styles.css';
 import Button from 'components/Button';
-import { titles, texts, photos } from 'components/items.js';
 import Slider from "react-slick";
 
 export default class OpenEvent extends Component {
@@ -12,15 +11,28 @@ export default class OpenEvent extends Component {
     };
   }
 
-  onScroll = e => {
-  };
+  getPhotos = () => {
+    return this.events.map((event, idx) => {
+      const urls = [];
+      event.fields.photos.forEach(attributedImage => {
+        this.props.content.images.forEach(asset => {
+          if (asset.sys.id === attributedImage.sys.id) {
+            urls.push(`https:${asset.fields.file.url}?w=700`);
+          }
+        });
+      });
+      return urls;
+    });
+  }
 
   render() {
-    // const currentEvent = (this.props.currentEvent >= 0) ? this.props.currentEvent : 0;
+    this.events = this.props.content.events;
+    const titles = this.events.map(item => item.fields.title);
+    const photos = this.getPhotos();
     const currentEvent = this.props.currentEvent;
-    const photoElems = photos[currentEvent].map((item, idx) => 
+    const photoElems = (photos.length === 0) ? null : photos[currentEvent].map((item, idx) => 
       <div key={`${currentEvent}/${item}`}>
-        <img className={styles.sliderImg} src={`http://zotsmebel.com.ua/i/${currentEvent}/${item}`} 
+        <img className={styles.sliderImg} src={item} 
         alt={`${titles[currentEvent]} - ${item}`} />
       </div>
     );
@@ -37,10 +49,7 @@ export default class OpenEvent extends Component {
     };
     return (
       <div className={styles.OpenEvent} style={{ opacity: this.props.opacity, zIndex: this.props.zIndex }} >
-        <div className={styles.gallery} 
-          style={{ 
-            // backgroundImage: `url(http://zotsmebel.com.ua/i/${currentEvent}/${photos[currentEvent][0]})`
-          }}>
+        <div className={styles.gallery}>
           <Slider ref={$slider => this.props.getSlider($slider)} {...settings}>
             {photoElems}
           </Slider>
@@ -53,12 +62,10 @@ export default class OpenEvent extends Component {
         </div>
         <div className={styles.article}>
           <h2 className={styles.title}>{titles[currentEvent]}</h2>
-          <p className={styles.text}>{texts[currentEvent]}</p>
+          <p className={styles.text}>{(this.events.length !== 0) && this.events[currentEvent].fields.text}</p>
           <Button caption='Back' onButtonClick={this.props.closeEvent} isEvent={true} />
         </div>
       </div>
     );
   }
 }
-//  style={{height: `${this.props.height}px`}}
-// <Button caption='Scroll down' onClick={this.setState({ballPosition: 100})} />
