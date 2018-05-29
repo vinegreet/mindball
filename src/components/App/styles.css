@@ -42,7 +42,7 @@ body {
 .wrapper {
   height: 100%;
   background-color: #303030;
-   border: 2px solid #E25244; 
+  border: 2px solid #E25244; 
   /*border: .125rem solid #E25244;*/
   /*border-radius: 52px;*/
   border-radius: 1.6rem;

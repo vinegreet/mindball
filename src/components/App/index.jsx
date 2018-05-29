@@ -13,6 +13,7 @@ class App extends Component {
     super();
     this.state = {
       bgText: '',
+      cooldownStory: false,
       currentEventsListPos: 0,
       currentYear: '',
       isEvents: false,
@@ -30,6 +31,7 @@ class App extends Component {
     this.wheel = 0;
     this.mbBetweenElems = {};
     this.eventsMbFontSize = 0.0181;
+    this.listItemHeight = 3.75;
   }
 
   componentWillMount() {
@@ -51,14 +53,15 @@ class App extends Component {
   }
 
   scrollDown = () => {
-    this.setState(prev => ({ isStory: !prev.isStory, scroll: (this.isMobile) ? 0 : '-100%' }));
+    this.setState(prev => ({ isStory: !prev.isStory, scroll: (this.isMobile) ? 0 : '-100%', cooldownStory: true }));
+    setTimeout(() => {this.setState({ cooldownStory: false });}, 1500);
   }
 
   handleSandwichClick = () => {
     this.setState(prev => ({ isMenuOpen: !prev.isMenuOpen }));
   }
 
-  selectEventOnClick = (idx, isMenuClick) => {
+  selectEventOnClick = (idx, isMenuClick, isMouseOver) => {
     if (idx < 0) {
       this.setState({ isStory: true, isEvents: false, isMenuOpen: false, listPos: 0, scrollEventsList: 0 });
       if (!this.isMobile) {
@@ -75,12 +78,15 @@ class App extends Component {
     const newIdx = (isMenuClick) ? this.years.indexOf(this.uniqYears[idx]) : idx;
     this.changeYear(newIdx);
     this.setState({ listPos: newIdx, isMenuOpen: false });
+    console.log('hi');
+    if (isMouseOver) return;
+    console.log('hey');
     if (newIdx < 3) {
       this.setState({ scrollEventsList: 0 });
     } else if (newIdx > (this.items.length - 4)) {
-      this.setState({ scrollEventsList: (this.items.length - 7) * -3.75 });
+      this.setState({ scrollEventsList: (this.items.length - 7) * -this.listItemHeight });
     } else {
-      this.setState({ scrollEventsList: (newIdx - 3) * -3.75 }); // = 0
+      this.setState({ scrollEventsList: (newIdx - 3) * -this.listItemHeight }); // = 0
     }
   }
 
@@ -106,9 +112,25 @@ class App extends Component {
   }
   
   selectEventOnScroll = (delta, keyDown) => {
+    const numberOfListItemsVisible = 7;
     const newDelta = (this.isFirefox && !keyDown) ? delta * 34 : delta;
     this.wheel += newDelta;
     if (newDelta > 0) {
+      if (this.wheel >= 100) {
+        if (this.state.scrollEventsList > -(this.items.length * this.listItemHeight - numberOfListItemsVisible * this.listItemHeight)) {
+          this.setState(prev => ({ scrollEventsList: prev.scrollEventsList - this.listItemHeight }));
+        }
+        this.wheel = 0;
+      }
+    } else {
+      if (this.wheel <= -100) {
+        if (this.state.scrollEventsList < 0) {
+          this.setState(prev => ({ scrollEventsList: prev.scrollEventsList + this.listItemHeight }));
+        }
+        this.wheel = 0;
+      }
+    }
+    /*if (newDelta > 0) {
       if (this.wheel >= 100) {
         if (this.state.listPos < 3 || this.state.listPos > (this.items.length - 5)) {
           this.setState(prev => ({ listPos: prev.listPos + 1 }));
@@ -126,7 +148,7 @@ class App extends Component {
         }
         this.wheel = 0;
       }
-    }
+    }*/
   }
 
   render() {
@@ -165,10 +187,10 @@ class App extends Component {
           <Initial onBallFinished={this.scrollDown} onButtonClick={this.scrollDown} />
           <Events content={this.props} uniqYears={this.uniqYears} mbFontSize={this.eventsMbFontSize} mbBetweenElemsPos={this.mbYearsCellsPos}
             currentYear={this.state.currentYear} listPos={this.state.listPos} scroll={this.state.scrollEventsList} ballPos={this.state.ballPos}
-            isEvents={this.state.isEvents} isStory={this.state.isStory} isMobile={this.isMobile}
+            isEvents={this.state.isEvents} isStory={this.state.isStory} isMobile={this.isMobile} cooldownStory={this.state.cooldownStory}
             toggleStoryAndEvents={this.toggleSections} selectFromStoryToEvents={() => {this.changeYear(0); this.toggleSections();}}
             changeYear={this.changeYear} selectEventOnScroll={this.selectEventOnScroll} onInactiveListItemClick={this.selectEventOnClick}
-            onMbYearClick={this.selectEventOnClick} />
+            onMbYearClick={this.selectEventOnClick} listItemHeight={this.listItemHeight} />
         </div>
       </div>
     </div>;

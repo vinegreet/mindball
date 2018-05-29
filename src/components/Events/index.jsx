@@ -21,9 +21,9 @@ export default class Events extends Component {
       return this.ticking = false;
     }
     if (this.props.listPos === (this.items.length - 1) && delta > 0) return this.ticking = false;
-    if (delta > 0) {
+    if (delta > 0 && this.props.listPos !== (this.items.length - 4)) {
       this.props.changeYear(this.props.listPos + 1);
-    } else {
+    } else if (delta < 0 && this.props.listPos !== 3) {
       this.props.changeYear(this.props.listPos - 1);
     }
     this.props.selectEventOnScroll(delta, keyDown);
@@ -79,11 +79,11 @@ export default class Events extends Component {
     }
   }
 
-  handleListItemClick = idx => {
+  handleListItemClick = (idx, isMouseOver) => {
     // this.props.listPos === idx && this.toggleOpenEvent
     // setTimeout(() => this.props.onInactiveListItemClick(idx), 250);
-    this.props.onInactiveListItemClick(idx);
-    setTimeout(this.toggleOpenEvent, 250);
+    this.props.onInactiveListItemClick(idx, false, true);
+    !isMouseOver && setTimeout(this.toggleOpenEvent, 250);
   }
 
   render() {
@@ -91,7 +91,7 @@ export default class Events extends Component {
     this.titles = this.items.map(item => item.fields.title);
     const events = this.titles.map((item, idx) => 
       <div key={item} className={(this.props.listPos === idx) ? styles.listItem_selected : styles.listItem}
-        ref={'listItem' + idx}
+        onMouseOver={() => {this.handleListItemClick(idx, true)}} style={{ height: `${this.props.listItemHeight}rem` }}
         onClick={() => {this.handleListItemClick(idx)}}>
         <p className={styles.text}>{item}</p>
         <div className={styles.line}></div>
@@ -104,7 +104,7 @@ export default class Events extends Component {
         onKeyDown={this.handleKeyDown} tabIndex='0' ref={$el => this.$el = $el}>
         <Story content={this.props.content.story} selectFromStoryToEvents={this.props.selectFromStoryToEvents}
           opacity={(this.props.isStory && !this.state.isOpenEvent) ? 1 : 0} zIndex={(this.props.isStory) ? 10 : -1}
-          isStory={this.props.isStory} isMobile={this.props.isMobile} />
+          isStory={this.props.isStory} isMobile={this.props.isMobile} cooldown={this.props.cooldownStory} />
         {this.props.isMobile && <p className={styles.titleMobile}>Events {this.props.currentYear}</p>}
         <div className={styles.listWrapper}
           style={{ opacity: (this.props.isEvents && !this.state.isOpenEvent) ? 1 : 0, zIndex: (this.props.isEvents) ? 10 : -1 }}>
