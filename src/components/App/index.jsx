@@ -7,6 +7,7 @@ import Initial from 'components/Initial';
 import Events from 'components/Events';
 import { connect } from 'react-redux';
 import { fetchContent } from 'actions';
+import Bubbles from 'components/Bubbles';
 
 class App extends Component {
   constructor() {
@@ -32,6 +33,7 @@ class App extends Component {
     this.mbBetweenElems = {};
     this.eventsMbFontSize = 0.0181;
     this.listItemHeight = 3.75;
+    this.devMode = window.location.href.search('localhost') >= 0;
   }
 
   componentWillMount() {
@@ -43,8 +45,8 @@ class App extends Component {
     // this.isMobile = window.outerWidth < 988;
     this.isMobile = window.innerWidth < 988;
     // console.log(this.isMobile, this.state.isMobile);
-    if (window.location.href.search('localhost') >= 0) this.selectEventOnClick(0);
-    if (window.location.href.search('localhost') < 0 && this.isMobile) this.scrollDown();
+    // if (this.devMode) this.selectEventOnClick(0);
+    if (!this.devMode && this.isMobile) this.scrollDown();
     // this.isMobile && this.scrollDown();
 
     this.changeYear(0, true);
@@ -130,32 +132,12 @@ class App extends Component {
         this.wheel = 0;
       }
     }
-    /*if (newDelta > 0) {
-      if (this.wheel >= 100) {
-        if (this.state.listPos < 3 || this.state.listPos > (this.items.length - 5)) {
-          this.setState(prev => ({ listPos: prev.listPos + 1 }));
-        } else {
-          this.setState(prev => ({ listPos: prev.listPos + 1, scrollEventsList: prev.scrollEventsList - 3.75 }));
-        }
-        this.wheel = 0;
-      }
-    } else {
-      if (this.wheel <= -100) {
-        if (this.state.listPos < 4 || this.state.listPos > (this.items.length - 4)) {
-          this.setState(prev => ({ listPos: prev.listPos - 1 }));
-        } else {
-          this.setState(prev => ({ listPos: prev.listPos - 1, scrollEventsList: prev.scrollEventsList + 3.75 }));
-        }
-        this.wheel = 0;
-      }
-    }*/
   }
 
   render() {
     this.items = this.props.events;
     this.years = this.items.map(item => item.fields.date.split('-')[0]);
     this.uniqYears = [...new Set(this.years)];
-    // console.log(this.uniqYears);
 
     let bgText = '';
     if (this.state.isMenuOpen) {
@@ -178,7 +160,8 @@ class App extends Component {
 
     return <div className={styles.App} tabIndex='0'>
       <div className={styles.wrapper}>
-        <div className={styles.bubbles} style={{ opacity: (!this.state.isMenuOpen) ? 0.5 : 0 }}></div>
+        {this.devMode && !this.isMobile && <Bubbles opacity={(!this.state.isMenuOpen) ? 1 : 0} top={this.state.scroll} />}
+        {!this.devMode && <div className={styles.bubbles} style={{ opacity: (!this.state.isMenuOpen) ? 0.5 : 0, /*backgroundColor: 'green'*/ }}></div>}
         <BgText text={bgText} isMobile={this.isMobile} />
         <Header onSandwichClick={this.handleSandwichClick} events={this.state.isEvents} />
         <Menu opacity={(this.state.isMenuOpen) ? 1 : 0} zIndex={(this.state.isMenuOpen) ? 6 : 0} onMenuClick={this.selectEventOnClick}

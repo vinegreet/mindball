@@ -1,0 +1,28 @@
+@media screen and (min-width: 988px) {
+
+  .Bubbles {
+    position: absolute;
+    top: 5%;
+    /*left: 3.1%;*/
+  /*  left: 6.1%;*/
+    /*left: 5%;*/
+    left: 2%;
+    /*left: -26%;*/
+    height: 200%;
+    /*width: 90%;*/
+    z-index: 1;
+    opacity: .5;
+    transition: opacity 0.3s cubic-bezier(.78, .03, .18, .99);
+    /*transition: top 2.5s cubic-bezier(.78, .03, .18, .99);*/
+    transition: top 2.5s cubic-bezier(0.59, 0.04, 0.44, 1.05);
+    /*transition: top 2s linear;*/
+    display: inherit;
+    flex-direction: inherit;
+    align-content: inherit;
+  }
+
+  div[aria-label="animation"]:last-child {
+    margin-left: 2% !important;
+  }
+  
+}
