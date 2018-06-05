@@ -6,16 +6,11 @@ import * as animationData2 from './Dots2.json';
 
 export default function Bubbles(props) {
 
-  const options1 = {
+  const options = data => {return {
     loop: true,
     autoplay: true, 
-    animationData: animationData1,
-  };
-  const options2 = {
-    loop: true,
-    autoplay: true, 
-    animationData: animationData2,
-  };
+    animationData: data
+  }};
 
   return (
     <div className={styles.Bubbles}
@@ -23,8 +18,8 @@ export default function Bubbles(props) {
         top: `${parseInt(props.top) + 4 /*7*/}%`,
         opacity: props.opacity
       }}>
-        <Lottie options={options1} />
-        <Lottie options={options2} />
+        <Lottie options={options(animationData1)} />
+        <Lottie options={options(animationData2)} />
     </div>
   );
 }

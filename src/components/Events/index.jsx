@@ -13,10 +13,12 @@ export default class Events extends Component {
     };
     this.ticking = false;
     this.defaultBallPosition = 18;
+    this.$slider = {};
   }
 
   selectEvent = (delta, keyDown) => {
-    if (this.props.listPos === 0 && delta < 0) {
+    // if (this.props.listPos === 0 && delta < 0) {
+    if (this.props.scrollEventsList === 0 && delta < 0) {
       this.props.toggleStoryAndEvents();
       return this.ticking = false;
     }
@@ -40,7 +42,8 @@ export default class Events extends Component {
 
   toggleOpenEvent = () => {
     this.$slider.slickGoTo(0, true);
-    this.setState(prev => ({ isOpenEvent: !prev.isOpenEvent }));
+    // !this.props.isOpenEvent && this.$slider.slickPlay;
+    this.props.toggleOpenEvent();
   }
 
   handleKeyDown = e => {
@@ -65,14 +68,14 @@ export default class Events extends Component {
         // this.props.isEvents && this.selectEvent(-100, true);
         break;
       case 'Enter':
-        // !this.state.isOpenEvent && this.toggleOpenEvent();
+        // !this.props.isOpenEvent && this.toggleOpenEvent();
         this.props.isEvents && this.toggleOpenEvent();
         break;
       case 'Backspace':
-        this.state.isOpenEvent && this.toggleOpenEvent();
+        this.props.isOpenEvent && this.toggleOpenEvent();
         break;
       case 'Escape':
-        this.state.isOpenEvent && this.toggleOpenEvent();
+        this.props.isOpenEvent && this.toggleOpenEvent();
         break;
       default:
         return;
@@ -82,8 +85,13 @@ export default class Events extends Component {
   handleListItemClick = (idx, isMouseOver) => {
     // this.props.listPos === idx && this.toggleOpenEvent
     // setTimeout(() => this.props.onInactiveListItemClick(idx), 250);
-    this.props.onInactiveListItemClick(idx, false, true);
-    !isMouseOver && setTimeout(this.toggleOpenEvent, 250);
+    if (!isMouseOver) {
+      this.openEventCoolDown = true;
+      setTimeout(() => {this.openEventCoolDown = false;}, 500);
+    }
+    !this.openEventCoolDown && this.props.onInactiveListItemClick(idx, false, true);
+    // !isMouseOver && setTimeout(this.toggleOpenEvent, 250);
+    !isMouseOver && this.toggleOpenEvent();
   }
 
   render() {
@@ -93,21 +101,21 @@ export default class Events extends Component {
       <div key={item} className={(this.props.listPos === idx) ? styles.listItem_selected : styles.listItem}
         onMouseOver={() => {this.handleListItemClick(idx, true)}} style={{ height: `${this.props.listItemHeight}rem` }}
         onClick={() => {this.handleListItemClick(idx)}}>
-        <p className={styles.text}>{item}</p>
+        <p className={styles.listItemTitle}>{item}</p>
         <div className={styles.line}></div>
         <div className={styles.arrow}></div>
       </div>
     );
     
     return (
-      <section className={styles.Events} onWheel={this.props.isEvents && !this.state.isOpenEvent && this.handleWheel || undefined}
-        onKeyDown={this.handleKeyDown} tabIndex='0' ref={$el => this.$el = $el}>
+      <section className={styles.Events} onWheel={this.props.isEvents && !this.props.isOpenEvent && this.handleWheel || undefined}
+        onKeyDown={this.handleKeyDown} tabIndex='0' ref={$el => this.props.getEventsElem($el)} >
         <Story content={this.props.content.story} selectFromStoryToEvents={this.props.selectFromStoryToEvents}
-          opacity={(this.props.isStory && !this.state.isOpenEvent) ? 1 : 0} zIndex={(this.props.isStory) ? 10 : -1}
+          opacity={(this.props.isStory && !this.props.isOpenEvent) ? 1 : 0} zIndex={(this.props.isStory) ? 10 : -1}
           isStory={this.props.isStory} isMobile={this.props.isMobile} cooldown={this.props.cooldownStory} />
         {this.props.isMobile && <p className={styles.titleMobile}>Events {this.props.currentYear}</p>}
         <div className={styles.listWrapper}
-          style={{ opacity: (this.props.isEvents && !this.state.isOpenEvent) ? 1 : 0, zIndex: (this.props.isEvents) ? 10 : -1 }}>
+          style={{ opacity: (this.props.isEvents && !this.props.isOpenEvent) ? 1 : 0, zIndex: (this.props.isEvents) ? 10 : -1 }}>
           <div className={styles.list} style={{ top: this.props.scroll + 'rem' }}>
             {events}
           </div>
@@ -115,11 +123,14 @@ export default class Events extends Component {
         <Mindball position={(this.props.isStory) ? this.defaultBallPosition : this.props.ballPos} isEvents={true}
           currentYear={this.props.isEvents && this.props.currentYear} size={this.props.mbFontSize} uniqYears={this.props.uniqYears}
           mbBetweenElemsPos={this.props.mbBetweenElemsPos} isMobile={this.props.isMobile} onYearClick={this.props.onMbYearClick}
-          opacity={(this.state.isOpenEvent && this.props.isMobile) ? 0 : 1} zIndex={(this.state.isOpenEvent && this.props.isMobile) ? -1 : 11} />
-        {!this.props.isMobile && <Copyright opacity={(!this.state.isOpenEvent && this.props.listPos === (this.items.length - 1)) ? 1 : 0}
-          zIndex={(!this.state.isOpenEvent && this.props.listPos === (this.items.length - 1)) ? 10 : -1} />}
-        <OpenEvent content={this.props.content} opacity={(this.state.isOpenEvent) ? 1 : 0} zIndex={(this.state.isOpenEvent) ? 10 : -1}
-          currentEvent={this.props.listPos} closeEvent={this.toggleOpenEvent} getSlider={($slider) => this.$slider = $slider} />
+          opacity={(this.props.isOpenEvent && this.props.isMobile) ? 0 : 1} zIndex={(this.props.isOpenEvent && this.props.isMobile) ? -1 : 11} />
+        {!this.props.isMobile && <Copyright opacity={(!this.props.isOpenEvent && this.props.listPos === (this.items.length - 1)) ? 1 : 0}
+          zIndex={(!this.props.isOpenEvent && this.props.listPos === (this.items.length - 1)) ? 10 : -1} />}
+        <OpenEvent content={this.props.content} opacity={(this.props.isOpenEvent) ? 1 : 0} zIndex={(this.props.isOpenEvent) ? 10 : -1}
+          currentEvent={this.props.listPos} closeEvent={this.toggleOpenEvent} getSlider={($slider, idx) => {
+            this.$slider['$' + idx] = $slider;
+            this.props.getSlider(this.$slider);
+          }} /> />
       </section>
     );
   }

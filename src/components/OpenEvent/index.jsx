@@ -27,13 +27,12 @@ export default class OpenEvent extends Component {
 
   render() {
     this.events = this.props.content.events;
-    const titles = this.events.map(item => item.fields.title);
+    const titles = this.events.map(item => item.fields.title); // Is done in App component --> must be received in props
     const photos = this.getPhotos();
     const currentEvent = this.props.currentEvent;
     const photoElems = (photos.length === 0) ? null : photos[currentEvent].map((item, idx) => 
-      <div key={`${currentEvent}/${item}`}>
-        <img className={styles.sliderImg} src={item} 
-        alt={`${titles[currentEvent]} - ${item}`} />
+      <div key={`Event${currentEvent}/${idx}`}>
+        <img className={styles.sliderImg} src={item} alt={`${titles[currentEvent]}, image ${idx}`} />
       </div>
     );
     const settings = {
@@ -45,12 +44,12 @@ export default class OpenEvent extends Component {
       infinite: true,
       arrows: false,
       touchMove: false,
-      swipe: true
+      swipe: false
     };
     return (
       <div className={styles.OpenEvent} style={{ opacity: this.props.opacity, zIndex: this.props.zIndex }} >
         <div className={styles.gallery}>
-          <Slider ref={$slider => this.props.getSlider($slider)} {...settings}>
+          <Slider ref={$slider => this.props.getSlider($slider, currentEvent || null)} {...settings}>
             {photoElems}
           </Slider>
           {/*<div className={styles.pager}>
