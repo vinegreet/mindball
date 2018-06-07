@@ -91,7 +91,7 @@
 .Mindball_events .ball {
   width: 38em;
   height: 38em;
-  transition: all 0.5s cubic-bezier(.78, .03, .18, .99);
+  transition: all .8s cubic-bezier(.78, .03, .18, .99);
 }
 
 

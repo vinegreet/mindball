@@ -30,7 +30,6 @@ class App extends Component {
       wheel: 0
     };
     this.isFirefox = typeof InstallTrigger !== 'undefined';
-    this.wheel = 0;
     this.mbBetweenElems = {};
     this.eventsMbFontSize = 0.0181;
     this.listItemHeight = 3.75;
@@ -46,12 +45,14 @@ class App extends Component {
     // this.isMobile = window.outerWidth < 988;
     this.isMobile = window.innerWidth < 988;
     // console.log(this.isMobile, this.state.isMobile);
-    // if (this.devMode) this.selectEventOnClick(0);
-    // if (!this.devMode && this.isMobile) this.scrollDown();
-    this.isMobile && this.scrollDown();
 
     this.changeYear(0, true);
     this.setState({ ballPos: this.mbYearsCellsPos[0] + 10 });
+
+    if (this.devMode) this.selectEventOnClick(0);
+    if (!this.devMode && this.isMobile) this.scrollDown();
+    // this.isMobile && this.scrollDown();
+
     // window.addEventListener('resize', this.measureFontSize);
   }
 
@@ -65,7 +66,7 @@ class App extends Component {
   }
 
   selectEventOnClick = (idx, isMenuClick, isMouseOver) => {
-    console.log(idx);
+    // console.log(idx);
     if (idx < 0) {
       this.setState({ isStory: true, isEvents: false, isMenuOpen: false, listPos: 0, scrollEventsList: 0 });
       if (!this.isMobile) {
@@ -80,11 +81,12 @@ class App extends Component {
     }
     // if (OpenEvent) {!OpenEvent}
     const newIdx = (isMenuClick) ? this.years.indexOf(this.uniqYears[idx]) : idx;
-    this.changeYear(newIdx);
+    // this.changeYear(newIdx);
+    this.changeYear(this.uniqYears[idx]);
     this.setState({ listPos: newIdx, isMenuOpen: false });
-    console.log('hi');
+    // console.log('hi');
     if (isMouseOver) return;
-    console.log('hey');
+    // console.log('hey');
     if (newIdx < 3) {
       this.setState({ scrollEventsList: 0 });
     } else if (newIdx > (this.items.length - 4)) {
@@ -107,33 +109,13 @@ class App extends Component {
   }
 
   changeYear = (idx, isFirstCall) => {
-    this.setState({ currentYear: this.years[idx] });
+    this.setState({ currentYear: this.uniqYears[idx] });
     if (this.prevYear !== this.years[idx]) {
-      const currentYearIdx = this.uniqYears.indexOf(this.years[idx]);
-      this.setState({ ballPos: this.mbYearsCellsPos[currentYearIdx] + 10 });
+      // const currentYearIdx = this.uniqYears.indexOf(this.years[idx]);
+      // this.setState({ ballPos: this.mbYearsCellsPos[idx] + 10 });
     }
-    isFirstCall === undefined && (this.prevYear = this.years[idx]);
-  }
-  
-  selectEventOnScroll = (delta, keyDown) => {
-    const numberOfListItemsVisible = 7;
-    const newDelta = (this.isFirefox && !keyDown) ? delta * 34 : delta;
-    this.wheel += newDelta;
-    if (newDelta > 0) {
-      if (this.wheel >= 100) {
-        if (this.state.scrollEventsList > -(this.items.length * this.listItemHeight - numberOfListItemsVisible * this.listItemHeight)) {
-          this.setState(prev => ({ scrollEventsList: prev.scrollEventsList - this.listItemHeight }));
-        }
-        this.wheel = 0;
-      }
-    } else {
-      if (this.wheel <= -100) {
-        if (this.state.scrollEventsList < 0) {
-          this.setState(prev => ({ scrollEventsList: prev.scrollEventsList + this.listItemHeight }));
-        }
-        this.wheel = 0;
-      }
-    }
+      this.setState({ ballPos: this.mbYearsCellsPos[idx] + 10 });
+    // isFirstCall === undefined && (this.prevYear = this.years[idx]);
   }
 
   toggleOpenEvent = () => {
@@ -145,6 +127,7 @@ class App extends Component {
     this.years = this.items.map(item => item.fields.date.split('-')[0]);
     this.uniqYears = [...new Set(this.years)];
     this.titles = this.items.map(item => item.fields.title);
+    const uniqYearsIdx = this.uniqYears.map(uniqYear => this.years.findIndex(year => year === uniqYear));
 
     let bgText = '';
 
@@ -166,19 +149,20 @@ class App extends Component {
           if (distance < 150) {
             if (innerHtml.search('Back') >= 0) {
               this.setState({ isOpenEvent: false });
+              this.$slider.slickGoTo(0, true);
+              this.$slider.slickPause();
               // console.log('close event');
             } else if (!this.state.isOpenEvent && this.state.isEvents && isListItem) {
               const idx = this.titles.indexOf(innerHtml);
               this.setState({ listPos: idx });
               // console.log(this.state.listPos);
-              console.log(this.$slider);
               this.toggleOpenEvent();
-              this.$slider['$' + idx].slickGoTo(0, true);
-              // this.$slider['$' + idx].slickPlay();
+              // this.$slider.slickGoTo(0, true);
+              // this.$slider.slickPlay();
             } else if (isSliderButton) {
               const idx = this.state.listPos;
               // console.log(parseInt(innerHtml));
-              this.$slider['$' + idx].slickGoTo(parseInt(innerHtml) - 1, true);
+              this.$slider.slickGoTo(parseInt(innerHtml) - 1, true);
             }
             this.swipeCoolDown = true;
             setTimeout(() => {this.swipeCoolDown = false;}, 300);
@@ -235,7 +219,7 @@ class App extends Component {
             changeYear={this.changeYear} selectEventOnScroll={this.selectEventOnScroll} onInactiveListItemClick={this.selectEventOnClick}
             onMbYearClick={this.selectEventOnClick} listItemHeight={this.listItemHeight} scrollEventsList={this.state.scrollEventsList}
             toggleOpenEvent={this.toggleOpenEvent} isOpenEvent={this.state.isOpenEvent} getEventsElem={($el) => this.$Events = $el}
-            getSlider={($slider) => this.$slider = $slider} />
+            getSlider={($slider) => this.$slider = $slider} years={this.years} />
         </div>
       </div>
     </div>;
