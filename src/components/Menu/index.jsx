@@ -4,7 +4,7 @@ import styles from './styles.css';
 export default function Menu(props) {
 
   const yearsElems = props.uniqYears.map((item, idx) => 
-    <p key={`menu_${item}`} className={styles.listItem} onClick={() => props.onMenuClick(idx, true)} >{item}</p>
+    <p key={`menu_${item}`} className={styles.listItem} onClick={() => props.onMenuClick(idx)} >{item}</p>
   );
   return (
     <section className={styles.Menu} style={{opacity: props.opacity, zIndex: props.zIndex}}>

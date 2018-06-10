@@ -19,8 +19,7 @@ export default function Story(props) {
           isScrolled = true;
           setTimeout(() => {isScrolled = false;}, 500);
         }
-      }} style={{ opacity: props.opacity, zIndex: props.zIndex }}
-      onKeyDown={handleKeyDown} tabIndex='0'>
+      }} onKeyDown={handleKeyDown} tabIndex='0' style={{ opacity: props.opacity, zIndex: props.zIndex }}>
       <div className={styles.outerWrapper}>
         <article className={styles.wrapper}>
           <h1>{isReady && props.content.fields.title}</h1>

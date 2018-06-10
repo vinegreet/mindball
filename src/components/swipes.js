@@ -2,9 +2,20 @@
 
 //======================== Swipes Right, Left & Touch ===============================
 
-var isPrevent = true;
+const isPrevent = true;
+let ticking = false;
 
-export default function ontouch($el, callback){
+export default function reqAnim($el, callback) {
+  if (!ticking) {
+    // console.log(args);
+    // console.log(arguments[0], arguments[1]);
+    const args = arguments;
+    requestAnimationFrame(() => ontouch(args[0], args[1]));
+    ticking = true;
+  }
+}
+
+/*export default */function ontouch($el, callback){
 
   var touchsurface = $el,
   dir,
@@ -19,8 +30,9 @@ export default function ontouch($el, callback){
   elapsedTime,
   startTime,
   handletouch = callback || function(evt, dir, phase, swipetype, distance){};
- 
-  // console.log(touchsurface)
+
+  console.log(touchsurface)
+  if (!touchsurface) return;
   touchsurface.addEventListener('touchstart', function(e){
     var touchobj = e.changedTouches[0];
     dir = 'none';
@@ -64,6 +76,7 @@ export default function ontouch($el, callback){
     handletouch(e, dir, 'end', swipeType, (dir =='left' || dir =='right')? distX : distY);
     isPrevent && e.preventDefault();
   });
+  ticking = false;
 }
  
 // USAGE:
