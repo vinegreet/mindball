@@ -46,7 +46,7 @@ class App extends Component {
     // console.log(this.isMobile, this.state.isMobile);
 
     this.changeYear(0, true);
-    this.setState({ ballPos: this.mbYearsCellsPos[0] + 10 });
+    // this.setState({ ballPos: this.mbYearsCellsPos[0] + 10 });
 
     if (this.devMode) {this.changeYear(0);}
     if (!this.devMode && this.isMobile) this.scrollDown();
@@ -82,14 +82,11 @@ class App extends Component {
   }
 
   changeYear = (idx, isFirstCallOrStoryScroll) => {
-    // console.log(isFirstCallOrStoryScroll);
     if (idx < 0) {
-      this.setState({ isStory: true, isEvents: false, isMenuOpen: false, listPos: 0, scrollEventsList: 0 });
-      if (!this.isMobile) {
-        this.setState({ scroll: '-100%' });
-      }
+      this.setState({ isStory: true, isEvents: false, isMenuOpen: false, listPos: 0, currentYear: '' });
       return;
     }
+    console.log(isFirstCallOrStoryScroll);
     if (!this.state.isStory && !this.state.isEvents && !isFirstCallOrStoryScroll) {
       this.toggleSections(true);
     } else if (this.state.isStory && isFirstCallOrStoryScroll) {
@@ -105,10 +102,11 @@ class App extends Component {
   }
 
   selectEventsList = (delta, keyDown) => {
-    const currYrIdx = this.uniqYears.indexOf(this.state.currentYear); // Take the currYearIdx prop from App, which will have according state
+    const currYrIdx = this.uniqYears.indexOf(this.state.currentYear); // Use currYearIdx state
     if (currYrIdx === 0 && delta < 0 && !this.coolDownForSwipe) {
       this.coolDownForSwipe = true;
-      this.toggleSections();
+      // this.toggleSections();
+      this.changeYear(-1);
       setTimeout(() => {this.coolDownForSwipe = false}, 200);
       return;
     }
@@ -197,13 +195,13 @@ class App extends Component {
 
     if (this.$Events && !this.isEventListenerAdded) {
       ontouch(this.$Events, (e, dir, phase, swipeType, dist) => {
-        console.log('swipeCoolDown', this.swipeCoolDown);
+        // console.log('swipeCoolDown', this.swipeCoolDown);
         const distance = (!isNaN(dist)) ? Math.abs(dist) : 0;
         const currYear = parseInt(this.uniqYears.indexOf(this.state.currentYear));
         const nextYear = currYear + 1;
         const prevYear = currYear - 1;
-        if (phase === 'end' && !this.swipeCoolDown && this.state.isEvents || this.state.isStory) {
-          console.log('I`m in', this.swipeCoolDown);
+        if (phase === 'end' && !this.swipeCoolDown && (this.state.isEvents || this.state.isStory)) {
+          // console.log('I`m in', this.swipeCoolDown);
           const outerHtml = e.target.outerHTML;
           const innerHtml = e.target.innerHTML;
           const isListItem = outerHtml.search('listItemTitle') === 10;
@@ -227,13 +225,13 @@ class App extends Component {
             return;
           }
           if (dir === 'left' && distance > 250) {
-            console.log('this.state.isStory', this.state.isStory, `${new Date().getSeconds()}:${new Date().getMilliseconds()}`);
+            // console.log('this.state.isStory', this.state.isStory, `${new Date().getSeconds()}:${new Date().getMilliseconds()}`);
             if (this.state.isStory) {
-              console.log('toggleSections')
+              // console.log('toggleSections')
               this.toggleSections();
               return;
             } else {
-              console.log('nextEventsList')
+              // console.log('nextEventsList')
               !this.state.isStory && !this.swipeCoolDown && this.selectEventsList(100);
             }
           }
@@ -241,6 +239,7 @@ class App extends Component {
             if (this.state.isStory) return;
             this.selectEventsList(-100);
           }
+          // console.log('this.swipeCoolDown = true;')
           this.swipeCoolDown = true;
           setTimeout(() => {this.swipeCoolDown = false;}, 700);
         }
@@ -278,11 +277,11 @@ class App extends Component {
         <div className={styles.innerContainer} style={{ top: this.state.scroll, opacity: (!this.state.isMenuOpen) ? 1 : 0 }}>
           <Initial onBallFinished={this.scrollDown} onButtonClick={this.scrollDown} />
           <Events content={this.props} uniqYears={this.uniqYears} mbFontSize={this.eventsMbFontSize} mbBetweenElemsPos={this.mbYearsCellsPos}
-            currentYear={this.state.currentYear} listPos={this.state.listPos} scroll={this.state.scrollEventsList} ballPos={this.state.ballPos}
+            currentYear={this.state.currentYear} listPos={this.state.listPos} ballPos={this.state.ballPos}
             isEvents={this.state.isEvents} isStory={this.state.isStory} isMobile={this.isMobile} cooldownStory={this.state.cooldownStory}
             selectFromStoryToEvents={() => {this.changeYear(0); this.toggleSections();}}
             changeYear={this.changeYear} selectEventOnScroll={this.selectEventOnScroll} onInactiveListItemClick={this.selectEventOnClick}
-            onMbYearClick={this.selectEventOnClick} listItemHeight={this.listItemHeight} scrollEventsList={this.state.scrollEventsList}
+            onMbYearClick={this.selectEventOnClick} listItemHeight={this.listItemHeight}
             toggleOpenEvent={this.toggleOpenEvent} isOpenEvent={this.state.isOpenEvent} getEventsElem={($el) => this.$Events = $el}
             getSlider={($slider) => this.$slider = $slider} years={this.years} selectEventsList={this.selectEventsList} />
         </div>
