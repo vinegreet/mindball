@@ -48,7 +48,7 @@ class App extends Component {
     this.changeYear(0, true);
     this.setState({ ballPos: this.mbYearsCellsPos[0] + 10 });
 
-    if (this.devMode) this.selectEventOnClick(0);
+    if (this.devMode) {this.changeYear(0);}
     if (!this.devMode && this.isMobile) this.scrollDown();
     // this.isMobile && this.scrollDown();
 
@@ -81,8 +81,8 @@ class App extends Component {
     this.setState(prev => ({ isEvents: !prev.isEvents, isStory: !prev.isStory }));
   }
 
-  changeYear = (idx, isFirstCall) => {
-    // console.log(idx);
+  changeYear = (idx, isFirstCallOrStoryScroll) => {
+    // console.log(isFirstCallOrStoryScroll);
     if (idx < 0) {
       this.setState({ isStory: true, isEvents: false, isMenuOpen: false, listPos: 0, scrollEventsList: 0 });
       if (!this.isMobile) {
@@ -90,10 +90,10 @@ class App extends Component {
       }
       return;
     }
-    if (!this.state.isStory && !this.state.isEvents && !isFirstCall) {
+    if (!this.state.isStory && !this.state.isEvents && !isFirstCallOrStoryScroll) {
       this.toggleSections(true);
-    } else if (this.state.isStory) {
-      // this.toggleSections();
+    } else if (this.state.isStory && isFirstCallOrStoryScroll) {
+      this.toggleSections();
     }
     // if (OpenEvent) {!OpenEvent}
     this.setState({ currentYear: this.uniqYears[idx], ballPos: this.mbYearsCellsPos[idx] + 10, isMenuOpen: false });
@@ -203,6 +203,7 @@ class App extends Component {
         const nextYear = currYear + 1;
         const prevYear = currYear - 1;
         if (phase === 'end' && !this.swipeCoolDown && this.state.isEvents || this.state.isStory) {
+          console.log('I`m in', this.swipeCoolDown);
           const outerHtml = e.target.outerHTML;
           const innerHtml = e.target.innerHTML;
           const isListItem = outerHtml.search('listItemTitle') === 10;
@@ -272,8 +273,8 @@ class App extends Component {
         {this.devMode/* && false*/ && <div className={styles.bubbles} style={{ opacity: (!this.state.isMenuOpen) ? 0.5 : 0 }}></div>}
         <BgText text={bgText} isMobile={this.isMobile} />
         <Header onSandwichClick={this.handleSandwichClick} events={this.state.isEvents} />
-        <Menu opacity={(this.state.isMenuOpen) ? 1 : 0} zIndex={(this.state.isMenuOpen) ? 6 : 0} onMenuClick={this.changeYear}
-          uniqYears={this.uniqYears} />
+        <Menu opacity={(this.state.isMenuOpen) ? 1 : 0} zIndex={(this.state.isMenuOpen) ? 6 : 0} uniqYears={this.uniqYears}
+          onMenuClick={(idx, bool) => (this.state.isStory && this.toggleSections() && this.changeYear(idx, bool)) || this.changeYear(idx)} />
         <div className={styles.innerContainer} style={{ top: this.state.scroll, opacity: (!this.state.isMenuOpen) ? 1 : 0 }}>
           <Initial onBallFinished={this.scrollDown} onButtonClick={this.scrollDown} />
           <Events content={this.props} uniqYears={this.uniqYears} mbFontSize={this.eventsMbFontSize} mbBetweenElemsPos={this.mbYearsCellsPos}
