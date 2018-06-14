@@ -83,7 +83,7 @@ class App extends Component {
 
   changeYear = (idx, isFirstCallOrStoryScroll) => {
     if (idx < 0) {
-      this.setState({ isStory: true, isEvents: false, isMenuOpen: false, listPos: 0, currentYear: '' });
+      this.setState({ isStory: true, isEvents: false, isMenuOpen: false, listPos: 0, currentYear: '', isOpenEvent: false });
       return;
     }
     console.log(isFirstCallOrStoryScroll);
@@ -93,7 +93,7 @@ class App extends Component {
       this.toggleSections();
     }
     // if (OpenEvent) {!OpenEvent}
-    this.setState({ currentYear: this.uniqYears[idx], ballPos: this.mbYearsCellsPos[idx] + 10, isMenuOpen: false });
+    this.setState({ currentYear: this.uniqYears[idx], ballPos: this.mbYearsCellsPos[idx] + 10, isMenuOpen: false, isOpenEvent: false });
     // isFirstCall === undefined && (this.prevYear = this.years[idx]);
   }
 
@@ -271,7 +271,7 @@ class App extends Component {
         {!this.devMode && !this.isMobile && <Bubbles opacity={(!this.state.isMenuOpen) ? 1 : 0} top={this.state.scroll} />}
         {this.devMode/* && false*/ && <div className={styles.bubbles} style={{ opacity: (!this.state.isMenuOpen) ? 0.5 : 0 }}></div>}
         <BgText text={bgText} isMobile={this.isMobile} />
-        <Header onSandwichClick={this.handleSandwichClick} events={this.state.isEvents} />
+        <Header onSandwichClick={this.handleSandwichClick} events={this.state.isEvents} isMenuOpen={this.state.isMenuOpen} />
         <Menu opacity={(this.state.isMenuOpen) ? 1 : 0} zIndex={(this.state.isMenuOpen) ? 6 : 0} uniqYears={this.uniqYears}
           onMenuClick={(idx, bool) => (this.state.isStory && this.toggleSections() && this.changeYear(idx, bool)) || this.changeYear(idx)} />
         <div className={styles.innerContainer} style={{ top: this.state.scroll, opacity: (!this.state.isMenuOpen) ? 1 : 0 }}>
