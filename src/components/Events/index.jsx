@@ -58,6 +58,8 @@ export default class Events extends Component {
   toggleOpenEvent = () => {
     this.$slider.slickGoTo(0, true);
     // !this.props.isOpenEvent && this.$slider.slickPlay;
+    this.openEventCoolDown = true;
+    setTimeout(() => {this.openEventCoolDown = false;}, 500);
     this.props.toggleOpenEvent();
   }
 
@@ -125,6 +127,8 @@ export default class Events extends Component {
         </div>
       );
     });
+
+    const currentListPos = -uniqYears.indexOf(this.currentYear) * 100 + '%';
     
     return (
       <section className={styles.Events} onWheel={this.props.isEvents && !this.props.isOpenEvent && this.handleWheel || undefined}
@@ -136,8 +140,8 @@ export default class Events extends Component {
         <div className={styles.listWrapper}
           style={{ opacity: (this.props.isEvents && !this.props.isOpenEvent) ? 1 : 0, zIndex: (this.props.isEvents) ? 10 : -1 }}>
           <div className={styles.listInner} style={{
-            left: this.isMobile && -uniqYears.indexOf(this.currentYear) * 100 + '%',
-            top: !this.isMobile && -uniqYears.indexOf(this.currentYear) * 100 + '%'
+            left: this.isMobile && currentListPos,
+            top: !this.isMobile && currentListPos
           }}>
             {eventLists}
           </div>
