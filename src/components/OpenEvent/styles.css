@@ -18,16 +18,19 @@
   /* display: inherit;
   justify-content: center; */
   background: center / cover no-repeat;
-  border-radius: 7%;
+  /*border-radius: 7%;*/
   overflow: hidden;
   margin-top: 11vh;
+
+  /*Handling overflow:hidden with border radius bug in Safari*/
+
+  -webkit-mask-image: radial-gradient(white, black);
+  /*backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);*/
+  /*-webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC);*/
+  /*-webkit-mask-box-image: url('mask.png');*/
 }
 
-/* :global(.slick-slider),
-:global(.slick-list),
-:global(.slick-track),
-:global(.slick-slide),
-:global(.slick-slide div), */
 .sliderImg {
   height: 32.4rem;
 }

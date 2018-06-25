@@ -8,9 +8,9 @@ import Copyright from 'components/Copyright';
 export default class Events extends Component {
   constructor(props) {
     super(props);
-    this.state = {
+    /*this.state = {
       isOpenEvent: false
-    };
+    };*/
     this.ticking = false;
     this.defaultBallPosition = 18;
     this.wheel = 0;
@@ -71,7 +71,7 @@ export default class Events extends Component {
       case 'ArrowUp':
         if (this.props.listPos === 0) {
           this.props.isEvents && this.props.toggleStoryAndEvents();
-          this.setState({ isOpenEvent: false });
+          // this.setState({ isOpenEvent: false });
         } else {
           this.selectEvent(-100, true);
         }
@@ -153,7 +153,7 @@ export default class Events extends Component {
         {!this.isMobile && <Copyright opacity={(!this.props.isOpenEvent && this.currentYear === uniqYears[uniqYears.length - 1]) ? 1 : 0}
           zIndex={(!this.props.isOpenEvent && this.props.listPos === (this.items.length - 1)) ? 10 : -1} />}
         <OpenEvent content={this.props.content} opacity={(this.props.isOpenEvent) ? 1 : 0} zIndex={(this.props.isOpenEvent) ? 10 : -1}
-          currentEvent={this.props.listPos} closeEvent={this.toggleOpenEvent} getSlider={($slider, idx) => {
+          currentEvent={this.props.listPos} closeEvent={this.toggleOpenEvent} isOpenEvent={this.props.isOpenEvent} getSlider={($slider, idx) => {
             this.$slider = $slider;
             this.props.getSlider(this.$slider);
           }} />

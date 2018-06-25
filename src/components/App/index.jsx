@@ -42,15 +42,16 @@ class App extends Component {
   componentDidMount() {
     this.setState({ isMobile: window.outerWidth < 988 });
     // this.isMobile = window.outerWidth < 988;
+    this.wWidth = window.innerWidth;
     this.isMobile = window.innerWidth < 988;
     // console.log(this.isMobile, this.state.isMobile);
 
     this.changeYear(0, true);
     // this.setState({ ballPos: this.mbYearsCellsPos[0] + 10 });
 
-    if (this.devMode) {this.changeYear(0);}
-    if (!this.devMode && this.isMobile) this.scrollDown();
-    // this.isMobile && this.scrollDown();
+    /*if (this.devMode) {this.changeYear(0);}
+    if (!this.devMode && this.isMobile) this.scrollDown();*/
+    this.isMobile && this.scrollDown();
 
     // window.addEventListener('resize', this.measureFontSize);
   }
@@ -268,8 +269,8 @@ class App extends Component {
 
     return <div className={styles.App} tabIndex='0' onTouchStart={null/*this.handleTouch*/}>
       <div className={styles.wrapper}>
-        {!this.devMode && !this.isMobile && <Bubbles opacity={(!this.state.isMenuOpen) ? 1 : 0} top={this.state.scroll} />}
-        {this.devMode/* && false*/ && <div className={styles.bubbles} style={{ opacity: (!this.state.isMenuOpen) ? 0.5 : 0 }}></div>}
+        {/*!this.devMode &&*/ !this.isMobile && <Bubbles opacity={(!this.state.isMenuOpen) ? 1 : 0} top={this.state.scroll} wWidth={this.wWidth} />}
+        {this.devMode && false && <div className={styles.bubbles} style={{ opacity: (!this.state.isMenuOpen) ? 0.5 : 0 }}></div>}
         <BgText text={bgText} isMobile={this.isMobile} />
         <Header onSandwichClick={this.handleSandwichClick} events={this.state.isEvents} isMenuOpen={this.state.isMenuOpen} />
         <Menu opacity={(this.state.isMenuOpen) ? 1 : 0} zIndex={(this.state.isMenuOpen) ? 6 : 0} uniqYears={this.uniqYears}

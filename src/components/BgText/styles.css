@@ -19,6 +19,7 @@
   background-size: 90%;
   /*transition: all 0.4s;*/
   /*z-index: 0;*/
+  z-index: 2;
 }
 
 .inner {

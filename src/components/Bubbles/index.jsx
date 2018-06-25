@@ -18,10 +18,15 @@ export default function Bubbles(props) {
         top: `${parseInt(props.top) + 4 /*7*/}%`,
         opacity: props.opacity
       }}>
-        <Lottie options={options(animationData1)} />
-        <Lottie options={options(animationData2)} />
+        <Lottie options={options(animationData1)} title="Bubbles1" />
+        <Lottie options={options(animationData2)} title="Bubbles2" />
     </div>
   );
 }
+/*  const width = props.wWidth * 1.6;
+  // const height = width * 0.5625;
+  const height = width * 1.6;*/
+  
+ // width={width} height={height} 
                 // height={'130%'}
                 // width={'130%'}
