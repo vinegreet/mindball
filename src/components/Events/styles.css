@@ -28,7 +28,8 @@
   width: 41%; */
   height: 26.25rem;
   width: 29rem;
-  overflow: hidden;
+  /*overflow: hidden;*/
+  overflow-y: scroll;
   position: absolute;
   transition: opacity 0.25s linear;
 }
@@ -45,7 +46,10 @@
 }
 
 .list {
-  width: 33.3%;
+  /*overflow-y: scroll;*/
+  /*box-sizing: content-box;
+  padding-right: 100px;
+  width: 100%;*/
 }
 
 .listItem {
@@ -60,6 +64,7 @@
 .listItem_selected {
   composes: listItem;
   cursor: pointer;
+  color: #E25244;
 }
 
 .listItemTitle {

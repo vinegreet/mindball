@@ -108,7 +108,16 @@ export default class Events extends Component {
     this.currentYear = this.props.currentYear || uniqYears[0];
     this.items = this.props.content.events;
     const titles = this.items.map(item => item.fields.title);
-    const eventLists = uniqYears.map(uniqYr => {
+    const evtList = titles.map((title, idx) => 
+      <div key={title} className={(this.props.listPos === idx) ? styles.listItem_selected : styles.listItem}
+        onMouseOver={() => {this.handleListItemClick(idx, true)}} style={{ height: `${this.props.listItemHeight}rem` }}
+        onClick={() => {this.handleListItemClick(idx)}}>
+        <p className={styles.listItemTitle}>{title}</p>
+        <div className={styles.line}></div>
+        <div className={styles.arrow}></div>
+      </div>
+    );
+    /*const eventLists = uniqYears.map(uniqYr => {
       const evtList = [];
       titles.forEach((title, idx) => {
         if (this.props.years[idx] === uniqYr) evtList.push(
@@ -126,24 +135,22 @@ export default class Events extends Component {
           {evtList}
         </div>
       );
-    });
+    });*/
 
     const currentListPos = -uniqYears.indexOf(this.currentYear) * 100 + '%';
     
     return (
-      <section className={styles.Events} onWheel={this.props.isEvents && !this.props.isOpenEvent && this.handleWheel || undefined}
-        onKeyDown={this.handleKeyDown} tabIndex='0' ref={$el => this.props.getEventsElem($el)} >
+      <section className={styles.Events}
+        onKeyDown={this.handleKeyDown} tabIndex='0' ref={$el => {/*this.props.getEventsElem($el)*/}} >
         <Story content={this.props.content.story} selectFromStoryToEvents={this.props.selectFromStoryToEvents}
           opacity={(this.props.isStory && !this.props.isOpenEvent) ? 1 : 0} zIndex={(this.props.isStory) ? 10 : -1}
-          isStory={this.props.isStory} isMobile={this.isMobile} cooldown={this.props.cooldownStory} />
+          isStory={this.props.isStory} isMobile={this.isMobile} cooldown={this.props.cooldownStory}
+          getStoryElem={this.props.getEventsElem} />
         {this.isMobile && <p className={styles.titleMobile}>Events {this.currentYear}</p>}
         <div className={styles.listWrapper}
           style={{ opacity: (this.props.isEvents && !this.props.isOpenEvent) ? 1 : 0, zIndex: (this.props.isEvents) ? 10 : -1 }}>
-          <div className={styles.listInner} style={{
-            left: this.isMobile && currentListPos,
-            top: !this.isMobile && currentListPos
-          }}>
-            {eventLists}
+          <div className={styles.list}>
+            {evtList}
           </div>
         </div>
         <Mindball position={(this.props.isStory) ? this.defaultBallPosition : this.props.ballPos} isEvents={true}
@@ -153,7 +160,8 @@ export default class Events extends Component {
         {!this.isMobile && <Copyright opacity={(!this.props.isOpenEvent && this.currentYear === uniqYears[uniqYears.length - 1]) ? 1 : 0}
           zIndex={(!this.props.isOpenEvent && this.props.listPos === (this.items.length - 1)) ? 10 : -1} />}
         <OpenEvent content={this.props.content} opacity={(this.props.isOpenEvent) ? 1 : 0} zIndex={(this.props.isOpenEvent) ? 10 : -1}
-          currentEvent={this.props.listPos} closeEvent={this.toggleOpenEvent} isOpenEvent={this.props.isOpenEvent} getSlider={($slider, idx) => {
+          currentEvent={this.props.listPos} closeEvent={this.toggleOpenEvent} isOpenEvent={this.props.isOpenEvent} titles={titles}
+          getSlider={($slider, idx) => {
             this.$slider = $slider;
             this.props.getSlider(this.$slider);
           }} />
@@ -161,3 +169,4 @@ export default class Events extends Component {
     );
   }
 }
+// onWheel={this.props.isEvents && !this.props.isOpenEvent && this.handleWheel || undefined}

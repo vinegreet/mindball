@@ -68,6 +68,10 @@ class App extends Component {
   selectEventOnClick = (idx, isMenuClick, isMouseOver) => {
     const newIdx = (isMenuClick) ? this.years.indexOf(this.uniqYears[idx]) : idx; // Invert this
     this.setState({ listPos: newIdx });
+    
+    const convertedIdx = this.uniqYears.indexOf(this.years[idx]);
+    // console.log('selectEventOnClick', idx, convertedIdx);
+    isMouseOver && this.changeYear(convertedIdx);
   }
 
   toggleSections = (dev) => {
@@ -83,11 +87,12 @@ class App extends Component {
   }
 
   changeYear = (idx, isFirstCallOrStoryScroll) => {
+    console.log(idx);
     if (idx < 0) {
       this.setState({ isStory: true, isEvents: false, isMenuOpen: false, listPos: 0, currentYear: '', isOpenEvent: false });
       return;
     }
-    console.log(isFirstCallOrStoryScroll);
+    // console.log(isFirstCallOrStoryScroll);
     if (!this.state.isStory && !this.state.isEvents && !isFirstCallOrStoryScroll) {
       this.toggleSections(true);
     } else if (this.state.isStory && isFirstCallOrStoryScroll) {
@@ -103,6 +108,7 @@ class App extends Component {
   }
 
   selectEventsList = (delta, keyDown) => {
+      console.log('ping');
     const currYrIdx = this.uniqYears.indexOf(this.state.currentYear); // Use currYearIdx state
     if (currYrIdx === 0 && delta < 0 && !this.coolDownForSwipe) {
       this.coolDownForSwipe = true;
@@ -280,7 +286,7 @@ class App extends Component {
           <Events content={this.props} uniqYears={this.uniqYears} mbFontSize={this.eventsMbFontSize} mbBetweenElemsPos={this.mbYearsCellsPos}
             currentYear={this.state.currentYear} listPos={this.state.listPos} ballPos={this.state.ballPos}
             isEvents={this.state.isEvents} isStory={this.state.isStory} isMobile={this.isMobile} cooldownStory={this.state.cooldownStory}
-            selectFromStoryToEvents={() => {this.changeYear(0); this.toggleSections();}}
+            selectFromStoryToEvents={() => {/*this.changeYear(0);*/ this.toggleSections();}}
             changeYear={this.changeYear} selectEventOnScroll={this.selectEventOnScroll} onInactiveListItemClick={this.selectEventOnClick}
             onMbYearClick={this.selectEventOnClick} listItemHeight={this.listItemHeight}
             toggleOpenEvent={this.toggleOpenEvent} isOpenEvent={this.state.isOpenEvent} getEventsElem={($el) => this.$Events = $el}
