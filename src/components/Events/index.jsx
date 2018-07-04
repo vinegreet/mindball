@@ -97,7 +97,7 @@ export default class Events extends Component {
       this.openEventCoolDown = true;
       setTimeout(() => {this.openEventCoolDown = false;}, 500);
     }
-    !this.openEventCoolDown && this.props.onInactiveListItemClick(idx, false, true);
+    !this.openEventCoolDown && this.props.onInactiveListItemClick(idx, false, true, true);
     // !isMouseOver && setTimeout(this.toggleOpenEvent, 250);
     !isMouseOver && this.toggleOpenEvent();
   }
@@ -136,20 +136,18 @@ export default class Events extends Component {
         </div>
       );
     });*/
-
-    const currentListPos = -uniqYears.indexOf(this.currentYear) * 100 + '%';
     
     return (
       <section className={styles.Events}
-        onKeyDown={this.handleKeyDown} tabIndex='0' ref={$el => {/*this.props.getEventsElem($el)*/}} >
+        onKeyDown={this.handleKeyDown} tabIndex='0' ref={$el => this.props.getEventsElem($el)} >
         <Story content={this.props.content.story} selectFromStoryToEvents={this.props.selectFromStoryToEvents}
           opacity={(this.props.isStory && !this.props.isOpenEvent) ? 1 : 0} zIndex={(this.props.isStory) ? 10 : -1}
           isStory={this.props.isStory} isMobile={this.isMobile} cooldown={this.props.cooldownStory}
-          getStoryElem={this.props.getEventsElem} />
+           />
         {this.isMobile && <p className={styles.titleMobile}>Events {this.currentYear}</p>}
         <div className={styles.listWrapper}
           style={{ opacity: (this.props.isEvents && !this.props.isOpenEvent) ? 1 : 0, zIndex: (this.props.isEvents) ? 10 : -1 }}>
-          <div className={styles.list}>
+          <div className={styles.list} style={{ marginTop: this.props.listMarginTop }}>
             {evtList}
           </div>
         </div>
@@ -170,3 +168,4 @@ export default class Events extends Component {
   }
 }
 // onWheel={this.props.isEvents && !this.props.isOpenEvent && this.handleWheel || undefined}
+// getStoryElem={this.props.getEventsElem}

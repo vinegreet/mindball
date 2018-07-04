@@ -50,6 +50,7 @@
   /*box-sizing: content-box;
   padding-right: 100px;
   width: 100%;*/
+  transition: all .8s cubic-bezier(.78, .03, .18, .99);
 }
 
 .listItem {
@@ -64,6 +65,9 @@
 .listItem_selected {
   composes: listItem;
   cursor: pointer;
+}
+
+.listItem_selected .listItemTitle {
   color: #E25244;
 }
 

@@ -47,7 +47,7 @@ function ontouch($el, callback){
     startY = touchobj.pageY;
     startTime = new Date().getTime();
     handletouch(e, 'none', 'start', swipeType, 0);
-    e.preventDefault();
+    // e.preventDefault();
   });
  
   touchsurface.addEventListener('touchmove', function(e){
@@ -62,7 +62,7 @@ function ontouch($el, callback){
       dir = (distY < 0)? 'up' : 'down';
       handletouch(e, dir, 'move', swipeType, distY);
     }
-    e.preventDefault();
+    // if (dir === 'left' || dir === 'right') e.preventDefault();
   });
  
   touchsurface.addEventListener('touchend', function(e){
@@ -77,7 +77,7 @@ function ontouch($el, callback){
       }
     }
     handletouch(e, dir, 'end', swipeType, (dir =='left' || dir =='right')? distX : distY);
-    e.preventDefault();
+    // e.preventDefault();
   });
   ticking = false;
 }

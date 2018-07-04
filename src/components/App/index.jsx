@@ -71,7 +71,7 @@ class App extends Component {
     
     const convertedIdx = this.uniqYears.indexOf(this.years[idx]);
     // console.log('selectEventOnClick', idx, convertedIdx);
-    isMouseOver && this.changeYear(convertedIdx);
+    isMouseOver && this.changeYear(convertedIdx, false, true);
   }
 
   toggleSections = (dev) => {
@@ -86,8 +86,7 @@ class App extends Component {
     this.setState(prev => ({ isEvents: !prev.isEvents, isStory: !prev.isStory }));
   }
 
-  changeYear = (idx, isFirstCallOrStoryScroll) => {
-    console.log(idx);
+  changeYear = (idx, isFirstCallOrStoryScroll, isClick) => {
     if (idx < 0) {
       this.setState({ isStory: true, isEvents: false, isMenuOpen: false, listPos: 0, currentYear: '', isOpenEvent: false });
       return;
@@ -99,7 +98,14 @@ class App extends Component {
       this.toggleSections();
     }
     // if (OpenEvent) {!OpenEvent}
-    this.setState({ currentYear: this.uniqYears[idx], ballPos: this.mbYearsCellsPos[idx] + 10, isMenuOpen: false, isOpenEvent: false });
+    const newCurrYr = this.uniqYears[idx];
+    this.setState(prev => ({
+        currentYear: newCurrYr,
+        listPos: (newCurrYr >= 0 && !isClick) ? this.years.indexOf(newCurrYr) : prev.listPos,
+        ballPos: this.mbYearsCellsPos[idx] + 10,
+        isMenuOpen: false,
+        isOpenEvent: false
+      }));
     // isFirstCall === undefined && (this.prevYear = this.years[idx]);
   }
 
@@ -108,7 +114,6 @@ class App extends Component {
   }
 
   selectEventsList = (delta, keyDown) => {
-      console.log('ping');
     const currYrIdx = this.uniqYears.indexOf(this.state.currentYear); // Use currYearIdx state
     if (currYrIdx === 0 && delta < 0 && !this.coolDownForSwipe) {
       this.coolDownForSwipe = true;
@@ -122,14 +127,14 @@ class App extends Component {
     if (newDelta > 0) {
       if (this.wheel >= 100) {
         if (currYrIdx < this.uniqYears.length - 1) {
-          this.changeYear(currYrIdx + 1);
+          this.changeYear(currYrIdx + 1, false);
         }
         this.wheel = 0;
       }
     } else {
       if (this.wheel <= -100) {
         if (currYrIdx > 0) {
-          this.changeYear(currYrIdx - 1);
+          this.changeYear(currYrIdx - 1, false);
         }
         this.wheel = 0;
       }
@@ -200,6 +205,10 @@ class App extends Component {
     this.swipeCoolDown = false;
     this.isEventListenerAdded = false;
 
+    console.log((this.$Events) ? this.$Events.clientTop : null);
+
+    let eventsListMarginTop = (-this.state.listPos * this.listItemHeight) + 'rem';
+
     if (this.$Events && !this.isEventListenerAdded) {
       ontouch(this.$Events, (e, dir, phase, swipeType, dist) => {
         // console.log('swipeCoolDown', this.swipeCoolDown);
@@ -207,13 +216,15 @@ class App extends Component {
         const currYear = parseInt(this.uniqYears.indexOf(this.state.currentYear));
         const nextYear = currYear + 1;
         const prevYear = currYear - 1;
+        // console.log(e.changedTouches[0].pageY);
+        // console.log(e.targetTouches[0], e.targetTouches[0].pageY);
         if (phase === 'end' && !this.swipeCoolDown && (this.state.isEvents || this.state.isStory)) {
           // console.log('I`m in', this.swipeCoolDown);
           const outerHtml = e.target.outerHTML;
           const innerHtml = e.target.innerHTML;
           const isListItem = outerHtml.search('listItemTitle') === 10;
           const isSliderButton = outerHtml.search('button') === 1;
-          if (distance < 150) {
+          /*if (distance < 150) {
             if (innerHtml.search('Back') >= 0) {
               this.setState({ isOpenEvent: false });
               this.$slider.slickGoTo(0, true);
@@ -230,7 +241,7 @@ class App extends Component {
             this.swipeCoolDown = true;
             setTimeout(() => {this.swipeCoolDown = false;}, 700);
             return;
-          }
+          }*/
           if (dir === 'left' && distance > 250) {
             // console.log('this.state.isStory', this.state.isStory, `${new Date().getSeconds()}:${new Date().getMilliseconds()}`);
             if (this.state.isStory) {
@@ -290,7 +301,8 @@ class App extends Component {
             changeYear={this.changeYear} selectEventOnScroll={this.selectEventOnScroll} onInactiveListItemClick={this.selectEventOnClick}
             onMbYearClick={this.selectEventOnClick} listItemHeight={this.listItemHeight}
             toggleOpenEvent={this.toggleOpenEvent} isOpenEvent={this.state.isOpenEvent} getEventsElem={($el) => this.$Events = $el}
-            getSlider={($slider) => this.$slider = $slider} years={this.years} selectEventsList={this.selectEventsList} />
+            getSlider={($slider) => this.$slider = $slider} years={this.years} selectEventsList={this.selectEventsList}
+            listMarginTop={eventsListMarginTop} />
         </div>
       </div>
     </div>;
