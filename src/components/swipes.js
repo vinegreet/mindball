@@ -1,22 +1,19 @@
 let ticking = false;
 
-export default function reqAnim(...argums) {
+export default function reqAnim($el, callback) {
   if (!ticking) {
-    /*console.log(argums);
-    console.log(arguments[0], arguments[1]);*/
-    const args = arguments;
-    requestAnimationFrame(() => ontouch(args[0], args[1]));
+    requestAnimationFrame(() => ontouch($el, callback));
     ticking = true;
   }
 }
 
-/*export default function reqAnim($el, callback) {
+/*export default function reqAnim(...argums) {
   if (!ticking) {
-    console.log(args);
+    console.log(argums);
     console.log(arguments[0], arguments[1]);
-    const args = arguments;
+    // const args = arguments;
     // args[0], args[1]
-    requestAnimationFrame(() => ontouch($el, callback));
+    requestAnimationFrame(() => ontouch(argums[0], argums[1]));
     ticking = true;
   }
 }*/

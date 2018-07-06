@@ -136,14 +136,12 @@ export default class Events extends Component {
         </div>
       );
     });*/
-    
     return (
       <section className={styles.Events}
         onKeyDown={this.handleKeyDown} tabIndex='0' ref={$el => this.props.getEventsElem($el)} >
-        <Story content={this.props.content.story} selectFromStoryToEvents={this.props.selectFromStoryToEvents}
+        {this.props.content.events.length > 0 && <Story content={this.props.content.story} selectFromStoryToEvents={this.props.selectFromStoryToEvents}
           opacity={(this.props.isStory && !this.props.isOpenEvent) ? 1 : 0} zIndex={(this.props.isStory) ? 10 : -1}
-          isStory={this.props.isStory} isMobile={this.isMobile} cooldown={this.props.cooldownStory}
-           />
+          isStory={this.props.isStory} isMobile={this.isMobile} cooldown={this.props.cooldownStory} />}
         {this.isMobile && <p className={styles.titleMobile}>Events {this.currentYear}</p>}
         <div className={styles.listWrapper}
           style={{ opacity: (this.props.isEvents && !this.props.isOpenEvent) ? 1 : 0, zIndex: (this.props.isEvents) ? 10 : -1 }}>
@@ -168,4 +166,3 @@ export default class Events extends Component {
   }
 }
 // onWheel={this.props.isEvents && !this.props.isOpenEvent && this.handleWheel || undefined}
-// getStoryElem={this.props.getEventsElem}

@@ -55,7 +55,7 @@ export default function OpenEvent({ titles, content, currentEvent, getSlider, op
       </iframe>
     </div>
     );*/
-console.log(currentEvent);
+// console.log(currentEvent);
   return (
     <div className={styles.OpenEvent} style={{ opacity: opacity, zIndex: zIndex }} >
       <div className={styles.gallery}>
