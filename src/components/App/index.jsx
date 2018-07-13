@@ -330,7 +330,8 @@ class App extends Component {
         {/*!this.devMode &&*/ !this.isMobile && <Bubbles opacity={(!state.isMenuOpen) ? 1 : 0} top={state.scroll} />}
         {this.devMode && false && <div className={styles.bubbles} style={{ opacity: (!state.isMenuOpen) ? 0.5 : 0 }}></div>}
         <BgText text={bgText} isMobile={this.isMobile} />
-        <Header onSandwichClick={this.handleSandwichClick} events={state.isEvents} isMenuOpen={state.isMenuOpen} />
+        <Header onSandwichClick={this.handleSandwichClick} events={state.isEvents} isMenuOpen={state.isMenuOpen}
+          onLogoClick={() => (state.isEvents && this.changeYear(-1))} isEvents={state.isEvents} />
         {hasContentFetched && <Menu opacity={(state.isMenuOpen) ? 1 : 0} zIndex={(state.isMenuOpen) ? 6 : 0} uniqYears={this.uniqYears}
           onMenuClick={this.handleMenuClick} />}
         <div className={styles.innerContainer} style={{ top: state.scroll, opacity: (!state.isMenuOpen) ? 1 : 0 }}>

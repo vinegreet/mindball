@@ -27,7 +27,7 @@ export default function Story(props) {
             {isReady && props.content.fields.text}
           </p>
           {/*Do it with CSS*/!props.isMobile && <Button caption='Events' onButtonClick={props.selectFromStoryToEvents} />}
-          {/*props.isMobile && <p className={styles.swipeRight}>To see the <span className={styles.swipeRightOrangeText}>Events</span> – <span className={styles.swipeRightOrangeText}>scroll right</span>.</p>*/}
+          {props.isMobile && <p className={styles.swipeRight}>To see the <span className={styles.swipeRightOrangeText}>Events</span> – <span className={styles.swipeRightOrangeText}>scroll right</span>.</p>}
         </article>
       </div>
       {/*<Mindball position={this.state.ballPosition || this.defaultBallPosition} />*/}
