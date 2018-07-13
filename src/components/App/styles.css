@@ -80,7 +80,8 @@ body {
   html {
     /*font-size: 16px;*/
 /*    font-size: calc(2vh + 3vw);*/
-    font-size: calc(0.5em + 0.5vw);
+    /*font-size: calc(0.5em + 0.5vw);*/
+    font-size: calc(8px + 0.5vw);
   }
 
   :global(._desk) {

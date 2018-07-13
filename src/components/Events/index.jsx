@@ -93,76 +93,57 @@ export default class Events extends Component {
   handleListItemClick = (idx, isMouseOver) => {
     // this.props.listPos === idx && this.toggleOpenEvent
     // setTimeout(() => this.props.onInactiveListItemClick(idx), 250);
-    if (!isMouseOver) {
+    /*if (!isMouseOver) {
       this.openEventCoolDown = true;
       setTimeout(() => {this.openEventCoolDown = false;}, 500);
-    }
+    }*/
     !this.openEventCoolDown && this.props.onInactiveListItemClick(idx, false, true, true);
     // !isMouseOver && setTimeout(this.toggleOpenEvent, 250);
     !isMouseOver && this.toggleOpenEvent();
   }
 
   render() {
-    this.isMobile = this.props.isMobile;
-    const uniqYears = this.props.uniqYears;
-    this.currentYear = this.props.currentYear || uniqYears[0];
-    this.items = this.props.content.events;
+    const props = this.props;
+    this.isMobile = props.isMobile;
+    const uniqYears = props.uniqYears || [];
+    this.currentYear = props.currentYear || uniqYears[0];
+    this.items = props.content.events;
     const titles = this.items.map(item => item.fields.title);
     const evtList = titles.map((title, idx) => 
-      <div key={title} className={(this.props.listPos === idx) ? styles.listItem_selected : styles.listItem}
-        onMouseOver={() => {this.handleListItemClick(idx, true)}} style={{ height: `${this.props.listItemHeight}rem` }}
-        onClick={() => {this.handleListItemClick(idx)}}>
-        <p className={styles.listItemTitle}>{title}</p>
+      <div key={title} className={(props.listPos === idx) ? styles.listItem_selected : styles.listItem}
+        style={{ height: `${props.listItemHeight}rem` }} onClick={() => {this.handleListItemClick(idx)}}>
+        <p className={styles.listItemTitle} onMouseOver={() => {this.handleListItemClick(idx, true)}}>{title}</p>
         <div className={styles.line}></div>
         <div className={styles.arrow}></div>
       </div>
     );
-    /*const eventLists = uniqYears.map(uniqYr => {
-      const evtList = [];
-      titles.forEach((title, idx) => {
-        if (this.props.years[idx] === uniqYr) evtList.push(
-          <div key={title} className={(this.props.listPos === idx) ? styles.listItem_selected : styles.listItem}
-            onMouseOver={() => {this.handleListItemClick(idx, true)}} style={{ height: `${this.props.listItemHeight}rem` }}
-            onClick={() => {this.handleListItemClick(idx)}}>
-            <p className={styles.listItemTitle}>{title}</p>
-            <div className={styles.line}></div>
-            <div className={styles.arrow}></div>
-          </div>
-        );
-      });
-      return (
-        <div key={uniqYr + '-list'} className={styles.list}>
-          {evtList}
-        </div>
-      );
-    });*/
     return (
       <section className={styles.Events}
-        onKeyDown={this.handleKeyDown} tabIndex='0' ref={$el => this.props.getEventsElem($el)} >
-        {this.props.content.events.length > 0 && <Story content={this.props.content.story} selectFromStoryToEvents={this.props.selectFromStoryToEvents}
-          opacity={(this.props.isStory && !this.props.isOpenEvent) ? 1 : 0} zIndex={(this.props.isStory) ? 10 : -1}
-          isStory={this.props.isStory} isMobile={this.isMobile} cooldown={this.props.cooldownStory} />}
-        {this.isMobile && <p className={styles.titleMobile}>Events {this.currentYear}</p>}
+        onKeyDown={this.handleKeyDown} tabIndex='0' ref={$el => props.getEventsElem($el)} >
+        {props.hasContentFetched && <Story content={props.content.story} selectFromStoryToEvents={props.selectFromStoryToEvents}
+          opacity={(props.isStory && !props.isOpenEvent) ? 1 : 0} zIndex={(props.isStory) ? 10 : -1}
+          isStory={props.isStory} isMobile={this.isMobile} cooldown={props.cooldownStory} />}
+        {this.isMobile && !props.isStory && <p className={styles.titleMobile}>Events {this.currentYear}</p>}
         <div className={styles.listWrapper}
-          style={{ opacity: (this.props.isEvents && !this.props.isOpenEvent) ? 1 : 0, zIndex: (this.props.isEvents) ? 10 : -1 }}>
-          <div className={styles.list} style={{ marginTop: this.props.listMarginTop }}>
+          style={{ opacity: (props.isEvents && !props.isOpenEvent) ? 1 : 0, zIndex: (props.isEvents) ? 10 : -1 }}>
+          <div className={styles.list} style={{ marginTop: props.listMarginTop }}>
             {evtList}
           </div>
         </div>
-        <Mindball position={(this.props.isStory) ? this.defaultBallPosition : this.props.ballPos} isEvents={true}
-          currentYear={this.props.isEvents && this.currentYear} size={this.props.mbFontSize} uniqYears={uniqYears}
-          mbBetweenElemsPos={this.props.mbBetweenElemsPos} isMobile={this.isMobile} onYearClick={this.props.onMbYearClick}
-          opacity={(this.props.isOpenEvent && this.isMobile) ? 0 : 1} zIndex={(this.props.isOpenEvent && this.isMobile) ? -1 : 11} />
-        {!this.isMobile && <Copyright opacity={(!this.props.isOpenEvent && this.currentYear === uniqYears[uniqYears.length - 1]) ? 1 : 0}
-          zIndex={(!this.props.isOpenEvent && this.props.listPos === (this.items.length - 1)) ? 10 : -1} />}
-        <OpenEvent content={this.props.content} opacity={(this.props.isOpenEvent) ? 1 : 0} zIndex={(this.props.isOpenEvent) ? 10 : -1}
-          currentEvent={this.props.listPos} closeEvent={this.toggleOpenEvent} isOpenEvent={this.props.isOpenEvent} titles={titles}
+        <Mindball position={(props.isStory) ? this.defaultBallPosition : props.ballPos} isEvents={true}
+          currentYear={props.isEvents && this.currentYear} size={props.mbFontSize} uniqYears={uniqYears}
+          mbBetweenElemsPos={props.mbBetweenElemsPos} isMobile={this.isMobile} onYearClick={props.onMbYearClick}
+          opacity={(props.isOpenEvent && this.isMobile) ? 0 : 1} zIndex={(props.isOpenEvent && this.isMobile) ? -1 : 11} />
+        {!this.isMobile && <Copyright opacity={(!props.isOpenEvent && this.currentYear === uniqYears[uniqYears.length - 1]) ? 1 : 0}
+          zIndex={(!props.isOpenEvent && props.listPos === (this.items.length - 1)) ? 10 : -1} />}
+        <OpenEvent content={props.content} opacity={(props.isOpenEvent) ? 1 : 0} zIndex={(props.isOpenEvent) ? 10 : -1}
+          currentEvent={props.listPos} closeEvent={this.toggleOpenEvent} isOpenEvent={props.isOpenEvent} titles={titles}
           getSlider={($slider, idx) => {
             this.$slider = $slider;
-            this.props.getSlider(this.$slider);
+            props.getSlider(this.$slider);
           }} />
       </section>
     );
   }
 }
-// onWheel={this.props.isEvents && !this.props.isOpenEvent && this.handleWheel || undefined}
+// onWheel={props.isEvents && !props.isOpenEvent && this.handleWheel || undefined}
