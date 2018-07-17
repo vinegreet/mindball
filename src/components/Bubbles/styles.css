@@ -11,8 +11,8 @@
     height: 200%;
     /*width: 90%;*/
     width: 100%;
-    /*z-index: 1;*/
-    z-index: 2;
+    z-index: 1;
+    /*z-index: 2;*/
     opacity: .5;
     transition: opacity 0.3s cubic-bezier(.78, .03, .18, .99);
     transition: top 2.5s cubic-bezier(0.59, 0.04, 0.44, 1.05);
@@ -32,8 +32,8 @@
     transform: scale(1.2);
 /*    margin-left: -26% !important;*/
 /*    margin-left: -3% !important;*/
-    margin-left: 3% !important;
     margin-top: -5% !important;
+    margin-left: 3% !important;
   }
 
   div[title="Bubbles1"] {

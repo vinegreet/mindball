@@ -21,8 +21,9 @@
 
 .text p {
   font: 400 1rem/1 'Prompt', sans-serif;
+/*  font: 400 .95rem/1 'Prompt', sans-serif;*/
   color: #fff;
-  margin: .5rem 0;
+  margin: .4rem 0;
 }
 
 .idea {
