@@ -28,10 +28,68 @@
   color: #E25244;
 }
 
+.followUsWrapper {
+  display: inherit;
+  justify-content: space-between;
+  align-items: center;
+  width: 20rem;
+}
+
+.followUs {
+  color: #fff;
+  font: 400 1.6rem/1 'Prompt', sans-serif;
+}
+
+.line {
+  height: .175rem;
+  background-color: #fff;
+  flex-grow: .65;
+}
+
+.sn {
+  height: 2rem;
+  display: inherit;
+  justify-content: space-between;
+  align-content: center;
+  flex-grow: .1;
+}
+
+.sn a {
+  height: 100%;
+}
+
+.sn a img {
+  height: 100%;
+}
+
+.fb {}
+
+.yt {
+  border-radius: .7rem;
+  overflow: hidden;
+}
+
 @media screen and (min-width: 988px) {
 
-  .BgText {}
+  .followUsWrapper {
+    width: 24rem;
+  }
 
-  .inner {}
+  .followUs {
+    font-size: 1.2rem;
+  }
+
+  .line {
+    flex-grow: .7;
+  }
+
+  .sn {
+    height: 1.5rem;
+    flex-grow: .07;
+  }
+
+  .yt {
+    border-radius: .45rem;
+  }
   
 }
