@@ -65,8 +65,8 @@
 .fb {}
 
 .yt {
-  border-radius: .7rem;
-  overflow: hidden;
+  /* border-radius: .7rem;
+  overflow: hidden; */
 }
 
 @media screen and (min-width: 988px) {
@@ -89,7 +89,7 @@
   }
 
   .yt {
-    border-radius: .45rem;
+    /*border-radius: .45rem;*/
   }
   
 }

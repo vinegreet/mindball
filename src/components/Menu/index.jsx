@@ -18,7 +18,7 @@ export default function Menu({ uniqYears, onMenuClick, opacity, zIndex }) {
         <p className={styles.followUs}>Follow us</p>
         <div className={styles.line}></div>
         <div className={styles.sn}>
-          <a className={styles.fb} href="https://www.facebook.com/Mindball.Ukraine" title="Our Facebook Page" target="_blank">
+          <a href="https://www.facebook.com/Mindball.Ukraine" title="Our Facebook Page" target="_blank">
             <img src={fb} alt="Our Facebook Page" />
           </a>
           <a className={styles.yt} href="https://www.youtube.com/user/mindballukraine" title="Our YouTube Page" target="_blank">

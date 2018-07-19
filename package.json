@@ -1,8 +1,8 @@
 {
   "name": "mindball",
   "version": "1.0.0",
-  "main": "index.js",
   "repository": "git@github.com:vinegreet/mindball.git",
+  "main": "index.js",
   "browserslist": [
     "> 1%",
     "last 2 versions",
@@ -13,8 +13,8 @@
     "start": "webpack-dev-server",
     "build": "webpack"
   },
-  "author": "",
-  "license": "ISC",
+  "description": "Mindball website",
+  "author": "Roman Zots",
   "devDependencies": {
     "autoprefixer": "^8.0.0",
     "babel-core": "^6.26.0",
@@ -40,6 +40,7 @@
     "lodash": "^4.17.5",
     "npm": "^6.1.0",
     "react": "^16.2.0",
+    "react-custom-scroll": "^3.2.2",
     "react-dom": "^16.2.0",
     "react-lottie": "^1.1.0",
     "react-redux": "^5.0.6",

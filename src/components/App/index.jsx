@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import { fetchContent } from 'actions';
 import Bubbles from 'components/Bubbles';
 import ontouch from 'components/swipes.js';
+import Copyright from 'components/Copyright';
 
 class App extends Component {
   constructor() {
@@ -334,6 +335,7 @@ class App extends Component {
           onLogoClick={() => (state.isEvents && this.changeYear(-1))} isEvents={state.isEvents} />
         {hasContentFetched && <Menu opacity={(state.isMenuOpen) ? 1 : 0} zIndex={(state.isMenuOpen) ? 6 : 0} uniqYears={this.uniqYears}
           onMenuClick={this.handleMenuClick} />}
+        {!this.isMobile && state.isMenuOpen && <Copyright  />}
         <div className={styles.innerContainer} style={{ top: state.scroll, opacity: (!state.isMenuOpen) ? 1 : 0 }}>
           <Initial onBallFinished={this.scrollDown} onButtonClick={this.scrollDown} />
           <Events content={this.props} uniqYears={this.uniqYears} mbFontSize={this.eventsMbFontSize} mbBetweenElemsPos={this.mbYearsCellsPos}
@@ -344,7 +346,7 @@ class App extends Component {
             onMbYearClick={this.selectEventOnClick} listItemHeight={this.listItemHeight}
             toggleOpenEvent={this.toggleOpenEvent} isOpenEvent={state.isOpenEvent} getEventsElem={($el) => this.$Events = $el}
             getSlider={($slider) => this.$slider = $slider} years={this.years} selectEventsList={this.selectEventsList}
-            listMarginTop={state.listScroll} hasContentFetched={hasContentFetched} />
+            listMarginTop={state.listScroll} hasContentFetched={hasContentFetched} isMenuOpen={state.isMenuOpen} />
         </div>
       </div>
     </div>;

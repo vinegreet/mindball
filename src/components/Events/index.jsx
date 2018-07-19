@@ -3,7 +3,7 @@ import styles from './styles.css';
 import Story from 'components/Story';
 import Mindball from 'components/Mindball';
 import OpenEvent from 'components/OpenEvent';
-import Copyright from 'components/Copyright';
+import CustomScroll from 'react-custom-scroll';
 
 export default class Events extends Component {
   constructor(props) {
@@ -127,15 +127,15 @@ export default class Events extends Component {
         <div className={styles.listWrapper}
           style={{ opacity: (props.isEvents && !props.isOpenEvent) ? 1 : 0, zIndex: (props.isEvents) ? 10 : -1 }}>
           <div className={styles.list} style={{ marginTop: props.listMarginTop }}>
-            {evtList}
+            <CustomScroll heightRelativeToParent="100%">
+              {evtList}
+            </CustomScroll>
           </div>
         </div>
         <Mindball position={(props.isStory) ? this.defaultBallPosition : props.ballPos} isEvents={true}
           currentYear={props.isEvents && this.currentYear} size={props.mbFontSize} uniqYears={uniqYears}
           mbBetweenElemsPos={props.mbBetweenElemsPos} isMobile={this.isMobile} onYearClick={props.onMbYearClick}
           opacity={(props.isOpenEvent && this.isMobile) ? 0 : 1} zIndex={(props.isOpenEvent && this.isMobile) ? -1 : 11} />
-        {!this.isMobile && <Copyright opacity={(!props.isOpenEvent && this.currentYear === uniqYears[uniqYears.length - 1]) ? 1 : 0}
-          zIndex={(!props.isOpenEvent && props.listPos === (this.items.length - 1)) ? 10 : -1} />}
         <OpenEvent content={props.content} opacity={(props.isOpenEvent) ? 1 : 0} zIndex={(props.isOpenEvent) ? 10 : -1}
           currentEvent={props.listPos} closeEvent={this.toggleOpenEvent} isOpenEvent={props.isOpenEvent} titles={titles}
           getSlider={($slider, idx) => {
@@ -147,3 +147,5 @@ export default class Events extends Component {
   }
 }
 // onWheel={props.isEvents && !props.isOpenEvent && this.handleWheel || undefined}
+        /*{!this.isMobile && this.props.isMenuOpen && <Copyright opacity={(!props.isOpenEvent && this.currentYear === uniqYears[uniqYears.length - 1]) ? 1 : 0}
+          zIndex={(!props.isOpenEvent && props.listPos === (this.items.length - 1)) ? 10 : -1} />}*/
