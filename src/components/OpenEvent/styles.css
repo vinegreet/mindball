@@ -31,6 +31,18 @@
   /*-webkit-mask-box-image: url('mask.png');*/
 }
 
+:global(.slick-slider),
+:global(.slick-list),
+:global(.slick-track),
+:global(.slick-slide),
+:global(.slick-slide) > div {
+  height: 100%;
+}
+
+:global(.slick-current) {
+  z-index: 1;
+}
+
 .sliderImg {
   height: 32.4rem;
 }
@@ -62,6 +74,40 @@
   font: 300 1.2rem/1.2 'Prompt', sans-serif;
   letter-spacing: 0.02em;
   text-align: justify;
+}
+
+.vidWrapper {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: transparent none center / contain no-repeat;
+}
+
+.play {
+  width: 5rem;
+  height: 5rem;
+  cursor: pointer;
+  transition: all 0.1s linear;
+}
+
+.play:hover {
+  transform: scale(1.1);
+}
+
+.video {
+  display: flex;
+  align-self: center;
 }
 
 @media screen and (min-width: 988px) {

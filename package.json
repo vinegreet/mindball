@@ -1,7 +1,10 @@
 {
   "name": "mindball",
   "version": "1.0.0",
+  "description": "Mindball website",
+  "author": "Roman Zots",
   "repository": "git@github.com:vinegreet/mindball.git",
+  "private": true,
   "main": "index.js",
   "browserslist": [
     "> 1%",
@@ -13,8 +16,6 @@
     "start": "webpack-dev-server",
     "build": "webpack"
   },
-  "description": "Mindball website",
-  "author": "Roman Zots",
   "devDependencies": {
     "autoprefixer": "^8.0.0",
     "babel-core": "^6.26.0",

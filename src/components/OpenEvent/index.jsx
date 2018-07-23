@@ -5,7 +5,7 @@ import Slider from 'react-slick';
 import playImg from 'img/play.svg';
 
 const settings = {
-  autoplay: true,
+  autoplay: false,
   autoplaySpeed: 4000,
   speed: 1000,
   fade: true,
@@ -21,46 +21,62 @@ const getPhotosFromContent = content => {
     acc[image.sys.id] = image.fields.file.url;
     return acc;
   }, {});
-  return content.events.map(event => event.fields.photos.map(photo => `https:${imagesUrlsGroupedById[photo.sys.id]}?w=700`));
+  // const photos = content.events.map(event => event.fields.photos.map(photo => `https:${imagesUrlsGroupedById[photo.sys.id]}?w=700`));
+  // const videoPreview = 
+  const urls = {};
+  urls.vidPreview = [];
+  urls.photos = content.events.map(event => {
+    const eventFields = event.fields;
+    const vidPreview = ('videoPreview' in eventFields) ? `https:${imagesUrlsGroupedById[eventFields.videoPreview.sys.id]}?w=700` : null;
+    urls.vidPreview.push(vidPreview);
+    return eventFields.photos.map(photo => `https:${imagesUrlsGroupedById[photo.sys.id]}?w=700`);
+  });
+  return urls;
 };
 
 export default function OpenEvent({ titles, content, currentEvent, getSlider, opacity, zIndex, isOpenEvent, closeEvent }) {
-  const photos = getPhotosFromContent(content)[currentEvent] || [];
+  const hasContentFetched = content.events[currentEvent];
+  const photos = (!hasContentFetched) ? [] : getPhotosFromContent(content).photos[currentEvent];
   const photoElems = photos.map((item, idx) => 
     <div key={`Event${currentEvent}/${idx}`}>
       <img className={styles.sliderImg} src={item} alt={`${titles[currentEvent]}, image ${idx}`} />
     </div>
   );
 
-  /*const videoUrl = this.events[currentEvent].fields.videoLink;
-  const attrPreviewUrl = this.events[currentEvent].fields.videoPreview;*/
-  // const url =  
-    /*console.log(videoUrl);
-    console.log(attrPreviewUrl);*/
-
-  // console.log(content.images);
-  
-  /*const video = (!videoUrls) ? null : (
+  const videoUrl = (hasContentFetched) ? content.events[currentEvent].fields.videoLink : null;
+  const vidPreview = (hasContentFetched) ? getPhotosFromContent(content).vidPreview[currentEvent] : null;
+  const aspectRatio = 16 / 9;
+  const vidWidth = 455;
+  const vidHeight = vidWidth / aspectRatio;
+  let vidId;
+  if (hasContentFetched && videoUrl) {
+    let cutUrl = videoUrl.split('v=')[1];
+    cutUrl = cutUrl || videoUrl.split('youtu.be/')[1];
+    vidId = cutUrl.split('?')[0];
+  }
+  const video = (!videoUrl) ? null : (
     <div className={styles.vidWrapper} key={`video_${currentEvent}`}>
-      <div className={styles.overlay} style={ backgroundImage: `url('${videoUrls[currentEvent]}')`}>
-        <img src={playImg} alt='Play'>
-      </div>
+      {!!vidPreview && <div className={styles.overlay} style={{ backgroundImage: `url('${vidPreview}')` }}
+        onClick={null}>
+        <img className={styles.play} src={playImg} alt='Play' />
+      </div>}
       <iframe className={styles.video}
-        frameborder="0"
-        allowfullscreen="1"
+        style={{ marginTop: `calc(50% - ${vidHeight / 2}px)` }}
+        frameBorder="0"
+        allowFullScreen="1"
         allow="autoplay; encrypted-media"
-        width="1109.42"
-        height="454.7109375"
-        src={`https://www.youtube.com/embed/${videoUrls[currentEvent]}?enablejsapi=1`}>
+        width={vidWidth}
+        height={vidHeight}
+        src={`https://www.youtube.com/embed/${vidId}?enablejsapi=1`}>
       </iframe>
     </div>
-    );*/
-// console.log(currentEvent);
+  );
+
   return (
     <div className={styles.OpenEvent} style={{ opacity: opacity, zIndex: zIndex }} >
       <div className={styles.gallery}>
         <Slider ref={$slider => getSlider($slider, currentEvent || null)} {...settings}>
-          {isOpenEvent && null && video}
+          {isOpenEvent && !!videoUrl && video}
           {photoElems}
         </Slider>
         {/*<div className={styles.pager}>

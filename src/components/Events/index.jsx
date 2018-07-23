@@ -16,33 +16,6 @@ export default class Events extends Component {
     this.wheel = 0;
   }
 
-/*  selectEvent = (delta, keyDown) => {
-    const currYrIdx = this.props.uniqYears.indexOf(this.currentYear); // Take the currYearIdx prop from App, which will have according state
-    if (currYrIdx === 0 && delta < 0) {
-      this.props.toggleStoryAndEvents();
-      return this.ticking = false;
-    }
-    const newDelta = (this.isFirefox && !keyDown) ? delta * 34 : delta; // receive as prop
-    this.wheel += newDelta;
-    if (newDelta > 0) {
-      if (this.wheel >= 100) {
-        console.log(currYrIdx, this.props.uniqYears.length - 1);
-        if (currYrIdx < this.props.uniqYears.length - 1) {
-          this.props.changeYear(currYrIdx + 1);
-        }
-        this.wheel = 0;
-      }
-    } else {
-      if (this.wheel <= -100) {
-        if (currYrIdx > 0) {
-          this.props.changeYear(currYrIdx - 1);
-        }
-        this.wheel = 0;
-      }
-    }
-    this.ticking = false;
-  }*/
-
   handleWheel = e => {
     if (!this.ticking) {
       const delta = e.deltaY;
