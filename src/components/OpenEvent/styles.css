@@ -80,6 +80,9 @@
   height: 100%;
   display: flex;
   align-items: center;
+  outline: none;
+  /*background-color: rgba(35, 35, 35, 0.8);*/
+  background-color: rgba(0, 0, 0, .75);
 }
 
 .overlay {
@@ -105,10 +108,7 @@
   transform: scale(1.1);
 }
 
-.video {
-  display: flex;
-  align-self: center;
-}
+.video {}
 
 @media screen and (min-width: 988px) {
 

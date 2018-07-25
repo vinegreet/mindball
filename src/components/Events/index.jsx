@@ -100,7 +100,7 @@ export default class Events extends Component {
         <div className={styles.listWrapper}
           style={{ opacity: (props.isEvents && !props.isOpenEvent) ? 1 : 0, zIndex: (props.isEvents) ? 10 : -1 }}>
           <div className={styles.list} style={{ marginTop: props.listMarginTop }}>
-            <CustomScroll heightRelativeToParent="100%">
+            <CustomScroll heightRelativeToParent="100%" scrollTo={props.listScroll}>
               {evtList}
             </CustomScroll>
           </div>

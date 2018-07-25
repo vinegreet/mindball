@@ -27,7 +27,8 @@ class App extends Component {
       isStory: false,
       itemsLength: 0,
       listPos: 0,
-      listScroll: 0,
+      listScrollMob: 0,
+      listScrollDesk: 0,
       scroll: 0
     };
     this.isFirefox = typeof InstallTrigger !== 'undefined';
@@ -100,7 +101,7 @@ class App extends Component {
           const newListPos = 3 - Math.round(scroll / listItemHeightPx);
           if (scroll < topLimit && scroll > bottomLimit) {
             this.setState(prev => ({
-              listScroll: scroll,
+              listScrollMob: scroll,
               listPos: (newListPos >= 0 && newListPos < titlesLength) ? newListPos : prev.listPos
             }));
             this.changeYear(this.uniqYears.indexOf(this.years[this.state.listPos]), false, true);
@@ -121,7 +122,7 @@ class App extends Component {
               this.$slider.slickPause();
             } else if (!this.state.isOpenEvent && this.state.isEvents && isListItem) {
               const idx = this.titles.indexOf(innerHtml);
-              this.setState({ listPos: idx, listScroll: (3 - idx) * listItemHeightPx });
+              this.setState({ listPos: idx, listScrollMob: (3 - idx) * listItemHeightPx });
               this.toggleOpenEvent();
               // this.$slider.slickGoTo(0, true);
               this.$slider.slickPlay();
@@ -144,7 +145,7 @@ class App extends Component {
               if (!this.state.isStory && !this.swipeCoolDown) {
                 // this.selectEventsList(100);
                 if (currYrIdx < this.uniqYears.length - 1) this.changeYear(currYrIdx + 1, false);
-                this.setState({ listScroll: (3 - this.state.listPos) * listItemHeightPx });
+                this.setState({ listScrollMob: (3 - this.state.listPos) * listItemHeightPx });
               }
             }
           }
@@ -159,11 +160,11 @@ class App extends Component {
               this.changeYear(-1);
               setTimeout(() => {this.coolDownForSwipe = false}, 200);
             }
-            this.setState({ listScroll: (3 - this.state.listPos) * listItemHeightPx });
+            this.setState({ listScrollMob: (3 - this.state.listPos) * listItemHeightPx });
           }
           /*this.swipeCoolDown = true;
           setTimeout(() => {this.swipeCoolDown = false;}, 700);*/
-          this.lastListScroll = this.state.listScroll;
+          this.lastListScroll = this.state.listScrollMob;
         }
       });
       this.isEventListenerAdded = true;
@@ -236,15 +237,17 @@ class App extends Component {
       currentYear: newCurrYr,
       currYrIdx: idx,
       listPos: (newCurrYr >= 0 && !isClick) ? this.years.indexOf(newCurrYr) : prev.listPos,
-      listScroll: (isMenuClick && this.isMobile) ? ((3 - this.years.indexOf(newCurrYr)) * listItemHeightPx) : prev.listScroll,
-      // listScrollDesk: (isMenuClick && !this.isMobile) ? (this.years.indexOf(newCurrYr) * listItemHeightPx) : prev.listScrollDesk,
+      listScrollMob: (isMenuClick && this.isMobile) ? ((3 - this.years.indexOf(newCurrYr)) * listItemHeightPx) : prev.listScrollMob,
+      listScrollDesk: (isMenuClick && !this.isMobile) ? (this.years.indexOf(newCurrYr) * listItemHeightPx) : prev.listScrollDesk,
       ballPos: this.mbYearsCellsPos[idx] + 10,
       isMenuOpen: false,
       isOpenEvent: false
     }));
-    if (isMenuClick && !this.isMobile) {
+    /*if (isMenuClick && !this.isMobile) {
+      console.log(this.$list, this.years.indexOf(newCurrYr) * listItemHeightPx);
       this.$list.scrollTop = this.years.indexOf(newCurrYr) * listItemHeightPx;
-    }
+      console.log(this.$list.scrollTop);
+    }*/
 
     // isFirstCall === undefined && (this.prevYear = this.years[idx]);
   }
@@ -346,7 +349,7 @@ class App extends Component {
             onMbYearClick={this.selectEventOnClick} listItemHeight={this.listItemHeight}
             toggleOpenEvent={this.toggleOpenEvent} isOpenEvent={state.isOpenEvent} getEventsElem={($el) => this.$Events = $el}
             getSlider={($slider) => this.$slider = $slider} years={this.years} selectEventsList={this.selectEventsList}
-            listMarginTop={state.listScroll} hasContentFetched={hasContentFetched} isMenuOpen={state.isMenuOpen} />
+            listMarginTop={state.listScrollMob} listScroll={state.listScrollDesk} hasContentFetched={hasContentFetched} isMenuOpen={state.isMenuOpen} />
         </div>
       </div>
     </div>;

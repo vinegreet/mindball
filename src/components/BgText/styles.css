@@ -6,7 +6,7 @@
   left: 0;
   display: inherit;
   /*justify-content: center;*/
-  transition: all 0.5s linear;
+  transition: all .5s linear;
 }
 
 .mindball {
@@ -28,8 +28,9 @@
   height: auto;*/
   /*font: 700 25.1vw/1 'Prompt', sans-serif;*/
   font: 700 19.7rem/1 'Prompt', sans-serif;
-  letter-spacing: 0.03em;
-  color: #333;
+  letter-spacing: .03em;
+  /*color: #333;*/
+  color: rgba(53, 53, 53, .8);
   /* display: inherit;
    align-self: center; */ 
   /*transition: all 0.4s;*/
