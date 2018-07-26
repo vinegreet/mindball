@@ -19,7 +19,6 @@ export default class Events extends Component {
   handleWheel = e => {
     if (!this.ticking) {
       const delta = e.deltaY;
-      // requestAnimationFrame(() => this.selectEvent(delta));
       requestAnimationFrame(() => {
         this.props.selectEventsList(delta);
         this.ticking = false;
