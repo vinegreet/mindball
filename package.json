@@ -9,8 +9,7 @@
   "browserslist": [
     "> 1%",
     "last 2 versions",
-    "ios_saf > 8",
-    "safari > 5"
+    "ios_saf > 8"
   ],
   "scripts": {
     "start": "webpack-dev-server",
