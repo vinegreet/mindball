@@ -74,13 +74,6 @@ class App extends Component {
     const remMob = this.wWidth * 0.022;
     const listItemHeightPx = this.listItemHeight * remMob;
 
-    for (let i = 0; i < $evts.childNodes.length; i++) {
-      const thisNode = $evts.childNodes[i];
-      if (thisNode.getAttribute('class').search('listWrapper') >= 0) {
-        this.$list = thisNode.childNodes[0];
-      }
-    }
-
     if ($evts) {
       ontouch($evts, (e, dir, phase, swipeType, dist, touchObj) => {
         const distance = (!isNaN(dist)) ? Math.abs(dist) : 0;
@@ -286,7 +279,6 @@ class App extends Component {
     const state = this.state;
     // (state.isStory && this.toggleSections() && this.changeYear(idx, bool)) || this.changeYear(idx, false, false, true);
     const isScrolled = (this.isMobile) ? true : state.scroll === '-100%';
-    console.log('changeYear idx: ' + idx, isScrolled);
     if (state.isStory) {
       if (!isScrolled) this.scrollDown();
       this.toggleSections();
