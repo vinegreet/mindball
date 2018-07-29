@@ -29,6 +29,7 @@ export default class Events extends Component {
 
   toggleOpenEvent = () => {
     this.$slider.slickGoTo(0, true);
+    // this.$slider.slickPause();
     // !this.props.isOpenEvent && this.$slider.slickPlay;
     this.openEventCoolDown = true;
     setTimeout(() => {this.openEventCoolDown = false;}, 500);
@@ -69,7 +70,7 @@ export default class Events extends Component {
       this.openEventCoolDown = true;
       setTimeout(() => {this.openEventCoolDown = false;}, 500);
     }*/
-    !this.openEventCoolDown && this.props.onInactiveListItemClick(idx, false, true, true);
+    !this.openEventCoolDown && this.props.onInactiveListItemClick(idx, false);
     // !isMouseOver && setTimeout(this.toggleOpenEvent, 250);
     !isMouseOver && this.toggleOpenEvent();
   }

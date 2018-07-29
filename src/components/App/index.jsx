@@ -73,20 +73,23 @@ class App extends Component {
     const $evts = this.$Events;
     const remMob = this.wWidth * 0.022;
     const listItemHeightPx = this.listItemHeight * remMob;
+    this.listItemHeightPx = listItemHeightPx;
 
     if ($evts) {
       ontouch($evts, (e, dir, phase, swipeType, dist, touchObj) => {
+        const state = this.state;
+        const { swipeCoolDown, uniqYears } = this;
         const distance = (!isNaN(dist)) ? Math.abs(dist) : 0;
-        const currYear = parseInt(this.uniqYears.indexOf(this.state.currentYear)); // refactor
+        const currYear = parseInt(uniqYears.indexOf(state.currentYear)); // refactor
         const nextYear = currYear + 1;
         const prevYear = currYear - 1;
         const fingerPosY = touchObj.pageY;
         const fingerPosX = touchObj.pageX;
         if (phase === 'start') {
-          this.touchStartY = fingerPosY;
-          this.touchStartX = fingerPosX;
+          this.touchStartY = fingerPosY; // Use var instead?
+          this.touchStartX = fingerPosX; // Use var instead?
         }
-        if (dir === 'up' || dir === 'down' && this.state.isEvents && !this.state.isOpenEvent) {
+        if (dir === 'up' || dir === 'down' && state.isEvents && !state.isOpenEvent) {
           const titlesLength = this.titles.length;
           const topLimit = listItemHeightPx * 3;
           const bottomLimit = -((titlesLength * listItemHeightPx) - listItemHeightPx * 4);
@@ -97,53 +100,37 @@ class App extends Component {
               listScrollMob: scroll,
               listPos: (newListPos >= 0 && newListPos < titlesLength) ? newListPos : prev.listPos
             }));
-            this.changeYear(this.uniqYears.indexOf(this.years[this.state.listPos]), false, true);
+            this.changeYear(uniqYears.indexOf(this.years[this.state.listPos]), false, true);
           }
         }
-        if (phase === 'end' && !this.swipeCoolDown && (this.state.isEvents || this.state.isStory)) {
-          const outerHtml = e.target.outerHTML;
-          const innerHtml = e.target.innerHTML;
-          const isListItem = outerHtml.search('listItemTitle') === 10;
-          const isSliderButton = outerHtml.search('button') === 1;
+        if (phase === 'end' && !swipeCoolDown && (state.isEvents || state.isStory)) {
           const newDistanceY = Math.abs(fingerPosY - this.touchStartY);
           const newDistanceX = Math.abs(fingerPosX - this.touchStartX);
-          const currYrIdx = this.state.currYrIdx;
+          const currYrIdx = state.currYrIdx;
           if (newDistanceY < 10 && newDistanceX < 10) {
-            if (innerHtml.search('Back') >= 0) {
-              this.setState({ isOpenEvent: false });
-              this.$slider.slickGoTo(0, true);
-              this.$slider.slickPause();
-            } else if (!this.state.isOpenEvent && this.state.isEvents && isListItem) {
-              const idx = this.titles.indexOf(innerHtml);
-              this.setState({ listPos: idx, listScrollMob: (3 - idx) * listItemHeightPx });
-              this.toggleOpenEvent();
-              // this.$slider.slickGoTo(0, true);
-              this.$slider.slickPlay();
-            } else if (isSliderButton) {
-              this.$slider.slickGoTo(parseInt(innerHtml) - 1, true);
-            }
-            this.swipeCoolDown = true;
+            e.target.click();
+            this.swipeCoolDown = true; // Is this necessary?
             setTimeout(() => {this.swipeCoolDown = false;}, 700);
             return;
           }
           if (dir === 'left' && distance > 250) {
-            if (this.state.isStory) {
+            if (state.isStory) {
               this.toggleSections();
-              if (!this.state.currentYear) {
+              if (!state.currentYear) {
                 this.changeYear(1);
                 this.setState({ listPos: 3 });
               }
               return;
             } else {
-              if (!this.state.isStory && !this.swipeCoolDown) {
+              if (!state.isStory && !swipeCoolDown) {
                 // this.selectEventsList(100);
-                if (currYrIdx < this.uniqYears.length - 1) this.changeYear(currYrIdx + 1, false);
-                this.setState({ listScrollMob: (3 - this.state.listPos) * listItemHeightPx });
+                if (currYrIdx < uniqYears.length - 1) this.changeYear(currYrIdx + 1, false);
+                this.setState({ listScrollMob: (3 - state.listPos) * listItemHeightPx });
               }
             }
           }
           if (dir === 'right' && distance > 250) {
-            if (this.state.isStory) return;
+            if (state.isStory) return;
             // this.selectEventsList(-100);
             if (currYrIdx > 0) {
               this.changeYear(currYrIdx - 1, false);
@@ -153,14 +140,13 @@ class App extends Component {
               this.changeYear(-1);
               setTimeout(() => {this.coolDownForSwipe = false}, 200);
             }
-            this.setState({ listScrollMob: (3 - this.state.listPos) * listItemHeightPx });
+            this.setState({ listScrollMob: (3 - state.listPos) * listItemHeightPx });
           }
           /*this.swipeCoolDown = true;
           setTimeout(() => {this.swipeCoolDown = false;}, 700);*/
           this.lastListScroll = this.state.listScrollMob;
         }
       });
-      this.isEventListenerAdded = true;
     }
   }
 
@@ -184,14 +170,18 @@ class App extends Component {
     this.setState(prev => ({ isMenuOpen: !prev.isMenuOpen }));
   }
 
-  selectEventOnClick = (idx, isMenuClick, isMouseOver) => {
+  selectEventOnClick = (idx, isMenuClick) => {
     // console.log('this.selectEventCoolDown: ', this.selectEventCoolDown, `${new Date().getSeconds()}:${new Date().getMilliseconds()}`)
-    if (isMouseOver && !this.selectEventCoolDown && !this.state.cooldownStory) {
+    if (!this.selectEventCoolDown && !this.state.cooldownStory) {
       const newIdx = (isMenuClick) ? this.years.indexOf(this.uniqYears[idx]) : idx; // Invert this
-      this.setState({ listPos: newIdx });
+      this.setState(prev => ({
+        listPos: newIdx,
+        listScrollMob: (this.isMobile) ? ((3 - idx) * this.listItemHeightPx) : prev.listScrollMob
+      }));
+      // this.setState({ listPos: newIdx });
       
-      const convertedIdx = this.uniqYears.indexOf(this.years[idx]);
-      this.changeYear(convertedIdx, false, true);
+      const uniqYearIdx = this.uniqYears.indexOf(this.years[idx]);
+      this.changeYear(uniqYearIdx, false, true);
     }
   }
 
@@ -212,8 +202,9 @@ class App extends Component {
   }
 
   changeYear = (idx, isFirstCallOrStoryScroll, isClick, isMenuClick) => {
+    const isMobile = this.isMobile;
     if (idx < 0) {
-      this.setState({ isStory: true, isEvents: false, isMenuOpen: false, listPos: (this.isMobile) ? 3 : 0, currentYear: '', currYrIdx: -1, isOpenEvent: false });
+      this.setState({ isStory: true, isEvents: false, isMenuOpen: false, listPos: (isMobile) ? 3 : 0, currentYear: '', currYrIdx: -1, isOpenEvent: false });
       // isFirstCallOrStoryScroll && this.setState(prev => ({ isEvents: !prev.isEvents, isStory: !prev.isStory }))
       return;
     }
@@ -224,19 +215,19 @@ class App extends Component {
     }
     // if (OpenEvent) {!OpenEvent}
     const newCurrYr = this.uniqYears[idx];
-    const rem = (this.isMobile) ? (this.wWidth * 0.022) : (8 + this.wWidth * 0.005);
+    const rem = (isMobile) ? (this.wWidth * 0.022) : (8 + this.wWidth * 0.005);
     const listItemHeightPx = this.listItemHeight * rem;
     this.setState(prev => ({
       currentYear: newCurrYr,
       currYrIdx: idx,
       listPos: (newCurrYr >= 0 && !isClick) ? this.years.indexOf(newCurrYr) : prev.listPos,
-      listScrollMob: (isMenuClick && this.isMobile) ? ((3 - this.years.indexOf(newCurrYr)) * listItemHeightPx) : prev.listScrollMob,
-      listScrollDesk: (isMenuClick && !this.isMobile) ? (this.years.indexOf(newCurrYr) * listItemHeightPx) : prev.listScrollDesk,
+      listScrollMob: (isMenuClick && isMobile) ? ((3 - this.years.indexOf(newCurrYr)) * listItemHeightPx) : prev.listScrollMob,
+      listScrollDesk: (isMenuClick && !isMobile) ? (this.years.indexOf(newCurrYr) * listItemHeightPx) : prev.listScrollDesk,
       ballPos: this.mbYearsCellsPos[idx] + 10,
       isMenuOpen: false,
       isOpenEvent: false
     }));
-    /*if (isMenuClick && !this.isMobile) {
+    /*if (isMenuClick && !isMobile) {
       console.log(this.$list, this.years.indexOf(newCurrYr) * listItemHeightPx);
       this.$list.scrollTop = this.years.indexOf(newCurrYr) * listItemHeightPx;
       console.log(this.$list.scrollTop);
@@ -297,51 +288,48 @@ class App extends Component {
   }
 
   render() {
-    const state = this.state;
-    const hasContentFetched = this.hasContentFetched;  
+    const { props, state, eventsMbFontSize, hasContentFetched, isMobile, listItemHeight, uniqYears, years } = this;
+    const { ballPos, cooldownStory, currentYear, isEvents, isMenuOpen, isOpenEvent, isStory, listPos, listScrollMob, listScrollDesk, scroll } = state; 
 
     let bgText = '';
-    
-    if (state.isMenuOpen) {
+    if (isMenuOpen) {
       bgText = 'Menu';
-    } else if (state.isStory && ((this.isMobile) ? true : state.scroll)) {
+    } else if (isStory && ((isMobile) ? true : scroll)) {
       bgText = 'Story';
-    } else if (state.isEvents) {
-      bgText = state.currentYear;
+    } else if (isEvents) {
+      bgText = currentYear;
     }
 
-    this.mbYearsCellsLength = (hasContentFetched) ? this.uniqYears.length : 0;
-    this.mbInnerHeightWithPadding = 1900;
-    // this.mbInnerHeight = this.mbInnerHeightWithPaddingAndBorder - (8 * 2 + 4 * 2);
-    this.mbInnerHeight = this.mbInnerHeightWithPadding - (8 * 2);
-    // this.mbCellHeight = 60 + 4 * 2;
-    this.mbCellHeight = 60;
-    this.mbYearsCellsPos = (!hasContentFetched) ? null : this.uniqYears.map((year, idx) => 
-      ((this.mbInnerHeight / this.mbYearsCellsLength) * (idx + 1)) - ((this.mbCellHeight / 2) * ((idx + 1) / 2)) - (4 * 1.2 * (idx + 1))
+    const mbYearsCellsLength = (hasContentFetched) ? uniqYears.length : 0;
+    const mbInnerHeightWithPadding = 1900;
+    // const mbInnerHeight = this.mbInnerHeightWithPaddingAndBorder - (8 * 2 + 4 * 2);
+    const mbInnerHeight = mbInnerHeightWithPadding - (8 * 2);
+    // const mbCellHeight = 60 + 4 * 2;
+    const mbCellHeight = 60;
+    this.mbYearsCellsPos = (!hasContentFetched) ? null : uniqYears.map((year, idx) => 
+      ((mbInnerHeight / mbYearsCellsLength) * (idx + 1)) - ((mbCellHeight / 2) * ((idx + 1) / 2)) - (4 * 1.2 * (idx + 1))
     ); // the 1.2 value is added just to make quick fix; badly positioned if new unique year added; see local file \Mindball\test\Calculating_cells_positions.txt
-
-
+    
     return <div className={styles.App} tabIndex='0' onWheel={this.handleWheel}>
       <div className={styles.wrapper}>
-        {/*!this.devMode &&*/ !this.isMobile && <Bubbles opacity={(!state.isMenuOpen) ? 1 : 0} top={state.scroll} />}
-        {this.devMode && false && <div className={styles.bubbles} style={{ opacity: (!state.isMenuOpen) ? 0.5 : 0 }}></div>}
-        <BgText text={bgText} isMobile={this.isMobile} />
-        <Header onSandwichClick={this.handleSandwichClick} events={state.isEvents} isMenuOpen={state.isMenuOpen}
-          onLogoClick={() => (state.isEvents && this.changeYear(-1))} isEvents={state.isEvents} />
-        {hasContentFetched && <Menu opacity={(state.isMenuOpen) ? 1 : 0} zIndex={(state.isMenuOpen) ? 6 : 0} uniqYears={this.uniqYears}
+        {!isMobile && <Bubbles opacity={(!isMenuOpen) ? 1 : 0} top={scroll} />}
+        <BgText text={bgText} isMobile={isMobile} />
+        <Header onSandwichClick={this.handleSandwichClick} events={isEvents} isMenuOpen={isMenuOpen}
+          onLogoClick={() => (isEvents && this.changeYear(-1))} isEvents={isEvents} />
+        {hasContentFetched && <Menu opacity={(isMenuOpen) ? 1 : 0} zIndex={(isMenuOpen) ? 6 : 0} uniqYears={uniqYears}
           onMenuClick={this.handleMenuClick} />}
-        {!this.isMobile && state.isMenuOpen && <Copyright  />}
-        <div className={styles.innerContainer} style={{ top: state.scroll, opacity: (!state.isMenuOpen) ? 1 : 0 }}>
+        {!isMobile && isMenuOpen && <Copyright  />}
+        <div className={styles.innerContainer} style={{ top: scroll, opacity: (!isMenuOpen) ? 1 : 0 }}>
           <Initial onBallFinished={this.scrollDown} onButtonClick={this.scrollDown} />
-          <Events content={this.props} uniqYears={this.uniqYears} mbFontSize={this.eventsMbFontSize} mbBetweenElemsPos={this.mbYearsCellsPos}
-            currentYear={state.currentYear} listPos={state.listPos} ballPos={state.ballPos}
-            isEvents={state.isEvents} isStory={state.isStory} isMobile={this.isMobile} cooldownStory={state.cooldownStory}
+          <Events content={props} uniqYears={uniqYears} mbFontSize={eventsMbFontSize} mbBetweenElemsPos={this.mbYearsCellsPos}
+            currentYear={currentYear} listPos={listPos} ballPos={ballPos}
+            isEvents={isEvents} isStory={isStory} isMobile={isMobile} cooldownStory={cooldownStory}
             selectFromStoryToEvents={() => {this.changeYear(0); this.toggleSections();}}
             changeYear={this.changeYear} selectEventOnScroll={this.selectEventOnScroll} onInactiveListItemClick={this.selectEventOnClick}
-            onMbYearClick={this.selectEventOnClick} listItemHeight={this.listItemHeight}
-            toggleOpenEvent={this.toggleOpenEvent} isOpenEvent={state.isOpenEvent} getEventsElem={($el) => this.$Events = $el}
-            getSlider={($slider) => this.$slider = $slider} years={this.years} selectEventsList={this.selectEventsList}
-            listMarginTop={state.listScrollMob} listScroll={state.listScrollDesk} hasContentFetched={hasContentFetched} isMenuOpen={state.isMenuOpen} />
+            onMbYearClick={this.selectEventOnClick} listItemHeight={listItemHeight}
+            toggleOpenEvent={this.toggleOpenEvent} isOpenEvent={isOpenEvent} getEventsElem={($el) => this.$Events = $el}
+            getSlider={($slider) => this.$slider = $slider} years={years} selectEventsList={this.selectEventsList}
+            listMarginTop={listScrollMob} listScroll={listScrollDesk} hasContentFetched={hasContentFetched} isMenuOpen={isMenuOpen} />
         </div>
       </div>
     </div>;
@@ -351,5 +339,4 @@ function mapStateToProps(state) {
   return { events: state.content.items, images: state.content.img, story: state.content.story };
 }
 export default connect(mapStateToProps, { fetchContent })(App);
-// toggleStoryAndEvents={this.toggleSections}
 // wWidth={this.wWidth}
