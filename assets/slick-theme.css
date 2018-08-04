@@ -63,8 +63,10 @@
 .slick-dots li button:hover:before,
 .slick-dots li button:focus:before {
   opacity: 1;
+  outline: none;
 }
 .slick-dots li button:before {
+  outline: none;
   /*font-family: 'slick';*/
   font-size: 5.5rem;
   /* font-size: 13px;

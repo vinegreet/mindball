@@ -29,7 +29,8 @@ class App extends Component {
       listPos: 0,
       listScrollMob: 0,
       listScrollDesk: 0,
-      scroll: 0
+      scroll: 0,
+      wWidth: 0
     };
     this.isFirefox = typeof InstallTrigger !== 'undefined';
     this.mbBetweenElems = {};
@@ -47,7 +48,10 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.setState({ isMobile: window.outerWidth < 988 });
+    this.setState({
+      wWidth: window.innerWidth,
+      isMobile: window.innerWidth < 988
+    });
     // this.isMobile = window.outerWidth < 988;
     this.wWidth = window.innerWidth;
     this.isMobile = window.innerWidth < 988;
@@ -65,18 +69,18 @@ class App extends Component {
     if (!this.devMode && this.isMobile) this.scrollDown();*/
     this.isMobile && this.scrollDown();
 
-    // window.addEventListener('resize', this.measureFontSize);
+    window.addEventListener('resize', this.handleResize);
     // ================================
     // this.$el.search('listWrapper')
     // console.log(this.$el.childNodes);
 
-    const $evts = this.$Events;
+    const $Events = this.$Events;
     const remMob = this.wWidth * 0.022;
     const listItemHeightPx = this.listItemHeight * remMob;
     this.listItemHeightPx = listItemHeightPx;
 
-    if ($evts) {
-      ontouch($evts, (e, dir, phase, swipeType, dist, touchObj) => {
+    if ($Events) {
+      ontouch($Events, (e, dir, phase, swipeType, dist, touchObj) => {
         const state = this.state;
         const { swipeCoolDown, uniqYears } = this;
         const distance = (!isNaN(dist)) ? Math.abs(dist) : 0;
@@ -150,6 +154,13 @@ class App extends Component {
     }
   }
 
+  handleResize = () => {
+    this.setState({ 
+      wWidth: window.innerWidth,
+      isMobile: window.innerWidth < 988
+    });
+  }
+
   componentDidUpdate() {
     this.items = this.props.events;
     this.years = this.items.map(item => item.fields.date.split('-')[0]);
@@ -158,6 +169,13 @@ class App extends Component {
     this.hasContentFetched = this.props.events.length > 0;
     // const uniqYearsIdx = this.uniqYears.map(uniqYear => this.years.findIndex(year => year === uniqYear));
     // if (this.items.length) this.setState({ itemsLength: this.items.length });
+
+    if (this.$Events && !this.isEventListenerAdded) {
+      const $list = document.getElementsByClassName('inner-container')[0];
+      $list.addEventListener('wheel', this.handleWheel);
+      this.isEventListenerAdded = true;
+      this.$list = $list;
+    }
   }
 
   scrollDown = () => {
@@ -170,15 +188,13 @@ class App extends Component {
     this.setState(prev => ({ isMenuOpen: !prev.isMenuOpen }));
   }
 
-  selectEventOnClick = (idx, isMenuClick) => {
-    // console.log('this.selectEventCoolDown: ', this.selectEventCoolDown, `${new Date().getSeconds()}:${new Date().getMilliseconds()}`)
-    if (!this.selectEventCoolDown && !this.state.cooldownStory) {
+  selectEvent = (idx, isMenuClick) => {
+    if (!this.selectEventCoolDown && true/*!this.state.cooldownStory*/) {
       const newIdx = (isMenuClick) ? this.years.indexOf(this.uniqYears[idx]) : idx; // Invert this
       this.setState(prev => ({
         listPos: newIdx,
         listScrollMob: (this.isMobile) ? ((3 - idx) * this.listItemHeightPx) : prev.listScrollMob
       }));
-      // this.setState({ listPos: newIdx });
       
       const uniqYearIdx = this.uniqYears.indexOf(this.years[idx]);
       this.changeYear(uniqYearIdx, false, true);
@@ -195,8 +211,11 @@ class App extends Component {
       return;
     }
     if (this.state.isStory) {
+      this.selectEventCoolDown = true;
+      setTimeout(() => {this.selectEventCoolDown = false;}, 700);
       this.setState({ cooldownStory: true });
-      setTimeout(() => {this.setState({ cooldownStory: false });}, 700);
+      // console.log('cooldown start');
+      setTimeout(() => {this.setState({ cooldownStory: false }); /*console.log('cooldown finish');*/}, 3500);
     }
     this.setState(prev => ({ isEvents: !prev.isEvents, isStory: !prev.isStory }));
   }
@@ -242,23 +261,24 @@ class App extends Component {
 
   handleWheel = e => {
     // e.persist();
-    if (this.state.cooldownStory || this.state.isStory) {
+    /*if (this.state.cooldownStory || this.state.isStory) {
       e.preventDefault();
     // this.$list.scrollTop = 0;
-    }
-    if (!this.ticking) {
+    }*/
+    if (!this.ticking && !this.state.cooldownStory) {
       const delta = e.deltaY;
-      requestAnimationFrame(() => this.selectEvent(delta, false, e));
+      requestAnimationFrame(() => this.selectSection(delta, false, e));
       this.ticking = true;
     }
   }
 
-  selectEvent = (delta, keyDown, e) => { // ======================= REFACTOR ==============================
+  selectSection = (delta, keyDown, e) => { // ======================= REFACTOR ==============================
     // const currYrIdx2 = this.uniqYears.indexOf(this.state.currentYear);
+    // console.log(delta);
     const currYrIdx = this.state.currYrIdx;
     const newDelta = (this.isFirefox && !keyDown) ? delta * 34 : delta;
     this.wheel += newDelta;
-    if (this.wheel <= -200 && this.$list.scrollTop === 0) {
+    if (this.wheel <= -400 && this.$list.scrollTop === 0) {
       // this.toggleSections();
       this.changeYear(-1);
       this.wheel = 0;
@@ -325,11 +345,12 @@ class App extends Component {
             currentYear={currentYear} listPos={listPos} ballPos={ballPos}
             isEvents={isEvents} isStory={isStory} isMobile={isMobile} cooldownStory={cooldownStory}
             selectFromStoryToEvents={() => {this.changeYear(0); this.toggleSections();}}
-            changeYear={this.changeYear} selectEventOnScroll={this.selectEventOnScroll} onInactiveListItemClick={this.selectEventOnClick}
-            onMbYearClick={this.selectEventOnClick} listItemHeight={listItemHeight}
+            changeYear={this.changeYear} selectEventOnScroll={this.selectEventOnScroll} onInactiveListItemClick={this.selectEvent}
+            onMbYearClick={this.handleMenuClick} listItemHeight={listItemHeight}
             toggleOpenEvent={this.toggleOpenEvent} isOpenEvent={isOpenEvent} getEventsElem={($el) => this.$Events = $el}
             getSlider={($slider) => this.$slider = $slider} years={years} selectEventsList={this.selectEventsList}
-            listMarginTop={listScrollMob} listScroll={listScrollDesk} hasContentFetched={hasContentFetched} isMenuOpen={isMenuOpen} />
+            listMarginTop={listScrollMob} listScroll={listScrollDesk} hasContentFetched={hasContentFetched} isMenuOpen={isMenuOpen}
+            handleListWheel={this.handleWheel} />
         </div>
       </div>
     </div>;

@@ -39,6 +39,10 @@
   height: 100%;
 }
 
+:global(.slick-slide) > div > div {
+  outline: none;
+}
+
 :global(.slick-current) {
   z-index: 1;
 }

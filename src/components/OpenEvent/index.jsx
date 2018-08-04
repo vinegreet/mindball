@@ -72,7 +72,8 @@ export default class OpenEvent extends Component {
     const { props, state, handlePlayClick, hasContentFetched, getPhotosFromContent, getYtPlayer, vidId, vidOpts, $slider } = this;
     const { titles, content, currentEvent, getSlider, opacity, zIndex, isOpenEvent, closeEvent } = props;
     const { overlayOpen } = state;
-    this.videoUrl = (hasContentFetched) ? content.events[currentEvent].fields.videoLink : null;
+    const { events } = content;
+    this.videoUrl = (hasContentFetched) ? events[currentEvent].fields.videoLink : null;
     const photos = (hasContentFetched) ? getPhotosFromContent(content).photos[currentEvent] : [];
     const photoElems = photos.map((item, idx) => 
       <div key={`Event${currentEvent}/${idx}`}>
@@ -82,11 +83,12 @@ export default class OpenEvent extends Component {
 
     let isFirstSlide = true;
     if ($slider) {
+      // document.getElementsByClassName('slick-active')[0];
       const $parent = $slider.innerSlider.list.childNodes[0];
       for (let i = 0; i < $parent.childNodes.length; i++) {
-        const thisNode = $parent.childNodes[i];
-        if (thisNode.getAttribute('class').search('slick-active') >= 0) {
-          const currentSlide = thisNode.dataset.index;
+        const $thisNode = $parent.childNodes[i];
+        if ($thisNode.getAttribute('class').search('slick-active') >= 0) {
+          const currentSlide = $thisNode.dataset.index;
           isFirstSlide = currentSlide === '0';
           if (isFirstSlide) this.initVideo();
         }
@@ -135,7 +137,7 @@ export default class OpenEvent extends Component {
         </div>
         <div className={article}>
           <h2 className={title}>{titles[currentEvent]}</h2>
-          <p className={text}>{(content.events.length !== 0) && content.events[currentEvent].fields.text}</p>
+          <p className={text}>{(events.length !== 0) && events[currentEvent].fields.text}</p>
           <Button caption='Back' onButtonClick={() => {
             this.setState({ overlayOpen: true });
             closeEvent();

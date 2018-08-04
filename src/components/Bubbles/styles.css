@@ -26,7 +26,8 @@
     position: relative;
     /*padding-top: 100%;*/
     /*padding-top: 63%;*/
-    padding-top: 71%;
+    /*padding-top: 71%;*/
+    padding-top: 50%;
   }
 
   div[title^="Bubbles"] svg {
@@ -43,4 +44,21 @@
     padding-top: 59%;
   }
   
+}
+
+@media screen and (min-width: 1651px) and (max-width: 1920px) {
+
+  div[title="Bubbles1"] {
+    padding-top: 55%;
+  }
+
+}
+
+
+@media screen and (min-width: 1921px) {
+
+  div[title^="Bubbles"] {
+    padding-top: 53%;
+  }
+
 }

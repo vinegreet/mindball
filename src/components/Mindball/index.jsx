@@ -21,18 +21,18 @@ export default class Mindball extends Component {
   };
 
   render() {
-    const pos = this.props.mbBetweenElemsPos;
-    const size = this.props.size;
-    const uniqYears = this.props.uniqYears;
+    const { currentYear, isEvents, isMobile, mbBetweenElemsPos, position, size, uniqYears } = this.props;
+    const { ball, inner, line, Mindball, Mindball_events, roundInBetween, roundUtmost, year, year_active, yearsWrapper } = styles;
+    const pos = mbBetweenElemsPos;
     const yearsElems = uniqYears.map((item, idx) => 
-      <p key={`mindball_${item}`} className={(this.props.currentYear === item) ? styles.year_active : styles.year}
-        onClick={() => this.props.onYearClick(idx, true)}
+      <p key={`mindball_${item}`} className={(currentYear === item) ? year_active : year}
+        onClick={() => this.props.onYearClick(idx)}
         style={pos && {
           position: 'absolute',
-          top: (!this.props.isMobile)
+          top: (!isMobile)
             ? `${pos[idx] * size + 1 - ((8 + 4) * size)}em`
             : 0,
-          left: (!this.props.isMobile)
+          left: (!isMobile)
             ? 0
             : (idx === uniqYears.length - 1)
               ? `${pos[idx] * size + 1 - ((8 + 4) * size) - 1.8}em`
@@ -41,29 +41,29 @@ export default class Mindball extends Component {
         {item}
       </p>
     );
-    const betweenRounds = new Array((this.props.isEvents) ? uniqYears.length : 1).fill(null).map((item, idx) => 
-      <div key={`mindballRoundInBetween_${(uniqYears.length) ? idx : ''}`} className={styles.roundInBetween}
-        onClick={() => this.props.onYearClick(idx, true)}
+    const betweenRounds = new Array((isEvents) ? uniqYears.length : 1).fill(null).map((item, idx) =>
+      <div key={`mindballRoundInBetween_${(uniqYears.length) ? idx : ''}`} className={roundInBetween}
+        onClick={() => this.props.onYearClick(idx)}
         style={pos && { 
           position: 'absolute',
-          top: (this.props.isMobile) ? '' : `${pos[idx]}em`,
-          left: (this.props.isMobile) ? `${pos[idx]}em` : '' }} ></div>
+          top: (isMobile) ? '' : `${pos[idx]}em`,
+          left: (isMobile) ? `${pos[idx]}em` : '' }} ></div>
     );
     return (
-      <div className={(this.props.isEvents) ? styles.Mindball_events : styles.Mindball}
+      <div className={(isEvents) ? Mindball_events : Mindball}
         style={{ fontSize: `${size}rem`, zIndex: this.props.zIndex, opacity: this.props.opacity }}>
-        <div className={styles.yearsWrapper}>
-          <p className={(this.props.currentYear) ? styles.year : styles.year_active} onClick={() => this.props.onYearClick(-1, true)}>Story</p>
-          {this.props.isEvents && yearsElems}
+        <div className={yearsWrapper}>
+          <p className={(currentYear) ? year : year_active} onClick={() => this.props.onYearClick(-1, true)}>Story</p>
+          {isEvents && yearsElems}
         </div>
-        <div className={styles.inner}>
-          <div className={styles.ball} style={{
-            top: (this.props.isMobile) ? '' : `${this.props.position}em`,
-            left: (this.props.isMobile) ? `${this.props.position}em` : '' }}></div>
-          <div className={styles.line}></div>
-          <div className={styles.roundUtmost}></div>
+        <div className={inner}>
+          <div className={ball} style={{
+            top: (isMobile) ? '' : `${this.props.position}em`,
+            left: (isMobile) ? `${this.props.position}em` : '' }}></div>
+          <div className={line}></div>
+          <div className={roundUtmost}></div>
           {betweenRounds}
-          <div className={styles.roundUtmost}></div>
+          <div className={roundUtmost}></div>
         </div>
       </div>
     );

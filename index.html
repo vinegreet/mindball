@@ -2,6 +2,10 @@
 <html>
   <head>
     <title>Mindball</title>
+    <style>
+      body { background-color: #303030; overflow: hidden; }
+      #noReactMessage { color: #ccc; text-align: center; font: 300 2em/100vh sans-serif; }
+    </style>
     <link rel="icon" type="image/x-icon" href="/assets/favicon_dev2.ico">
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Prompt:300,400,400i,500,600,700" />
     <link rel="stylesheet" type="text/css" href="/assets/ext/slick.min.css" />
@@ -9,7 +13,18 @@
     <link rel="stylesheet" type="text/css" href="/assets/ext/customScroll.css" />
   </head>
   <body>
-    <div class="container"></div>
+    <div class="container">
+      <div id="noReactMessage">Loading...</div>
+    </div>
   </body>
+  <script>
+    var $container = document.getElementsByClassName('container')[0];
+    function checkContainer() {
+      if ($container.innerHTML === '') {
+        $container.innerHTML = '<div id="noReactMessage">Something went wrong. Try to reload page.</div>';
+      }
+    }
+    setInterval(checkContainer, 2000);
+  </script>
   <script src="/bundle.js"></script>
 </html>
