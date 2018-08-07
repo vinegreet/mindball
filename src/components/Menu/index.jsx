@@ -3,9 +3,9 @@ import styles from './styles.css';
 import fb from 'img/fb.svg';
 import yt from 'img/yt.png';
 
-export default function Menu({ uniqYears, onMenuClick, opacity, zIndex }) {
+export default function Menu({ hasContentFetched, onMenuClick, opacity, uniqYears, zIndex }) {
 
-  const yearsElems = uniqYears.map((item, idx) => 
+  const yearsElems = (!hasContentFetched) ? null : uniqYears.map((item, idx) =>
     <p key={`menu_${item}`} className={styles.listItem} onClick={() => onMenuClick(idx)} >{item}</p>
   );
   return (

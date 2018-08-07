@@ -15,7 +15,7 @@ export default function Story(props) {
   return (
     <section className={styles.Story} onWheel={e => {
         if (props.isStory && !isScrolled && e.deltaY > 0 && !props.cooldown) {
-          props.selectFromStoryToEvents();
+          props.selectFromStoryToEvents(false, true);
           isScrolled = true;
           setTimeout(() => {isScrolled = false;}, 500);
         }

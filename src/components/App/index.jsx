@@ -201,7 +201,7 @@ class App extends Component {
     }
   }
 
-  toggleSections = (dev) => {
+  toggleSections = (dev, isScroll) => {
     if (dev === true) {
       this.setState(prev => ({
         // isStory: !prev.isStory,
@@ -210,7 +210,7 @@ class App extends Component {
       }));
       return;
     }
-    if (this.state.isStory) {
+    if (this.state.isStory && isScroll) {
       this.selectEventCoolDown = true;
       setTimeout(() => {this.selectEventCoolDown = false;}, 700);
       this.setState({ cooldownStory: true });
@@ -336,15 +336,15 @@ class App extends Component {
         <BgText text={bgText} isMobile={isMobile} />
         <Header onSandwichClick={this.handleSandwichClick} events={isEvents} isMenuOpen={isMenuOpen}
           onLogoClick={() => (isEvents && this.changeYear(-1))} isEvents={isEvents} />
-        {hasContentFetched && <Menu opacity={(isMenuOpen) ? 1 : 0} zIndex={(isMenuOpen) ? 6 : 0} uniqYears={uniqYears}
-          onMenuClick={this.handleMenuClick} />}
-        {!isMobile && isMenuOpen && <Copyright  />}
+        <Menu opacity={(isMenuOpen) ? 1 : 0} zIndex={(isMenuOpen) ? 6 : 0} uniqYears={uniqYears} onMenuClick={this.handleMenuClick}
+          hasContentFetched={hasContentFetched} />
+        {!isMobile && isMenuOpen && <Copyright />}
         <div className={styles.innerContainer} style={{ top: scroll, opacity: (!isMenuOpen) ? 1 : 0 }}>
           <Initial onBallFinished={this.scrollDown} onButtonClick={this.scrollDown} />
           <Events content={props} uniqYears={uniqYears} mbFontSize={eventsMbFontSize} mbBetweenElemsPos={this.mbYearsCellsPos}
             currentYear={currentYear} listPos={listPos} ballPos={ballPos}
             isEvents={isEvents} isStory={isStory} isMobile={isMobile} cooldownStory={cooldownStory}
-            selectFromStoryToEvents={() => {this.changeYear(0); this.toggleSections();}}
+            selectFromStoryToEvents={(dev, isScroll) => {this.changeYear(0); this.toggleSections(dev, isScroll);}}
             changeYear={this.changeYear} selectEventOnScroll={this.selectEventOnScroll} onInactiveListItemClick={this.selectEvent}
             onMbYearClick={this.handleMenuClick} listItemHeight={listItemHeight}
             toggleOpenEvent={this.toggleOpenEvent} isOpenEvent={isOpenEvent} getEventsElem={($el) => this.$Events = $el}

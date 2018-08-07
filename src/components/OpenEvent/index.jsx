@@ -11,6 +11,25 @@ export default class OpenEvent extends Component {
     this.state = {
       overlayOpen: true
     };
+    this.gallerySettings = {
+      autoplay: false,
+      autoplaySpeed: 4000,
+      speed: 1000,
+      fade: true,
+      dots: true,
+      infinite: true,
+      arrows: false,
+      touchMove: false,
+      swipe: false,
+      afterChange: idx => {
+        if (this.ytPlayer && idx !== 0) {
+          this.setState({ overlayOpen: true });
+          // this.ytPlayer.stopVideo();
+        } else {
+          this.forceUpdate();
+        }
+      }
+    };
   }
 
   componentDidUpdate() {
@@ -69,7 +88,7 @@ export default class OpenEvent extends Component {
   }
 
   render() {
-    const { props, state, handlePlayClick, hasContentFetched, getPhotosFromContent, getYtPlayer, vidId, vidOpts, $slider } = this;
+    const { props, state, handlePlayClick, hasContentFetched, gallerySettings, getPhotosFromContent, getYtPlayer, vidId, vidOpts, $slider } = this;
     const { titles, content, currentEvent, getSlider, opacity, zIndex, isOpenEvent, closeEvent } = props;
     const { overlayOpen } = state;
     const { events } = content;
@@ -83,39 +102,17 @@ export default class OpenEvent extends Component {
 
     let isFirstSlide = true;
     if ($slider) {
-      // document.getElementsByClassName('slick-active')[0];
-      const $parent = $slider.innerSlider.list.childNodes[0];
-      for (let i = 0; i < $parent.childNodes.length; i++) {
-        const $thisNode = $parent.childNodes[i];
-        if ($thisNode.getAttribute('class').search('slick-active') >= 0) {
-          const currentSlide = $thisNode.dataset.index;
-          isFirstSlide = currentSlide === '0';
-          if (isFirstSlide) this.initVideo();
-        }
+      const $activeSlide = $slider.innerSlider.list.querySelector('.slick-active');
+      if ($activeSlide) {
+        const currentSlide = $activeSlide.dataset.index;
+        isFirstSlide = currentSlide === '0';
+        if (isFirstSlide) this.initVideo();
       }
     }
 
     const vidPreview = (hasContentFetched) ? getPhotosFromContent(content).vidPreview[currentEvent] : null;
 
-    const gallerySettings = {
-      autoplay: false,
-      autoplaySpeed: 4000,
-      speed: 1000,
-      fade: true,
-      dots: true,
-      infinite: true,
-      arrows: false,
-      touchMove: false,
-      swipe: false,
-      afterChange: idx => {
-        if (this.ytPlayer && idx !== 0) {
-          this.setState({ overlayOpen: true });
-          // this.ytPlayer.stopVideo();
-        } else {
-          this.forceUpdate();
-        }
-      }
-    };
+
 
     const { article, gallery, OpenEvent, overlay, play, text, title, video, vidWrapper } = styles;
 
