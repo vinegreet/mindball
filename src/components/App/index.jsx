@@ -48,10 +48,10 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.setState({
+    /*this.setState({
       wWidth: window.innerWidth,
       isMobile: window.innerWidth < 988
-    });
+    });*/
     // this.isMobile = window.outerWidth < 988;
     this.wWidth = window.innerWidth;
     this.isMobile = window.innerWidth < 988;
@@ -69,7 +69,13 @@ class App extends Component {
     if (!this.devMode && this.isMobile) this.scrollDown();*/
     this.isMobile && this.scrollDown();
 
-    window.addEventListener('resize', this.handleResize);
+    window.addEventListener('resize', () => {
+      if (!this.ticking) {
+        requestAnimationFrame(this.handleResize);
+        this.ticking = true;
+      }
+    });
+    this.handleResize();
     // ================================
     // this.$el.search('listWrapper')
     // console.log(this.$el.childNodes);
@@ -155,10 +161,24 @@ class App extends Component {
   }
 
   handleResize = () => {
-    this.setState({ 
+    this.setState({
+      // wHeight: window.innerHeight,
       wWidth: window.innerWidth,
       isMobile: window.innerWidth < 988
     });
+    const aspectRatio = window.innerWidth / window.innerHeight;
+    this.shiftBubbles = [];
+    if (aspectRatio < 1.612 && aspectRatio >= 1.433) {
+      this.shiftBubbles[0] = true;
+      this.shiftBubbles[1] = false;
+    } else if (aspectRatio < 1.433) {
+      this.shiftBubbles[0] = false;
+      this.shiftBubbles[1] = true;
+    } else {
+      this.shiftBubbles[0] = false;
+      this.shiftBubbles[1] = false;
+    }
+    this.ticking = false;
   }
 
   componentDidUpdate() {
@@ -332,7 +352,8 @@ class App extends Component {
     
     return <div className={styles.App} tabIndex='0' onWheel={this.handleWheel}>
       <div className={styles.wrapper}>
-        {!isMobile && <Bubbles opacity={(!isMenuOpen) ? 1 : 0} top={scroll} />}
+        {!isMobile && <Bubbles opacity={(!isMenuOpen) ? 1 : 0} top={scroll} shift={this.shiftBubbles} wWidth={this.state.wWidth}
+          wHeight={this.state.wHeight} />}
         <BgText text={bgText} isMobile={isMobile} />
         <Header onSandwichClick={this.handleSandwichClick} events={isEvents} isMenuOpen={isMenuOpen}
           onLogoClick={() => (isEvents && this.changeYear(-1))} isEvents={isEvents} />
