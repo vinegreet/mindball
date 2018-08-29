@@ -89,7 +89,7 @@ export default class OpenEvent extends Component {
 
   render() {
     const { props, state, handlePlayClick, hasContentFetched, gallerySettings, getPhotosFromContent, getYtPlayer, vidId, vidOpts, $slider } = this;
-    const { titles, content, currentEvent, getSlider, opacity, zIndex, isOpenEvent, closeEvent } = props;
+    const { closeEvent, content, currentEvent, getSlider, isOpenEvent, opacity, shift, titles, zIndex } = props;
     const { overlayOpen } = state;
     const { events } = content;
     this.videoUrl = (hasContentFetched) ? events[currentEvent].fields.videoLink : null;
@@ -112,35 +112,44 @@ export default class OpenEvent extends Component {
 
     const vidPreview = (hasContentFetched) ? getPhotosFromContent(content).vidPreview[currentEvent] : null;
 
-
-
-    const { article, gallery, OpenEvent, overlay, play, text, title, video, vidWrapper } = styles;
+    const { article, gallery, OpenEvent, overlay, play, text, title, video, vidWrapper, wrapper } = styles;
 
     return (
-      <div className={OpenEvent} style={{ opacity: opacity, zIndex: zIndex }} >
-        <div className={gallery} ref={$el => this.$gallery = $el}>
-          <Slider ref={$slider => {
-            this.$slider = $slider;
-            getSlider($slider, currentEvent || null);
-          }} {...gallerySettings}>
-            {isOpenEvent && this.videoUrl && <section className={vidWrapper} key={`video_${currentEvent}`}>
-              {vidPreview && overlayOpen && <div className={overlay} style={{ backgroundImage: `url('${vidPreview}')` }}>
-                <img className={play} src={playImg} onClick={this.handlePlayClick} alt='Play' />
-              </div>}
-              {vidOpts && isFirstSlide && <YouTube className={video} videoId={this.vidId} opts={vidOpts} onReady={getYtPlayer} />}
-            </section>}
-            {photoElems}
-          </Slider>
-        </div>
-        <div className={article}>
-          <h2 className={title}>{titles[currentEvent]}</h2>
-          <p className={text}>{(events.length !== 0) && events[currentEvent].fields.text}</p>
-          <Button caption='Back' onButtonClick={() => {
-            this.setState({ overlayOpen: true });
-            closeEvent();
-          }} isEvent={true} />
+      <div className={OpenEvent} style={{
+        opacity: opacity,
+        zIndex: zIndex,
+        alignItems: (shift) ? 'flex-end' : '',
+        paddingBottom: (shift)
+          ? 'calc(2vh)'
+          : '' }} >
+          <div className={gallery} ref={$el => this.$gallery = $el}>
+            <Slider ref={$slider => {
+              this.$slider = $slider;
+              getSlider($slider, currentEvent || null);
+            }} {...gallerySettings}>
+              {isOpenEvent && this.videoUrl && <section className={vidWrapper} key={`video_${currentEvent}`}>
+                {vidPreview && overlayOpen && <div className={overlay} style={{ backgroundImage: `url('${vidPreview}')` }}>
+                  <img className={play} src={playImg} onClick={this.handlePlayClick} alt='Play' />
+                </div>}
+                {vidOpts && isFirstSlide && <YouTube className={video} videoId={this.vidId} opts={vidOpts} onReady={getYtPlayer} />}
+              </section>}
+              {photoElems}
+            </Slider>
+          </div>
+          <div className={article}>
+            <h2 className={title}>{titles[currentEvent]}</h2>
+            <p className={text}>{(events.length !== 0) && events[currentEvent].fields.text}</p>
+            <Button caption='Back' onButtonClick={() => {
+              this.setState({ overlayOpen: true });
+              closeEvent();
+            }} isEvent={true} />
         </div>
       </div>
     );
   }
 }
+/*
+        <div className={wrapper} style={{ bottom: (shift)
+          ? ''
+          : '' }}>
+          </div>*/

@@ -8,8 +8,9 @@ import Events from 'components/Events';
 import { connect } from 'react-redux';
 import { fetchContent } from 'actions';
 import Bubbles from 'components/Bubbles';
-import ontouch from 'components/swipes.js';
+import onTouch from 'components/swipes.js';
 import Copyright from 'components/Copyright';
+import Blind from 'components/Blind';
 
 class App extends Component {
   constructor() {
@@ -29,7 +30,11 @@ class App extends Component {
       listPos: 0,
       listScrollMob: 0,
       listScrollDesk: 0,
+      lowWindow: false,
+      narrowWindow: false,
       scroll: 0,
+      shift: false,
+      superLowWindow: false,
       wWidth: 0
     };
     this.isFirefox = typeof InstallTrigger !== 'undefined';
@@ -57,7 +62,7 @@ class App extends Component {
     this.isMobile = window.innerWidth < 988;
     this.wHeight = window.innerHeight;
     this.wHeight2 = window.outerHeight;
-    // const $html = document.getElementByTagname('html')[0];
+    this.$html = document.getElementsByTagName('html')[0];
 
     // console.log(this.isMobile, this.state.isMobile);
     // console.log(this.wHeight, this.wHeight2);
@@ -76,108 +81,24 @@ class App extends Component {
       }
     });
     this.handleResize();
-    // ================================
-    // this.$el.search('listWrapper')
-    // console.log(this.$el.childNodes);
-
-    const $Events = this.$Events;
-    const remMob = this.wWidth * 0.022;
-    const listItemHeightPx = this.listItemHeight * remMob;
-    this.listItemHeightPx = listItemHeightPx;
-
-    if ($Events) {
-      ontouch($Events, (e, dir, phase, swipeType, dist, touchObj) => {
-        const state = this.state;
-        const { swipeCoolDown, uniqYears } = this;
-        const distance = (!isNaN(dist)) ? Math.abs(dist) : 0;
-        const currYear = parseInt(uniqYears.indexOf(state.currentYear)); // refactor
-        const nextYear = currYear + 1;
-        const prevYear = currYear - 1;
-        const fingerPosY = touchObj.pageY;
-        const fingerPosX = touchObj.pageX;
-        if (phase === 'start') {
-          this.touchStartY = fingerPosY; // Use var instead?
-          this.touchStartX = fingerPosX; // Use var instead?
-        }
-        if (dir === 'up' || dir === 'down' && state.isEvents && !state.isOpenEvent) {
-          const titlesLength = this.titles.length;
-          const topLimit = listItemHeightPx * 3;
-          const bottomLimit = -((titlesLength * listItemHeightPx) - listItemHeightPx * 4);
-          const scroll = this.lastListScroll + fingerPosY - this.touchStartY;
-          const newListPos = 3 - Math.round(scroll / listItemHeightPx);
-          if (scroll < topLimit && scroll > bottomLimit) {
-            this.setState(prev => ({
-              listScrollMob: scroll,
-              listPos: (newListPos >= 0 && newListPos < titlesLength) ? newListPos : prev.listPos
-            }));
-            this.changeYear(uniqYears.indexOf(this.years[this.state.listPos]), false, true);
-          }
-        }
-        if (phase === 'end' && !swipeCoolDown && (state.isEvents || state.isStory)) {
-          const newDistanceY = Math.abs(fingerPosY - this.touchStartY);
-          const newDistanceX = Math.abs(fingerPosX - this.touchStartX);
-          const currYrIdx = state.currYrIdx;
-          if (newDistanceY < 10 && newDistanceX < 10) {
-            e.target.click();
-            this.swipeCoolDown = true; // Is this necessary?
-            setTimeout(() => {this.swipeCoolDown = false;}, 700);
-            return;
-          }
-          if (dir === 'left' && distance > 250) {
-            if (state.isStory) {
-              this.toggleSections();
-              if (!state.currentYear) {
-                this.changeYear(1);
-                this.setState({ listPos: 3 });
-              }
-              return;
-            } else {
-              if (!state.isStory && !swipeCoolDown) {
-                // this.selectEventsList(100);
-                if (currYrIdx < uniqYears.length - 1) this.changeYear(currYrIdx + 1, false);
-                this.setState({ listScrollMob: (3 - state.listPos) * listItemHeightPx });
-              }
-            }
-          }
-          if (dir === 'right' && distance > 250) {
-            if (state.isStory) return;
-            // this.selectEventsList(-100);
-            if (currYrIdx > 0) {
-              this.changeYear(currYrIdx - 1, false);
-            } else if (currYrIdx === 0 && !this.coolDownForSwipe) {
-              this.coolDownForSwipe = true;
-              // this.toggleSections();
-              this.changeYear(-1);
-              setTimeout(() => {this.coolDownForSwipe = false}, 200);
-            }
-            this.setState({ listScrollMob: (3 - state.listPos) * listItemHeightPx });
-          }
-          /*this.swipeCoolDown = true;
-          setTimeout(() => {this.swipeCoolDown = false;}, 700);*/
-          this.lastListScroll = this.state.listScrollMob;
-        }
-      });
-    }
   }
 
   handleResize = () => {
-    this.setState({
-      // wHeight: window.innerHeight,
-      wWidth: window.innerWidth,
-      isMobile: window.innerWidth < 988
-    });
-    const aspectRatio = window.innerWidth / window.innerHeight;
-    this.shiftBubbles = [];
-    if (aspectRatio < 1.612 && aspectRatio >= 1.433) {
-      this.shiftBubbles[0] = true;
-      this.shiftBubbles[1] = false;
-    } else if (aspectRatio < 1.433) {
-      this.shiftBubbles[0] = false;
-      this.shiftBubbles[1] = true;
-    } else {
-      this.shiftBubbles[0] = false;
-      this.shiftBubbles[1] = false;
+    const isMobile = (this.state.isMobile !== null) ? this.state.isMobile : this.isMobile;
+    this.aspectRatio = window.innerWidth / window.innerHeight;
+    const aspectRatio = this.aspectRatio;
+    if (aspectRatio > 2.6) {
+      this.$html.style.fontSize = 'calc(1vh + 0.4vw)';
+    } else if (!isMobile) {
+      this.$html.style.fontSize = 'calc(0.877vh + 0.5vw)';
     }
+    this.setState({
+      isMobile: window.innerWidth < 988,
+      narrowWindow: (aspectRatio < 1.433 && isMobile && !this.isMobile) ? true : false,
+      shift: (aspectRatio > 2.2) ? true : false,
+      lowWindow: (aspectRatio > 2.6) ? true : false,
+      superLowWindow: (aspectRatio > 3.2) ? true : false
+    });
     this.ticking = false;
   }
 
@@ -189,17 +110,102 @@ class App extends Component {
     this.hasContentFetched = this.props.events.length > 0;
     // const uniqYearsIdx = this.uniqYears.map(uniqYear => this.years.findIndex(year => year === uniqYear));
     // if (this.items.length) this.setState({ itemsLength: this.items.length });
-
-    if (this.$Events && !this.isEventListenerAdded) {
+    let contentfulElementsCreated;
+    if (this.$Events && !this.onWheelListenerAdded) contentfulElementsCreated = this.$Events.querySelector('h1');
+    if (contentfulElementsCreated && !this.onWheelListenerAdded) {
       const $list = document.getElementsByClassName('inner-container')[0];
       $list.addEventListener('wheel', this.handleWheel);
-      this.isEventListenerAdded = true;
+      this.onWheelListenerAdded = true;
       this.$list = $list;
+    }
+    if (contentfulElementsCreated && !this.onTouchListenerAdded) {
+      this.handleTouch();
+      this.onTouchListenerAdded = true;
     }
   }
 
+  handleTouch = () => {
+    const $Events = this.$Events;
+    const remMob = this.wWidth * 0.022;
+    const listItemHeightPx = this.listItemHeight * remMob;
+    this.listItemHeightPx = listItemHeightPx;
+
+    onTouch($Events, (e, dir, phase, swipeType, dist, touchObj) => {
+      const state = this.state;
+      const { swipeCoolDown, uniqYears } = this;
+      const distance = (!isNaN(dist)) ? Math.abs(dist) : 0;
+      const currYear = parseInt(uniqYears.indexOf(state.currentYear)); // refactor
+      const nextYear = currYear + 1;
+      const prevYear = currYear - 1;
+      const fingerPosY = touchObj.pageY;
+      const fingerPosX = touchObj.pageX;
+      if (phase === 'start') {
+        this.touchStartY = fingerPosY; // Use var instead?
+        this.touchStartX = fingerPosX; // Use var instead?
+      }
+      if (dir === 'up' || dir === 'down' && state.isEvents && !state.isOpenEvent) {
+        const titlesLength = this.titles.length;
+        const topLimit = listItemHeightPx * 3;
+        const bottomLimit = -((titlesLength * listItemHeightPx) - listItemHeightPx * 4);
+        const scroll = this.lastListScroll + fingerPosY - this.touchStartY;
+        const newListPos = 3 - Math.round(scroll / listItemHeightPx);
+        if (scroll < topLimit && scroll > bottomLimit) {
+          this.setState(prev => ({
+            listScrollMob: scroll,
+            listPos: (newListPos >= 0 && newListPos < titlesLength) ? newListPos : prev.listPos
+          }));
+          this.changeYear(uniqYears.indexOf(this.years[this.state.listPos]), false, true);
+        }
+      }
+      if (phase === 'end' && !swipeCoolDown && (state.isEvents || state.isStory)) {
+        const newDistanceY = Math.abs(fingerPosY - this.touchStartY);
+        const newDistanceX = Math.abs(fingerPosX - this.touchStartX);
+        const currYrIdx = state.currYrIdx;
+        if (newDistanceY < 10 && newDistanceX < 10) {
+          e.target.click();
+          this.swipeCoolDown = true; // Is this necessary?
+          setTimeout(() => {this.swipeCoolDown = false;}, 700);
+          return;
+        }
+        if (dir === 'left' && distance > 150) {
+          if (state.isStory) {
+            this.toggleSections();
+            if (!state.currentYear) {
+              this.changeYear(0);
+              // this.setState({ listPos: 3 });
+              // this.changeYear(0, false, true);
+            }
+            return;
+          } else {
+            if (!state.isStory && !swipeCoolDown) {
+              // this.selectEventsList(100);
+              if (currYrIdx < uniqYears.length - 1) this.changeYear(currYrIdx + 1, false, false, true);
+              // this.setState({ listScrollMob: (3 - state.listPos) * listItemHeightPx });
+            }
+          }
+        }
+        if (dir === 'right' && distance > 150) {
+          if (state.isStory) return;
+          // this.selectEventsList(-100);
+          if (currYrIdx > 0) {
+            this.changeYear(currYrIdx - 1, false, false, true);
+          } else if (currYrIdx === 0 && !this.coolDownForSwipe) {
+            this.coolDownForSwipe = true;
+            // this.toggleSections();
+            this.changeYear(-1);
+            setTimeout(() => {this.coolDownForSwipe = false}, 200);
+          }
+          // this.setState({ listScrollMob: (3 - state.listPos) * listItemHeightPx });
+        }
+        /*this.swipeCoolDown = true;
+        setTimeout(() => {this.swipeCoolDown = false;}, 700);*/
+        this.lastListScroll = this.state.listScrollMob;
+      }
+    });
+  }
+
   scrollDown = () => {
-    this.setState(prev => ({ scroll: (this.isMobile) ? 0 : '-100%', cooldownStory: /*(this.isMobile) ? false :*/ true }));
+    this.setState(prev => ({ scroll: (this.isMobile) ? 0 : 100, cooldownStory: /*(this.isMobile) ? false :*/ true }));
     // isStory: !prev.isStory, 
     setTimeout(() => {this.setState({ cooldownStory: false });}, 1500);
   }
@@ -226,7 +232,7 @@ class App extends Component {
       this.setState(prev => ({
         // isStory: !prev.isStory,
         isEvents: !prev.isEvents,
-        scroll: (this.isMobile) ? 0 : '-100%'
+        scroll: (this.isMobile) ? 0 : 100
       }));
       return;
     }
@@ -252,10 +258,10 @@ class App extends Component {
     } else if (this.state.isStory && isFirstCallOrStoryScroll) {
       this.toggleSections();
     }
-    // if (OpenEvent) {!OpenEvent}
     const newCurrYr = this.uniqYears[idx];
     const rem = (isMobile) ? (this.wWidth * 0.022) : (8 + this.wWidth * 0.005);
     const listItemHeightPx = this.listItemHeight * rem;
+    // console.log(this.state.listPos, this.state.listScrollMob);
     this.setState(prev => ({
       currentYear: newCurrYr,
       currYrIdx: idx,
@@ -266,12 +272,7 @@ class App extends Component {
       isMenuOpen: false,
       isOpenEvent: false
     }));
-    /*if (isMenuClick && !isMobile) {
-      console.log(this.$list, this.years.indexOf(newCurrYr) * listItemHeightPx);
-      this.$list.scrollTop = this.years.indexOf(newCurrYr) * listItemHeightPx;
-      console.log(this.$list.scrollTop);
-    }*/
-
+    console.log(this.state.listPos, this.state.listScrollMob);
     // isFirstCall === undefined && (this.prevYear = this.years[idx]);
   }
 
@@ -309,7 +310,7 @@ class App extends Component {
   handleMenuClick = (idx, bool) => {
     const state = this.state;
     // (state.isStory && this.toggleSections() && this.changeYear(idx, bool)) || this.changeYear(idx, false, false, true);
-    const isScrolled = (this.isMobile) ? true : state.scroll === '-100%';
+    const isScrolled = (this.isMobile) ? true : state.scroll === 100;
     if (state.isStory) {
       if (!isScrolled) this.scrollDown();
       this.toggleSections();
@@ -328,8 +329,9 @@ class App extends Component {
   }
 
   render() {
-    const { props, state, eventsMbFontSize, hasContentFetched, isMobile, listItemHeight, uniqYears, years } = this;
-    const { ballPos, cooldownStory, currentYear, isEvents, isMenuOpen, isOpenEvent, isStory, listPos, listScrollMob, listScrollDesk, scroll } = state; 
+    const { props, state, eventsMbFontSize, hasContentFetched, listItemHeight, uniqYears, years } = this;
+    const { ballPos, cooldownStory, currentYear, isEvents, isMenuOpen, isMobile, isOpenEvent, isStory, listPos, listScrollMob, listScrollDesk, scroll,
+      narrowWindow, shift, lowWindow, superLowWindow } = state; 
 
     let bgText = '';
     if (isMenuOpen) {
@@ -349,21 +351,23 @@ class App extends Component {
     this.mbYearsCellsPos = (!hasContentFetched) ? null : uniqYears.map((year, idx) => 
       ((mbInnerHeight / mbYearsCellsLength) * (idx + 1)) - ((mbCellHeight / 2) * ((idx + 1) / 2)) - (4 * 1.2 * (idx + 1))
     ); // the 1.2 value is added just to make quick fix; badly positioned if new unique year added; see local file \Mindball\test\Calculating_cells_positions.txt
-    
+
+    const blind = narrowWindow || superLowWindow || (isMobile && this.aspectRatio > 0.75);
+
     return <div className={styles.App} tabIndex='0' onWheel={this.handleWheel}>
       <div className={styles.wrapper}>
-        {!isMobile && <Bubbles opacity={(!isMenuOpen) ? 1 : 0} top={scroll} shift={this.shiftBubbles} wWidth={this.state.wWidth}
-          wHeight={this.state.wHeight} />}
+        {blind && <Blind narrow={narrowWindow} landscape={!isMenuOpen && this.isMobile} />}
+        {!isMobile && <Bubbles opacity={(!isMenuOpen) ? 1 : 0} top={scroll} wWidth={this.state.wWidth} />}
         <BgText text={bgText} isMobile={isMobile} />
         <Header onSandwichClick={this.handleSandwichClick} events={isEvents} isMenuOpen={isMenuOpen}
-          onLogoClick={() => (isEvents && this.changeYear(-1))} isEvents={isEvents} />
+          onLogoClick={() => (isEvents && this.changeYear(-1))} isEvents={isEvents} smallWindow={blind} />
         <Menu opacity={(isMenuOpen) ? 1 : 0} zIndex={(isMenuOpen) ? 6 : 0} uniqYears={uniqYears} onMenuClick={this.handleMenuClick}
           hasContentFetched={hasContentFetched} />
         {!isMobile && isMenuOpen && <Copyright />}
-        <div className={styles.innerContainer} style={{ top: scroll, opacity: (!isMenuOpen) ? 1 : 0 }}>
+        <div className={styles.innerContainer} style={{ top: `-${scroll}%`, opacity: (!isMenuOpen) ? 1 : 0 }}>
           <Initial onBallFinished={this.scrollDown} onButtonClick={this.scrollDown} />
           <Events content={props} uniqYears={uniqYears} mbFontSize={eventsMbFontSize} mbBetweenElemsPos={this.mbYearsCellsPos}
-            currentYear={currentYear} listPos={listPos} ballPos={ballPos}
+            currentYear={currentYear} listPos={listPos} ballPos={ballPos} shift={shift}
             isEvents={isEvents} isStory={isStory} isMobile={isMobile} cooldownStory={cooldownStory}
             selectFromStoryToEvents={(dev, isScroll) => {this.changeYear(0); this.toggleSections(dev, isScroll);}}
             changeYear={this.changeYear} selectEventOnScroll={this.selectEventOnScroll} onInactiveListItemClick={this.selectEvent}

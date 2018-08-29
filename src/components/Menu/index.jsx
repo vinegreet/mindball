@@ -1,28 +1,31 @@
 import React from 'react';
 import styles from './styles.css';
-import fb from 'img/fb.svg';
-import yt from 'img/yt.png';
+import fbLogo from 'img/fb.svg';
+import ytLogo from 'img/yt.png';
 
 export default function Menu({ hasContentFetched, onMenuClick, opacity, uniqYears, zIndex }) {
 
+  const { followUs, followUsWrapper, line, list, listItem, Menu, sn, yt } = styles;
+
   const yearsElems = (!hasContentFetched) ? null : uniqYears.map((item, idx) =>
-    <p key={`menu_${item}`} className={styles.listItem} onClick={() => onMenuClick(idx)} >{item}</p>
+    <p key={`menu_${item}`} className={listItem} onClick={() => onMenuClick(idx)} >{item}</p>
   );
+  
   return (
-    <section className={styles.Menu} style={{ opacity: opacity, zIndex: zIndex }}>
-      <div className={styles.list}>
-        <p className={styles.listItem} onClick={() => onMenuClick(-1, true)}>Story</p>
+    <section className={Menu} style={{ opacity: opacity, zIndex: zIndex }}>
+      <div className={list}>
+        <p className={listItem} onClick={() => onMenuClick(-1, true)}>Story</p>
         {yearsElems}
       </div>
-      <div className={styles.followUsWrapper}>
-        <p className={styles.followUs}>Follow us</p>
-        <div className={styles.line}></div>
-        <div className={styles.sn}>
+      <div className={followUsWrapper}>
+        <p className={followUs}>Follow us</p>
+        <div className={line}></div>
+        <div className={sn}>
           <a href="https://www.facebook.com/Mindball.Ukraine" title="Our Facebook Page" target="_blank">
-            <img src={fb} alt="Our Facebook Page" />
+            <img src={fbLogo} alt="Our Facebook Page" />
           </a>
-          <a className={styles.yt} href="https://www.youtube.com/user/mindballukraine" title="Our YouTube Page" target="_blank">
-            <img src={yt} alt="Our YouTube Page" />
+          <a className={yt} href="https://www.youtube.com/user/mindballukraine" title="Our YouTube Page" target="_blank">
+            <img src={ytLogo} alt="Our YouTube Page" />
           </a>
         </div>
       </div>

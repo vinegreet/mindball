@@ -100,7 +100,12 @@
 
 :global(.content-wrapper) {
   /*width: 97.2%;*/
-  width: 95.5%;
+/*  width: 95.5%;*/
+  width: 94%;
+}
+
+:global(.inner-container)::-webkit-scrollbar {
+  width: 0px;
 }
 
 @media screen and (min-width: 988px) {

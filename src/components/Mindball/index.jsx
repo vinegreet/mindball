@@ -21,7 +21,7 @@ export default class Mindball extends Component {
   };
 
   render() {
-    const { currentYear, isEvents, isMobile, mbBetweenElemsPos, position, size, uniqYears } = this.props;
+    const { currentYear, isEvents, isMobile, mbBetweenElemsPos, onYearClick, opacity, position, shift, size, uniqYears, zIndex } = this.props;
     const { ball, inner, line, Mindball, Mindball_events, roundInBetween, roundUtmost, year, year_active, yearsWrapper } = styles;
     const pos = mbBetweenElemsPos;
     const yearsElems = uniqYears.map((item, idx) => 
@@ -43,7 +43,7 @@ export default class Mindball extends Component {
     );
     const betweenRounds = new Array((isEvents) ? uniqYears.length : 1).fill(null).map((item, idx) =>
       <div key={`mindballRoundInBetween_${(uniqYears.length) ? idx : ''}`} className={roundInBetween}
-        onClick={() => this.props.onYearClick(idx)}
+        onClick={() => onYearClick(idx)}
         style={pos && { 
           position: 'absolute',
           top: (isMobile) ? '' : `${pos[idx]}em`,
@@ -51,15 +51,21 @@ export default class Mindball extends Component {
     );
     return (
       <div className={(isEvents) ? Mindball_events : Mindball}
-        style={{ fontSize: `${size}rem`, zIndex: this.props.zIndex, opacity: this.props.opacity }}>
+        style={{
+          fontSize: `${size}rem`,
+          zIndex: zIndex,
+          opacity: opacity,
+          bottom: (shift)
+            ? 0
+            : '' }}>
         <div className={yearsWrapper}>
-          <p className={(currentYear) ? year : year_active} onClick={() => this.props.onYearClick(-1, true)}>Story</p>
+          <p className={(currentYear) ? year : year_active} onClick={() => onYearClick(-1, true)}>Story</p>
           {isEvents && yearsElems}
         </div>
         <div className={inner}>
           <div className={ball} style={{
-            top: (isMobile) ? '' : `${this.props.position}em`,
-            left: (isMobile) ? `${this.props.position}em` : '' }}></div>
+            top: (isMobile) ? '' : `${position}em`,
+            left: (isMobile) ? `${position}em` : '' }}></div>
           <div className={line}></div>
           <div className={roundUtmost}></div>
           {betweenRounds}

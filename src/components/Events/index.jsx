@@ -107,12 +107,12 @@ export default class Events extends Component {
             </CustomScroll>
           </div>
         </div>
-        <Mindball position={(props.isStory) ? this.defaultBallPosition : props.ballPos} isEvents={true}
+        <Mindball position={(props.isStory) ? this.defaultBallPosition : props.ballPos} isEvents={true} shift={props.shift}
           currentYear={props.isEvents && this.currentYear} size={props.mbFontSize} uniqYears={uniqYears}
           mbBetweenElemsPos={props.mbBetweenElemsPos} isMobile={this.isMobile} onYearClick={props.onMbYearClick}
           opacity={(props.isOpenEvent && this.isMobile) ? 0 : 1} zIndex={(props.isOpenEvent && this.isMobile) ? -1 : 11} />
-        <OpenEvent content={props.content} opacity={(props.isOpenEvent) ? 1 : 0} zIndex={(props.isOpenEvent) ? 10 : -1}
-          currentEvent={props.listPos} closeEvent={this.toggleOpenEvent} isOpenEvent={props.isOpenEvent} titles={titles}
+        <OpenEvent content={props.content} opacity={(props.isOpenEvent) ? 1 : 0} zIndex={(props.isOpenEvent) ? 10 : -1} shift={props.shift}
+          currentEvent={props.listPos} closeEvent={this.toggleOpenEvent} isOpenEvent={props.isOpenEvent} titles={titles} wWidth={props.wWidth}
           getSlider={($slider, idx) => {
             this.$slider = $slider;
             props.getSlider(this.$slider);

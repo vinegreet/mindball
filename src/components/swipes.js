@@ -2,7 +2,7 @@ let ticking = false;
 
 export default function reqAnim($el, callback) {
   if (!ticking) {
-    requestAnimationFrame(() => ontouch($el, callback));
+    requestAnimationFrame(() => onTouch($el, callback));
     ticking = true;
   }
 }
@@ -13,12 +13,12 @@ export default function reqAnim($el, callback) {
     console.log(arguments[0], arguments[1]);
     // const args = arguments;
     // args[0], args[1]
-    requestAnimationFrame(() => ontouch(argums[0], argums[1]));
+    requestAnimationFrame(() => onTouch(argums[0], argums[1]));
     ticking = true;
   }
 }*/
 
-function ontouch($el, callback){
+function onTouch($el, callback){
 
   var touchsurface = $el,
   dir,

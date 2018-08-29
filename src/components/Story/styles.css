@@ -9,6 +9,7 @@
   justify-content: center; */
   opacity: 1;
   transition: opacity 0.25s linear;
+  outline: none;
 }
 
 .outerWrapper {

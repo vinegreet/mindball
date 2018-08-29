@@ -17,8 +17,7 @@
 
   div[title^="Bubbles"] {
     transform: scale(1.2);
-/*    margin-left: -26% !important;*/
-    margin-top: -5% !important;
+    /*margin-top: -5% !important;*/
     margin-left: 3% !important;
     display: block;
     width: 100%;
@@ -39,17 +38,21 @@
   }
 
   div[title="Bubbles1"] {
-    margin-top: -1% !important;
+    /*margin-top: -1% !important;*/
     margin-left: 1% !important;
     padding-top: 59%;
+/*    margin: calc(100vh * 0.597 - 32vw) 0 calc(100vh * 0.664 - 35vw) !important;*/
+    margin: calc(100vh * 0.597 - 32vw) 0 !important;
   }
   
 }
 
+/*@media screen and ()*/
+
 @media screen and (min-width: 1681px) and (max-width: 1920px) {
 
   div[title="Bubbles1"] {
-    padding-top: 55%;
+    /*padding-top: 55%;*/
   }
 
 }

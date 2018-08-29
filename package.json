@@ -13,7 +13,8 @@
   ],
   "scripts": {
     "start": "webpack-dev-server",
-    "build": "webpack"
+    "build": "webpack",
+    "prod": "webpack -p"
   },
   "devDependencies": {
     "autoprefixer": "^8.0.0",

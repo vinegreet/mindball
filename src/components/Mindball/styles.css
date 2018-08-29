@@ -57,6 +57,7 @@
   z-index: 0;
   width: 97%;
   min-width: 1px;
+  min-height: 1px;
   height: 4em;
   background-color: #E25244;
 }

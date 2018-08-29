@@ -2,7 +2,7 @@ header {
   height: 11.5%;
   display: inherit;
   justify-content: space-between;
-  z-index: 7;
+  z-index: 19;
 }
 
 .logo {
@@ -46,7 +46,8 @@ header {
 
   header {
     height: 10%;
-    margin-top: 1%;
+    /*margin-top: 1%;*/
+    margin-top: 1.73vh;
   }
 
   .logo {
