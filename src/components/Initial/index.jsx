@@ -11,7 +11,6 @@ export default class Initial extends Component {
     };
     this.isFirefox = typeof InstallTrigger !== 'undefined';
     this.defaultBallPosition = 24;
-    // this.defaultBallPosition = 28;
   }
 
   
@@ -30,7 +29,6 @@ export default class Initial extends Component {
   };
 
   render() {
-    // console.log(this.state.ballPosition);
     return (
       <section className={`${styles.Initial} _desk`} onWheel={this.handleWheel}>
         <div className={styles.invisibleButton}></div>
@@ -40,5 +38,3 @@ export default class Initial extends Component {
     );
   }
 }
-//  style={{height: `${this.props.height}px`}}
-// <Button caption='Scroll down' onClick={this.setState({ballPosition: 100})} />

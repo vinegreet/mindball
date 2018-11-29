@@ -3,9 +3,6 @@
 html {
   height: 100%;
   box-sizing: border-box;
-  /*font-size: 16px;*/
-/*  font-size: calc(0.5em + 0.5vw);*/
-  /*font-size: calc(8px + 0.8vw);*/
   font-size: 2.2vw;
 }
 
@@ -43,8 +40,6 @@ body {
   height: 100%;
   background-color: #303030;
   border: 2px solid #E25244; 
-  /*border: .125rem solid #E25244;*/
-  /*border-radius: 52px;*/
   border-radius: 1.6rem;
   display: flex;
   flex-direction: column;
@@ -61,27 +56,14 @@ body {
   width: 100%;
   position: absolute;
   top: 0;
-  /*transition: all 2.5s cubic-bezier(.78, .03, .18, .99);*/
   transition: top 2.5s cubic-bezier(0.59, 0.04, 0.44, 1.05);
-  /*transition: all 2s linear;*/
-/*  transition: top 0.8s cubic-bezier(.78, .03, .18, .99);*/
   opacity: 1;
-  /*transition: opacity 0.5s linear;*/
   z-index: 3;
 }
-
-/* .Content {
-  height: 100%;
-  background-color: green;
-} */
 
 @media screen and (min-width: 988px) {
 
   html {
-    /*font-size: 16px;*/
-/*    font-size: calc(2vh + 3vw);*/
-    /*font-size: calc(0.5em + 0.5vw);*/
-/*    font-size: calc(8px + 0.5vw);*/
     font-size: calc(0.877vh + 0.5vw);
   }
 
@@ -106,17 +88,36 @@ body {
     height: 200%;
   }
 
-  .bubbles {
+  .bubblesWrapper {
     position: absolute;
-    top: 5%;
-    left: 3.1%;
-    height: 90%;
+    top: 0;
+    left: 0;
+    height: 200%;
+    width: 100%;
+    transition: opacity 0.3s cubic-bezier(.78, .03, .18, .99);
+    transition: top 2.5s cubic-bezier(0.59, 0.04, 0.44, 1.05);
+  }
+
+  .bubbles {
+    /*position: absolute;*/
+/*    top: 5%;*/
+/*    margin: 5% 3.1%;*/
+    margin: 1% 1.1%;
+    /*left: 3.1%;*/
+/*    height: 90%;*/
+    height: 47%;
     width: 90%;
     z-index: 1;
-    background: center no-repeat url('img/bbg.png');
-    background-size: 90%;
+    /*background: center no-repeat url('img/bbg.png');*/
+    background: 76% -25% no-repeat url(img/bbg.png);
+    /*background-size: 90%;*/
     opacity: .5;
-    transition: opacity 0.3s cubic-bezier(.78, .03, .18, .99);
+/*    transition: all 0.3s cubic-bezier(.78, .03, .18, .99);*/
+  }
+
+  .bubbles:last-child {
+    margin-top: 3%;
+    height: 50%;
   }
 
 }

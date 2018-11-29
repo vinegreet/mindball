@@ -15,4 +15,3 @@ export default function Blind({ landscape, narrow }) {
     </div>
   );
 }
-//<div className={inner}>

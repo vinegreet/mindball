@@ -9,4 +9,3 @@ export default function Button(props) {
     </div>
   );
 }
-//!props.isEvent

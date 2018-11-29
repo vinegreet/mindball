@@ -1,13 +1,7 @@
 .Button {
   margin: 0 auto;
-  /*bottom: 5.5%;*/
-/*  left: calc(50% - (12.2% / 2));*/
-  /* position: absolute;
-  bottom: 2.8rem;
-  left: calc(50% - (12rem / 2)); */
   width: 12rem;
   height: 3.4rem;
-/*  border: 2px solid #E25244;*/
   border: .125rem solid #E25244;
   border-radius: 1.7rem 0 1.7rem 1.7rem / 50% 0 50% 50%;
   color: #fff;
@@ -20,7 +14,6 @@
   transition: all 0.2s linear;
   cursor: pointer;
   z-index: 1;
-  /*text-align: center;*/
 }
 
 .Button_Story {

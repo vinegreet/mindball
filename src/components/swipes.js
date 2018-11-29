@@ -7,17 +7,6 @@ export default function reqAnim($el, callback) {
   }
 }
 
-/*export default function reqAnim(...argums) {
-  if (!ticking) {
-    console.log(argums);
-    console.log(arguments[0], arguments[1]);
-    // const args = arguments;
-    // args[0], args[1]
-    requestAnimationFrame(() => onTouch(argums[0], argums[1]));
-    ticking = true;
-  }
-}*/
-
 function onTouch($el, callback){
 
   var touchsurface = $el,
@@ -34,7 +23,6 @@ function onTouch($el, callback){
   startTime,
   handletouch = callback || function(evt, dir, phase, swipetype, distance, touchobj){};
 
-  // console.log(touchsurface)
   if (!touchsurface) return;
   touchsurface.addEventListener('touchstart', function(e){
     var touchobj = e.changedTouches[0];

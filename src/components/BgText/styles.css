@@ -2,10 +2,8 @@
   height: 100%;
   width: 100%;
   position: absolute;
-  /*top: 6rem;*/
   left: 0;
   display: inherit;
-  /*justify-content: center;*/
   transition: all .5s linear;
 }
 
@@ -17,26 +15,14 @@
   left: 0;
   background: transparent url('img/bgMindball.png') center / contain no-repeat;
   background-size: 90%;
-  /*transition: all 0.4s;*/
-  /*z-index: 0;*/
   z-index: 2;
-  /*z-index: 1;*/
 }
 
 .inner {
-  /*width: auto;
-  height: auto;*/
-  /*font: 700 25.1vw/1 'Prompt', sans-serif;*/
   font: 700 19.7rem/1 'Prompt', sans-serif;
   letter-spacing: .03em;
-  /*color: #333;*/
   color: rgba(53, 53, 53, .8);
-  /* display: inherit;
-   align-self: center; */ 
-  /*transition: all 0.4s;*/
   z-index: 2;
-  /*z-index: 1;*/
-  /*transform: rotate(-90deg);*/
   margin: 0;
   position: absolute;
   top: 50%;

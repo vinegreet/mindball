@@ -8,9 +8,6 @@ import CustomScroll from 'react-custom-scroll';
 export default class Events extends Component {
   constructor(props) {
     super(props);
-    /*this.state = {
-      isOpenEvent: false
-    };*/
     this.ticking = false;
     this.defaultBallPosition = 18;
     this.wheel = 0;
@@ -29,8 +26,6 @@ export default class Events extends Component {
 
   toggleOpenEvent = () => {
     this.$slider.slickGoTo(0, true);
-    // this.$slider.slickPause();
-    // !this.props.isOpenEvent && this.$slider.slickPlay;
     this.openEventCoolDown = true;
     setTimeout(() => {this.openEventCoolDown = false;}, 500);
     this.props.toggleOpenEvent();
@@ -44,7 +39,6 @@ export default class Events extends Component {
       case 'ArrowUp':
         if (this.props.listPos === 0) {
           this.props.isEvents && this.props.toggleStoryAndEvents();
-          // this.setState({ isOpenEvent: false });
         } else {
           this.selectEvent(-100, true);
         }
@@ -64,14 +58,7 @@ export default class Events extends Component {
   }
 
   handleListItemClick = (idx, isMouseOver) => {
-    // this.props.listPos === idx && this.toggleOpenEvent
-    // setTimeout(() => this.props.onInactiveListItemClick(idx), 250);
-    /*if (!isMouseOver) {
-      this.openEventCoolDown = true;
-      setTimeout(() => {this.openEventCoolDown = false;}, 500);
-    }*/
     !this.openEventCoolDown && this.props.onInactiveListItemClick(idx, false);
-    // !isMouseOver && setTimeout(this.toggleOpenEvent, 250);
     !isMouseOver && this.toggleOpenEvent();
   }
 
@@ -121,6 +108,3 @@ export default class Events extends Component {
     );
   }
 }
-// onWheel={props.isEvents && !props.isOpenEvent && this.handleWheel || undefined}
-        /*{!this.isMobile && this.props.isMenuOpen && <Copyright opacity={(!props.isOpenEvent && this.currentYear === uniqYears[uniqYears.length - 1]) ? 1 : 0}
-          zIndex={(!props.isOpenEvent && props.listPos === (this.items.length - 1)) ? 10 : -1} />}*/

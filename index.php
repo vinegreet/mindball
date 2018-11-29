@@ -2,13 +2,14 @@
 <?php
   // header("Cache-Control: max-age=2592000");
   $hostName = $_SERVER['HTTP_HOST']; 
-  $protocol = strtolower(substr($_SERVER['SERVER_PROTOCOL'],0,5))=='https'?'https':'http';
+  $protocol = strtolower(substr($_SERVER['SERVER_PROTOCOL'], 0, 5)) == 'https' ? 'https' : 'http';
   $baseUrl = $protocol.'://'.$hostName;
 ?>
+<!-- Made with Love by Roman Zots. Contact: fb.me/roman.zots -->
 <html xmlns="http://www.w3.org/1999/xhtml"
   xmlns:fb="http://ogp.me/ns/fb#">
   <head>
-    <base href="<?php echo $baseUrl; ?>" />
+    <!-- <base href="<?php echo $baseUrl; ?>" /> -->
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta property="og:url"          content="<?php echo $baseUrl; ?>" />
     <meta property="og:title"        content="Mindball Ukraine" />

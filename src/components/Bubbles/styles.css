@@ -3,10 +3,8 @@
   .Bubbles {
     position: absolute;
     height: 200%;
-    /*width: 90%;*/
     width: 100%;
     z-index: 1;
-    /*z-index: 2;*/
     opacity: .5;
     transition: opacity 0.3s cubic-bezier(.78, .03, .18, .99);
     transition: top 2.5s cubic-bezier(0.59, 0.04, 0.44, 1.05);
@@ -17,15 +15,11 @@
 
   div[title^="Bubbles"] {
     transform: scale(1.2);
-    /*margin-top: -5% !important;*/
     margin-left: 3% !important;
     display: block;
     width: 100%;
     height: auto !important;
     position: relative;
-    /*padding-top: 100%;*/
-    /*padding-top: 63%;*/
-    /*padding-top: 71%;*/
     padding-top: 50%;
   }
 
@@ -38,16 +32,12 @@
   }
 
   div[title="Bubbles1"] {
-    /*margin-top: -1% !important;*/
     margin-left: 1% !important;
     padding-top: 59%;
-/*    margin: calc(100vh * 0.597 - 32vw) 0 calc(100vh * 0.664 - 35vw) !important;*/
     margin: calc(100vh * 0.597 - 32vw) 0 !important;
   }
   
 }
-
-/*@media screen and ()*/
 
 @media screen and (min-width: 1681px) and (max-width: 1920px) {
 

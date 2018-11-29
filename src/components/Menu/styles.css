@@ -71,6 +71,10 @@
 
 @media screen and (min-width: 988px) {
 
+  .listItem {
+    font-size: 3rem;
+  }
+
   .followUsWrapper {
     width: 24rem;
   }

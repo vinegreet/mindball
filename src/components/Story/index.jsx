@@ -30,8 +30,6 @@ export default function Story(props) {
           {props.isMobile && <p className={styles.swipeRight}>To see the <span className={styles.swipeRightOrangeText}>Events</span> – <span className={styles.swipeRightOrangeText}>scroll right</span>.</p>}
         </article>
       </div>
-      {/*<Mindball position={this.state.ballPosition || this.defaultBallPosition} />*/}
     </section>
   );
 }
-// ref={$el => props.getStoryElem($el)}

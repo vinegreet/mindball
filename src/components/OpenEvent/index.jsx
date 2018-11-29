@@ -66,7 +66,7 @@ export default class OpenEvent extends Component {
       const eventFields = event.fields;
       const vidPreview = ('videoPreview' in eventFields) ? `https:${imagesUrlsGroupedById[eventFields.videoPreview.sys.id]}?w=700` : null;
       urls.vidPreview.push(vidPreview);
-      return eventFields.photos.map(photo => `https:${imagesUrlsGroupedById[photo.sys.id]}?w=700`);
+      if (eventFields.photos) return eventFields.photos.map(photo => `https:${imagesUrlsGroupedById[photo.sys.id]}?w=700`);
     });
     return urls;
   }
@@ -94,7 +94,7 @@ export default class OpenEvent extends Component {
     const { events } = content;
     this.videoUrl = (hasContentFetched) ? events[currentEvent].fields.videoLink : null;
     const photos = (hasContentFetched) ? getPhotosFromContent(content).photos[currentEvent] : [];
-    const photoElems = photos.map((item, idx) => 
+    const photoElems = (!photos) ? null : photos.map((item, idx) => 
       <div key={`Event${currentEvent}/${idx}`}>
         <img className={styles.sliderImg} src={item} alt={`${titles[currentEvent]}, image ${idx}`} />
       </div>
@@ -148,8 +148,3 @@ export default class OpenEvent extends Component {
     );
   }
 }
-/*
-        <div className={wrapper} style={{ bottom: (shift)
-          ? ''
-          : '' }}>
-          </div>*/
