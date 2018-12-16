@@ -13,47 +13,41 @@ import Copyright from 'components/Copyright';
 import Blind from 'components/Blind';
 
 class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      ballPos: 0,
-      bgText: '',
-      cooldownStory: false,
-      currentYear: '',
-      currYrIdx: 0,
-      isEvents: false,
-      isMenuOpen: false,
-      isMobile: null,
-      isOpenEvent: false,
-      isStory: false,
-      itemsLength: 0,
-      listPos: 0,
-      listScrollMob: 0,
-      listScrollDesk: 0,
-      lowWindow: false,
-      narrowWindow: false,
-      scroll: 0,
-      shift: false,
-      superLowWindow: false,
-      wWidth: 0
-    };
-    this.isFirefox = typeof InstallTrigger !== 'undefined';
-    this.mbBetweenElems = {};
-    this.eventsMbFontSize = 0.0181;
-    this.listItemHeight = 3.75;
-    this.devMode = window.location.href.search('localhost') >= 0;
-    this.wheel = 0;
-    this.coolDownForSwipe = false;
-    this.lastListScroll = 0;
-    this.selectEventCoolDown = false;
-    this.scrollOnce = false; // DEV MODE
-  }
+  state = {
+    ballPos: 0,
+    bgText: '',
+    cooldownStory: false,
+    currentYear: '',
+    currYrIdx: 0,
+    isEvents: false,
+    isMenuOpen: false,
+    isMobile: null,
+    isOpenEvent: false,
+    isStory: false,
+    itemsLength: 0,
+    listPos: 0,
+    listScrollMob: 0,
+    listScrollDesk: 0,
+    lowWindow: false,
+    narrowWindow: false,
+    scroll: 0,
+    shift: false,
+    superLowWindow: false,
+    wWidth: 0
+  };
+  isFirefox = typeof InstallTrigger !== 'undefined';
+  mbBetweenElems = {};
+  eventsMbFontSize = 0.0181;
+  listItemHeight = 3.75;
+  devMode = window.location.href.search('localhost') >= 0;
+  wheel = 0;
+  coolDownForSwipe = false;
+  lastListScroll = 0;
+  selectEventCoolDown = false;
+  scrollOnce = false; // CONTENT ADDING MODE
 
-  componentWillMount() {
-    this.props.fetchContent();
-  }
-
-  componentDidMount() {
+  async componentDidMount() {
+    await this.props.fetchContent();
     this.wWidth = window.innerWidth;
     this.isMobile = window.innerWidth < 988;
     this.wHeight = window.innerHeight;
@@ -113,7 +107,7 @@ class App extends Component {
     /*if (this.hasContentFetched && !this.scrollOnce) {
       this.handleMenuClick(0);
       this.scrollOnce = true;
-    // }*/
+    }*/
   }
 
   handleTouch = () => {
@@ -124,6 +118,7 @@ class App extends Component {
 
     onTouch($Events, (e, dir, phase, swipeType, dist, touchObj) => {
       const state = this.state;
+      // const { currentYear, currYrIdx, isEvents, isOpenEvent, isStory } = this.state;
       const { swipeCoolDown, uniqYears } = this;
       const distance = (!isNaN(dist)) ? Math.abs(dist) : 0;
       const currYear = parseInt(uniqYears.indexOf(state.currentYear)); // refactor
@@ -167,13 +162,13 @@ class App extends Component {
             }
             return;
           } else {
-            if (!state.isStory && !swipeCoolDown) {
+            if (!state.isStory && !state.isOpenEvent && !swipeCoolDown) {
               if (currYrIdx < uniqYears.length - 1) this.changeYear(currYrIdx + 1, false, false, true);
             }
           }
         }
         if (dir === 'right' && distance > 150) {
-          if (state.isStory) return;
+          if (state.isStory || state.isOpenEvent) return;
           if (currYrIdx > 0) {
             this.changeYear(currYrIdx - 1, false, false, true);
           } else if (currYrIdx === 0 && !this.coolDownForSwipe) {
@@ -197,7 +192,7 @@ class App extends Component {
   }
 
   selectEvent = (idx, isMenuClick) => {
-    if (!this.selectEventCoolDown && true/*!this.state.cooldownStory*/) {
+    if (!this.selectEventCoolDown) {
       const newIdx = (isMenuClick) ? this.years.indexOf(this.uniqYears[idx]) : idx; // Invert this
       this.setState(prev => ({
         listPos: newIdx,
@@ -277,9 +272,9 @@ class App extends Component {
   }
 
   handleMenuClick = (idx, bool) => {
-    const state = this.state;
-    const isScrolled = (this.isMobile) ? true : state.scroll === 100;
-    if (state.isStory) {
+    const { isStory, scroll } = this.state;
+    const isScrolled = (this.isMobile) ? true : scroll === 100;
+    if (isStory) {
       if (!isScrolled) this.scrollDown();
       this.toggleSections();
       this.changeYear(idx, bool, false, true);
@@ -318,14 +313,15 @@ class App extends Component {
 
     const blind = narrowWindow || superLowWindow || (isMobile && this.aspectRatio > 0.75);
 
-    return <div className={styles.App} tabIndex='0' onWheel={this.handleWheel}>
-      <div className={styles.wrapper}>
+    const { App, bubbles, bubblesWrapper, innerContainer, wrapper } = styles;
+
+    return <div className={App} tabIndex='0' onWheel={this.handleWheel}>
+      <div className={wrapper}>
         {blind && <Blind narrow={narrowWindow} landscape={!isMenuOpen && this.isMobile} />}
         {!isMobile && false && <Bubbles opacity={(!isMenuOpen) ? 1 : 0} top={scroll} wWidth={this.state.wWidth} />}
-        {false && <div className={styles.bubbles} style={{ opacity: (!this.state.isMenuOpen) ? 0.8 : 0 }}></div>}
-        <div className={styles.bubblesWrapper} style={{ opacity: (!this.state.isMenuOpen) ? 0.8 : 0, top: -scroll + '%' }}>
-          <div className={styles.bubbles}></div>
-          <div className={styles.bubbles}></div>
+        <div className={bubblesWrapper} style={{ opacity: (!this.state.isMenuOpen) ? 0.8 : 0, top: -scroll + '%' }}>
+          <div className={bubbles}></div>
+          <div className={bubbles}></div>
         </div>
         <BgText text={bgText} isMobile={isMobile} />
         <Header onSandwichClick={this.handleSandwichClick} events={isEvents} isMenuOpen={isMenuOpen}
@@ -333,7 +329,7 @@ class App extends Component {
         <Menu opacity={(isMenuOpen) ? 1 : 0} zIndex={(isMenuOpen) ? 6 : 0} uniqYears={uniqYears} onMenuClick={this.handleMenuClick}
           hasContentFetched={hasContentFetched} />
         {!isMobile && isMenuOpen && <Copyright />}
-        <div className={styles.innerContainer} style={{ top: `-${scroll}%`, opacity: (!isMenuOpen) ? 1 : 0 }}>
+        <div className={innerContainer} style={{ top: `-${scroll}%`, opacity: (!isMenuOpen) ? 1 : 0 }}>
           <Initial onBallFinished={this.scrollDown} onButtonClick={this.scrollDown} />
           <Events content={props} uniqYears={uniqYears} mbFontSize={eventsMbFontSize} mbBetweenElemsPos={this.mbYearsCellsPos}
             currentYear={currentYear} listPos={listPos} ballPos={ballPos} shift={shift}
@@ -354,3 +350,13 @@ function mapStateToProps(state) {
   return state.content;
 }
 export default connect(mapStateToProps, { fetchContent })(App);
+
+
+
+  /*componentWillMount() {
+    this.props.fetchContent();
+  }
+
+  async componentDidMount() {
+    const data = await this.props.fetchContent();
+  }*/

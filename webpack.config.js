@@ -1,10 +1,16 @@
 const path = require('path');
-
 const webpack = require('webpack');
+
 const autoprefixer = require('autoprefixer');
+const postcssPresetEnv = require('postcss-preset-env');
 
 module.exports = {
-  entry: path.resolve(__dirname, 'src/index.jsx'),
+  entry: {
+    index: [
+      '@babel/polyfill',
+      path.resolve(__dirname, 'src/index.jsx')
+    ]
+  },
   output: {
     filename: 'bundle.js',
     path: path.join(__dirname, 'dist')
@@ -31,7 +37,11 @@ module.exports = {
         exclude: [/node_modules/],
         use: [{
           loader: 'babel-loader',
-          options: { presets: ['env', 'react'], plugins: ['transform-object-rest-spread', 'transform-class-properties'] },
+          options: { presets: ['@babel/preset-env', '@babel/preset-react'],
+          plugins: [
+            '@babel/plugin-proposal-class-properties',
+            '@babel/plugin-proposal-object-rest-spread',
+          ] },
         }]
       },
       {
@@ -39,7 +49,13 @@ module.exports = {
         exclude: [/node_modules/],
         use: [{
           loader: 'babel-loader',
-          options: { presets: ['env'], plugins: ['transform-object-rest-spread', 'transform-class-properties'] },
+          options: { 
+            presets: ['@babel/preset-env'], 
+            plugins: [
+              '@babel/plugin-proposal-class-properties',
+              '@babel/plugin-proposal-object-rest-spread',
+            ]
+          },
         }]
       },
       {
@@ -50,17 +66,15 @@ module.exports = {
             loader: 'css-loader',
             options: {
               importLoaders: 1,
-              modules: true, // This prop enables CSS modules.
-              localIdentName: '[local]-[hash:base64:5]', // Add naming scheme
-              //plugins: ['react-css-modules']
+              modules: true,
+              localIdentName: '[local]-[hash:base64:5]',
             },
           },
           {
             loader: 'postcss-loader',
             options: {
-              plugins: function () {
-                  return [autoprefixer]
-              }
+              ident: 'postcss',
+              plugins: () => [autoprefixer, postcssPresetEnv()]
             }
           }
         ],
@@ -81,7 +95,7 @@ module.exports = {
   plugins: [
     new webpack.LoaderOptionsPlugin({
       options: {
-        context: __dirname,  // use this context
+        context: __dirname,
       }
     })
   ]

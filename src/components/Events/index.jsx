@@ -6,12 +6,9 @@ import OpenEvent from 'components/OpenEvent';
 import CustomScroll from 'react-custom-scroll';
 
 export default class Events extends Component {
-  constructor(props) {
-    super(props);
-    this.ticking = false;
-    this.defaultBallPosition = 18;
-    this.wheel = 0;
-  }
+  ticking = false;
+  defaultBallPosition = 18;
+  wheel = 0;
 
   handleWheel = e => {
     if (!this.ticking) {

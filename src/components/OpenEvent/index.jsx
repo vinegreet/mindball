@@ -6,30 +6,27 @@ import YouTube from 'react-youtube';
 import playImg from 'img/play.svg';
 
 export default class OpenEvent extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      overlayOpen: true
-    };
-    this.gallerySettings = {
-      autoplay: false,
-      autoplaySpeed: 4000,
-      speed: 1000,
-      fade: true,
-      dots: true,
-      infinite: true,
-      arrows: false,
-      touchMove: false,
-      swipe: false,
-      afterChange: idx => {
-        if (this.ytPlayer && idx !== 0) {
-          this.setState({ overlayOpen: true });
-          // this.ytPlayer.stopVideo();
-        } else {
-          this.forceUpdate();
-        }
+  state = {
+    overlayOpen: true
+  };
+  gallerySettings = {
+    autoplay: false,
+    autoplaySpeed: 4000,
+    speed: 1000,
+    fade: true,
+    dots: true,
+    infinite: true,
+    arrows: false,
+    touchMove: false,
+    swipe: false,
+    afterChange: idx => {
+      if (this.ytPlayer && idx !== 0) {
+        this.setState({ overlayOpen: true });
+        // this.ytPlayer.stopVideo();
+      } else {
+        this.forceUpdate();
       }
-    };
+    }
   }
 
   componentDidUpdate() {

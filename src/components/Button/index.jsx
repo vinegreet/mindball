@@ -1,11 +1,12 @@
 import React from 'react';
 import styles from './styles.css';
 
-export default function Button(props) {
+export default function Button({ caption, isEvent, isInitial, onButtonClick }) {
+  const { Button, Button_Events, Button_Story } = styles;
   return (
-    <div className={(props.isInitial) ? styles.Button : ((props.isEvent) ? styles.Button_Events : styles.Button_Story)}
-    	onClick={props.onButtonClick} style={{ letterSpacing: (props.caption === 'Events') ? '0.18rem' : '' }} >
-      <p>{props.caption}</p>
+    <div className={(isInitial) ? Button : ((isEvent) ? Button_Events : Button_Story)}
+    	onClick={onButtonClick} style={{ letterSpacing: (caption === 'Events') ? '0.18rem' : '' }} >
+      <p>{caption}</p>
     </div>
   );
 }

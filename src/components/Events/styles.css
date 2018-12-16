@@ -1,3 +1,7 @@
+:root {
+  --halfTransparentGray: rgba(169, 169, 169, 0.3);  
+}
+
 .Events {
   height: 100%;
   z-index: 0;
@@ -12,7 +16,7 @@
 .titleMobile {
   position: absolute;
   top: 10rem;
-  color: rgba(169, 169, 169, 0.3);
+  color: var(--halfTransparentGray);
   font: 700 2.1rem/1 'Prompt', sans-serif; /*Split to separate properties; font-family - one & for all*/
   letter-spacing: 0.09em;
   margin: 0;
@@ -61,7 +65,7 @@
 
 .line {
   height: .125rem;
-  background-color: rgba(169,169,169,0.3);
+  background-color: var(--halfTransparentGray);
   flex-grow: 1;
 }
 
@@ -116,7 +120,7 @@
   }
 
   .listItemTitle {
-    color: rgba(169,169,169,0.3);
+    color: var(--halfTransparentGray);
     width: unset;
   }
 

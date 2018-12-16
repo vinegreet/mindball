@@ -4,15 +4,11 @@ import Mindball from 'components/Mindball';
 import Button from 'components/Button';
 
 export default class Initial extends Component {
-  constructor() {
-    super();
-    this.state = {
-      ballPosition: 0
-    };
-    this.isFirefox = typeof InstallTrigger !== 'undefined';
-    this.defaultBallPosition = 24;
-  }
-
+  state = {
+    ballPosition: 0
+  };
+  isFirefox = typeof InstallTrigger !== 'undefined';
+  defaultBallPosition = 24;
   
   handleWheel = e => {
     const statePos = this.state.ballPosition;
