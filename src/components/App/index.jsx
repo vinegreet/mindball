@@ -72,6 +72,8 @@ class App extends Component {
     const aspectRatio = this.aspectRatio;
     if (aspectRatio > 2.6) {
       this.$html.style.fontSize = 'calc(1vh + 0.4vw)';
+    } else if (!isMobile && this.wWidth > 1680 && this.wWidth <= 1920) {
+      this.$html.style.fontSize = 'calc(8px + .45vw)';
     } else if (!isMobile) {
       this.$html.style.fontSize = 'calc(0.877vh + 0.5vw)';
     }
@@ -121,9 +123,6 @@ class App extends Component {
       // const { currentYear, currYrIdx, isEvents, isOpenEvent, isStory } = this.state;
       const { swipeCoolDown, uniqYears } = this;
       const distance = (!isNaN(dist)) ? Math.abs(dist) : 0;
-      const currYear = parseInt(uniqYears.indexOf(state.currentYear)); // refactor
-      const nextYear = currYear + 1;
-      const prevYear = currYear - 1;
       const fingerPosY = touchObj.pageY;
       const fingerPosX = touchObj.pageX;
       if (phase === 'start') {
@@ -350,13 +349,3 @@ function mapStateToProps(state) {
   return state.content;
 }
 export default connect(mapStateToProps, { fetchContent })(App);
-
-
-
-  /*componentWillMount() {
-    this.props.fetchContent();
-  }
-
-  async componentDidMount() {
-    const data = await this.props.fetchContent();
-  }*/

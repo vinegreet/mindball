@@ -25,16 +25,17 @@
       body { background-color: #303030; overflow: hidden; }
       .loading { margin-left: calc(50% - (142px / 2)); margin-top: calc(50vh - (142px / 2 + 2em / 2)); }
       .noReactMessage { text-align: center; font: 300 2em sans-serif; width: 100%; bottom: calc(50vh - (2em / 2 + 142px / 2)); position: absolute; color: #fff; }
+      @keyframes lds-ball{0%,100%{animation-timing-function:cubic-bezier(0.45,0,0.9,0.55)}0%{-webkit-transform:translate(0,0);transform:translate(0,0)}50%{-webkit-transform:translate(0,108px);transform:translate(0,108px);animation-timing-function:cubic-bezier(0,0.45,0.55,0.9)}100%{-webkit-transform:translate(0,0);transform:translate(0,0)}}@-webkit-keyframes lds-ball{0%,100%{animation-timing-function:cubic-bezier(0.45,0,0.9,0.55)}0%{-webkit-transform:translate(0,0);transform:translate(0,0)}50%{-webkit-transform:translate(0,108px);transform:translate(0,108px);animation-timing-function:cubic-bezier(0,0.45,0.55,0.9)}100%{-webkit-transform:translate(0,0);transform:translate(0,0)}}.lds-ball{position:relative}.lds-ball div{position:absolute;width:52px;height:52px;border-radius:50%;background:#e25244;left:74px;top:20px;-webkit-animation:lds-ball 1.3s linear infinite;animation:lds-ball 1.3s linear infinite}.lds-ball{width:142px !important;height:142px !important;-webkit-transform:translate(-71px,-71px) scale(0.71) translate(71px,71px);transform:translate(-71px,-71px) scale(0.71) translate(71px,71px)}
     </style>
     <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Prompt:300,400,400i,500,600,700|Source+Code+Pro:900" />
     <link rel="stylesheet" type="text/css" href="/assets/ext/slick.min.css" />
-    <link rel="stylesheet" type="text/css" href="/assets/slick-theme.css?<?php echo date('Y-m-d_H:i'); ?>" />
+    <link rel="stylesheet" type="text/css" href="/assets/slick-theme.css?<?php /* echo date('Y-m-d_H:i'); */ ?>" />
     <link rel="stylesheet" type="text/css" href="/assets/ext/customScroll.css" />
   </head>
   <body>
     <div class="container">
-      <svg class="loading" width="142px"  height="142px"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" class="lds-ripple" style="background: none;"><circle cx="50" cy="50" r="31.8211" fill="none" ng-attr-stroke="{{config.c1}}" ng-attr-stroke-width="{{config.width}}" stroke="#f98228" stroke-width="2"><animate attributeName="r" calcMode="spline" values="0;40" keyTimes="0;1" dur="1.3" keySplines="0 0.2 0.8 1" begin="-0.65s" repeatCount="indefinite"></animate><animate attributeName="opacity" calcMode="spline" values="1;0" keyTimes="0;1" dur="1.3" keySplines="0.2 0 0.8 1" begin="-0.65s" repeatCount="indefinite"></animate></circle><circle cx="50" cy="50" r="11.5321" fill="none" ng-attr-stroke="{{config.c2}}" ng-attr-stroke-width="{{config.width}}" stroke="#E25244" stroke-width="2"><animate attributeName="r" calcMode="spline" values="0;40" keyTimes="0;1" dur="1.3" keySplines="0 0.2 0.8 1" begin="0s" repeatCount="indefinite"></animate><animate attributeName="opacity" calcMode="spline" values="1;0" keyTimes="0;1" dur="1.3" keySplines="0.2 0 0.8 1" begin="0s" repeatCount="indefinite"></animate></circle></svg>
+      <div class="loading lds-css ng-scope"><div style="width:100%;height:100%" class="lds-ball"><div></div></div></div>
       <div class="noReactMessage">Loading...</div>
     </div>
   </body>
@@ -47,5 +48,5 @@
     }
     setInterval(checkContainer, 2000);
   </script>
-  <script src="/bundle.js?<?php echo date('Y-m-d_H:i'); ?>"></script>
+  <script src="./bundle.js?<?php /* echo date('Y-m-d_H:i'); */ ?>"></script>
 </html>

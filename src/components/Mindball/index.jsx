@@ -14,7 +14,7 @@ export default class Mindball extends Component {
   static defaultProps = {
     isEvents: false,
     position: 0,
-    size: .03,
+    size: 0.028,
     uniqYears: []
   };
 
