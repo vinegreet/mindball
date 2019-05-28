@@ -48,5 +48,5 @@
     }
     setInterval(checkContainer, 2000);
   </script>
-  <script src="./bundle.js?<?php /* echo date('Y-m-d_H:i'); */ ?>"></script>
+  <script src="./bundle.js?<?php echo date('Y-m'); /* echo date('Y-m-d_H:i'); */ ?>"></script>
 </html>

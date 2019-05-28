@@ -39,11 +39,11 @@ class App extends Component {
   mbBetweenElems = {};
   eventsMbFontSize = 0.0181;
   listItemHeight = 3.75;
-  devMode = window.location.href.search('localhost') >= 0;
   wheel = 0;
   coolDownForSwipe = false;
   lastListScroll = 0;
   selectEventCoolDown = false;
+  // devMode = window.location.href.search('prod') === -1;
   scrollOnce = false; // CONTENT ADDING MODE
 
   async componentDidMount() {
@@ -106,10 +106,11 @@ class App extends Component {
       this.onTouchListenerAdded = true;
     }
     // ======================= CONTENT ADDING MODE =======================
-    /*if (this.hasContentFetched && !this.scrollOnce) {
-      this.handleMenuClick(0);
+    /* if (this.hasContentFetched && !this.scrollOnce && this.devMode) {
+      // this.handleMenuClick(0);
+      this.scrollDown();
       this.scrollOnce = true;
-    }*/
+    } */
   }
 
   handleTouch = () => {
@@ -222,14 +223,15 @@ class App extends Component {
   }
 
   changeYear = (idx, isFirstCallOrStoryScroll, isClick, isMenuClick) => {
+    const { isStory, isEvents } = this.state;
     const isMobile = this.isMobile;
     if (idx < 0) {
       this.setState({ isStory: true, isEvents: false, isMenuOpen: false, listPos: (isMobile) ? 3 : 0, currentYear: '', currYrIdx: -1, isOpenEvent: false });
       return;
     }
-    if (!this.state.isStory && !this.state.isEvents && !isFirstCallOrStoryScroll) {
+    if (!isStory && !isEvents && !isFirstCallOrStoryScroll) {
       this.toggleSections(true);
-    } else if (this.state.isStory && isFirstCallOrStoryScroll) {
+    } else if (isStory && isFirstCallOrStoryScroll) {
       this.toggleSections();
     }
     const newCurrYr = this.uniqYears[idx];

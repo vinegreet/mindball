@@ -24,9 +24,9 @@ export default function Menu({ hasContentFetched, onMenuClick, opacity, uniqYear
           <a href="https://www.facebook.com/Mindball.Ukraine" title="Our Facebook Page" target="_blank">
             <img src={fbLogo} alt="Our Facebook Page" />
           </a>
-          <a className={yt} href="https://www.youtube.com/user/mindballukraine" title="Our YouTube Page" target="_blank">
+          {/* <a className={yt} href="https://www.youtube.com/user/mindballukraine" title="Our YouTube Page" target="_blank">
             <img src={ytLogo} alt="Our YouTube Page" />
-          </a>
+          </a> */}
         </div>
       </div>
     </section>
