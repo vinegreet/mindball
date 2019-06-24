@@ -197,8 +197,9 @@ class App extends Component {
       this.setState(prev => ({
         listPos: newIdx,
         listScrollMob: (this.isMobile) ? ((3 - idx) * this.listItemHeightPx) : prev.listScrollMob
+        // listScrollDesk: 
       }));
-      
+      console.log(this.state.listPos, this.state.listScrollDesk, )
       const uniqYearIdx = this.uniqYears.indexOf(this.years[idx]);
       this.changeYear(uniqYearIdx, false, true);
     }
@@ -212,8 +213,8 @@ class App extends Component {
       }));
       return;
     }
-    // if (this.state.isStory && isScroll) {
-    if (this.state.isStory) {
+    if (this.state.isStory && isScroll) {
+    // if (this.state.isStory) {
       this.selectEventCoolDown = true;
       setTimeout(() => {this.selectEventCoolDown = false;}, 700);
       this.setState({ cooldownStory: true });
@@ -247,6 +248,7 @@ class App extends Component {
       isMenuOpen: false,
       isOpenEvent: false
     }));
+    console.log('listScrollDesk after changeYear', this.state.listScrollDesk)
   }
 
   toggleOpenEvent = () => {
