@@ -118,7 +118,8 @@ export default class OpenEvent extends Component {
         alignItems: (shift) ? 'flex-end' : '',
         paddingBottom: (shift)
           ? 'calc(2vh)'
-          : '' }} >
+          : '' 
+      }} >
           <div className={gallery} ref={$el => this.$gallery = $el}>
             <Slider ref={$slider => {
               this.$slider = $slider;

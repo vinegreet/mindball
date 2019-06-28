@@ -30,8 +30,8 @@
     <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Prompt:300,400,400i,500,600,700|Source+Code+Pro:900" />
     <link rel="stylesheet" type="text/css" href="/assets/ext/slick.min.css" />
-    <link rel="stylesheet" type="text/css" href="/assets/slick-theme.css?<?php /* echo date('Y-m-d_H:i'); */ ?>" />
-    <link rel="stylesheet" type="text/css" href="/assets/ext/customScroll.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/slick-theme.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/ext/customScroll.css?updated" />
   </head>
   <body>
     <div class="container">
