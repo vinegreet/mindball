@@ -46,8 +46,8 @@ class App extends Component {
   // devMode = window.location.href.search('prod') === -1;
   scrollOnce = false; // CONTENT ADDING MODE
 
-  async componentDidMount() {
-    await this.props.fetchContent();
+  componentDidMount() {
+    this.props.fetchContent();
     this.wWidth = window.innerWidth;
     this.isMobile = window.innerWidth < 988;
     this.wHeight = window.innerHeight;
@@ -64,6 +64,32 @@ class App extends Component {
       }
     });
     this.handleResize();
+  }
+
+  componentDidUpdate() {
+    this.items = this.props.events;
+    this.years = this.items.map(item => item.fields.date.split('-')[0]);
+    this.uniqYears = [...new Set(this.years)];
+    this.titles = this.items.map(item => item.fields.title);
+    this.hasContentFetched = this.props.events.length > 0;
+    let contentfulElementsCreated;
+    if (this.$Events && !this.onWheelListenerAdded) contentfulElementsCreated = this.$Events.querySelector('h1');
+    if (contentfulElementsCreated && !this.onWheelListenerAdded) {
+      const $list = document.getElementsByClassName('rcs-inner-container')[0];
+      $list.addEventListener('wheel', this.handleWheel);
+      this.onWheelListenerAdded = true;
+      this.$list = $list;
+    }
+    if (contentfulElementsCreated && !this.onTouchListenerAdded) {
+      this.handleTouch();
+      this.onTouchListenerAdded = true;
+    }
+    // ======================= CONTENT ADDING MODE =======================
+    /* if (this.hasContentFetched && !this.scrollOnce && this.devMode) {
+      // this.handleMenuClick(0);
+      this.scrollDown();
+      this.scrollOnce = true;
+    } */
   }
 
   handleResize = () => {
@@ -85,32 +111,6 @@ class App extends Component {
       superLowWindow: (aspectRatio > 3.2) ? true : false
     });
     this.ticking = false;
-  }
-
-  componentDidUpdate() {
-    this.items = this.props.events;
-    this.years = this.items.map(item => item.fields.date.split('-')[0]);
-    this.uniqYears = [...new Set(this.years)];
-    this.titles = this.items.map(item => item.fields.title);
-    this.hasContentFetched = this.props.events.length > 0;
-    let contentfulElementsCreated;
-    if (this.$Events && !this.onWheelListenerAdded) contentfulElementsCreated = this.$Events.querySelector('h1');
-    if (contentfulElementsCreated && !this.onWheelListenerAdded) {
-      const $list = document.getElementsByClassName('inner-container')[0];
-      $list.addEventListener('wheel', this.handleWheel);
-      this.onWheelListenerAdded = true;
-      this.$list = $list;
-    }
-    if (contentfulElementsCreated && !this.onTouchListenerAdded) {
-      this.handleTouch();
-      this.onTouchListenerAdded = true;
-    }
-    // ======================= CONTENT ADDING MODE =======================
-    /* if (this.hasContentFetched && !this.scrollOnce && this.devMode) {
-      // this.handleMenuClick(0);
-      this.scrollDown();
-      this.scrollOnce = true;
-    } */
   }
 
   handleTouch = () => {
@@ -191,17 +191,15 @@ class App extends Component {
     this.setState(prev => ({ isMenuOpen: !prev.isMenuOpen }));
   }
 
-  selectEvent = (idx, isMenuClick) => {
+  selectEvent = (idx, isMenuClick, isOpenEvent) => {
     if (!this.selectEventCoolDown) {
       const newIdx = (isMenuClick) ? this.years.indexOf(this.uniqYears[idx]) : idx; // Invert this
       this.setState(prev => ({
         listPos: newIdx,
         listScrollMob: (this.isMobile) ? ((3 - idx) * this.listItemHeightPx) : prev.listScrollMob
-        // listScrollDesk: 
       }));
-      console.log(this.state.listPos, this.state.listScrollDesk, )
       const uniqYearIdx = this.uniqYears.indexOf(this.years[idx]);
-      this.changeYear(uniqYearIdx, false, true);
+      this.changeYear(uniqYearIdx, false, true, false, isOpenEvent, idx);
     }
   }
 
@@ -223,7 +221,7 @@ class App extends Component {
     this.setState(prev => ({ isEvents: !prev.isEvents, isStory: !prev.isStory }));
   }
 
-  changeYear = (idx, isFirstCallOrStoryScroll, isClick, isMenuClick) => {
+  changeYear = (idx, isFirstCallOrStoryScroll, isClick, isMenuClick, isOpenEvent, listItemIdx) => {
     const { isStory, isEvents } = this.state;
     const isMobile = this.isMobile;
     if (idx < 0) {
@@ -242,13 +240,20 @@ class App extends Component {
       currentYear: newCurrYr,
       currYrIdx: idx,
       listPos: (newCurrYr >= 0 && !isClick) ? this.years.indexOf(newCurrYr) : prev.listPos,
-      listScrollMob: (isMenuClick && isMobile) ? ((3 - this.years.indexOf(newCurrYr)) * listItemHeightPx) : prev.listScrollMob,
-      listScrollDesk: (isMenuClick && !isMobile) ? (this.years.indexOf(newCurrYr) * listItemHeightPx) : prev.listScrollDesk,
+      listScrollMob: (isMenuClick && isMobile)
+        ? ((3 - this.years.indexOf(newCurrYr)) * listItemHeightPx)
+        : prev.listScrollMob,
+      listScrollDesk: (!isMobile)
+        ? (isOpenEvent)
+          ? listItemIdx * listItemHeightPx
+          : (isMenuClick)
+            ? this.years.indexOf(newCurrYr) * listItemHeightPx
+            : prev.listScrollDesk
+        : prev.listScrollDesk,
       ballPos: (!this.mbYearsCellsPos) ? 10 : this.mbYearsCellsPos[idx] + 10,
       isMenuOpen: false,
       isOpenEvent: false
     }));
-    console.log('listScrollDesk after changeYear', this.state.listScrollDesk)
   }
 
   toggleOpenEvent = () => {

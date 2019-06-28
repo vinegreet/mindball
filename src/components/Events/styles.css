@@ -76,21 +76,21 @@
   margin-left: 1.5rem;
 }
 
-:global(.custom-scrollbar) {
+:global(.rcs-custom-scrollbar) {
   width: .7rem !important;
 }
 
-:global(.inner-handle) {
+:global(.rcs-inner-handle) {
   background-color: rgba(35, 35, 35, .5) !important;
   width: .7rem;
   border-radius: 0.5rem !important;
 }
 
-:global(.content-wrapper) {
+:global(.rcs-inner-container > div) {
   width: 94%;
 }
 
-:global(.inner-container)::-webkit-scrollbar {
+:global(.rcs-inner-container)::-webkit-scrollbar {
   width: 0px;
 }
 

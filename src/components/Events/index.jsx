@@ -55,8 +55,12 @@ export default class Events extends Component {
   }
 
   handleListItemClick = (idx, isMouseOver) => {
-    !this.openEventCoolDown && this.props.onInactiveListItemClick(idx, false);
-    !isMouseOver && this.toggleOpenEvent();
+    if (isMouseOver && !this.openEventCoolDown) {
+      this.props.onInactiveListItemClick(idx, false); 
+    } else if (!this.openEventCoolDown) {
+      this.props.onInactiveListItemClick(idx, false, true);
+      this.toggleOpenEvent();
+    }
   }
 
   render() {
@@ -74,6 +78,7 @@ export default class Events extends Component {
         <div className={styles.arrow}></div>
       </div>
     );
+    
     return (
       <section className={styles.Events}
         onKeyDown={this.handleKeyDown} tabIndex='0' ref={$el => props.getEventsElem($el)} >

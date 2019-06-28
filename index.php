@@ -5,7 +5,7 @@
   $protocol = strtolower(substr($_SERVER['SERVER_PROTOCOL'], 0, 5)) == 'https' ? 'https' : 'http';
   $baseUrl = $protocol.'://'.$hostName;
 ?>
-<!-- Made with Love by Roman Zots. Contact: fb.me/roman.zots -->
+<!-- Made with Love by Roman Zots. Contact: linkedin.com/in/roman-zots -->
 <html xmlns="http://www.w3.org/1999/xhtml"
   xmlns:fb="http://ogp.me/ns/fb#">
   <head>
