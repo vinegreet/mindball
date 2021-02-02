@@ -8,12 +8,12 @@ module.exports = {
   entry: {
     index: [
       '@babel/polyfill',
-      path.resolve(__dirname, 'src/index.jsx')
+      path.resolve(__dirname, '../src/index.jsx')
     ]
   },
   output: {
     filename: 'bundle.js',
-    path: path.join(__dirname, 'dist')
+    path: path.join(__dirname, '../dist')
   },
   devtool: 'source-map',
   devServer: {
@@ -22,12 +22,12 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx', '.css'],
     alias: {
-      constants: path.resolve(__dirname, 'src/constants'),
-      utils: path.resolve(__dirname, 'src/utils'),
-      components: path.resolve(__dirname, 'src/components'),
-      state: path.resolve(__dirname, 'src/state'),
-      actions: path.resolve(__dirname, 'src/actions'),
-      img: path.resolve(__dirname, 'src/img')
+      constants: path.resolve(__dirname, '../src/constants'),
+      utils: path.resolve(__dirname, '../src/utils'),
+      components: path.resolve(__dirname, '../src/components'),
+      state: path.resolve(__dirname, '../src/state'),
+      actions: path.resolve(__dirname, '../src/actions'),
+      img: path.resolve(__dirname, '../src/img')
     }
   },
   module: {
